@@ -38,3 +38,4 @@ target/
 .vscode/
 
 .DS_Store
+.env
