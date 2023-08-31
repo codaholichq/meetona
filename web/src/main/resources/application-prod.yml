@@ -1,0 +1,68 @@
+spring:
+  #  kafka:
+  #    bootstrap-servers: "localhost:9092"
+  #    consumer:
+  #      group-id: "myGroup"
+  
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    pool:
+      name: DBPool
+      max-size: 50
+      enabled: true
+      initial-size: 5
+      max-idle-time: 30s
+      acquire-timeout: 10m
+      validation-query: select 1
+      max-create-connection-time: 30s
+  
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    protocol: smtp
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+
+app:
+  jwt:
+    header:
+      nodeValue: Authorization
+      prefix: Bearer
+    secret: ${JWT_SECRET}
+    refresh-expiration: ${JWT_REFRESH_EXP}
+    expiration: ${JWT_EXP}
+    claims:
+      refresh:
+        name: Refresh
+  token:
+    password:
+      reset:
+        duration: '3600000'
+    email:
+      verification:
+        duration: '3600000'
+    refresh:
+      duration: '2592000000'
+  velocity:
+    templates:
+      location: /templates/
+
+
+#Mail properties. Enable less secure apps if using Gmail id
