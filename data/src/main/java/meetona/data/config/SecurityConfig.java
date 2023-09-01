@@ -2,7 +2,6 @@ package meetona.data.config;
 
 import meetona.core.entity.User;
 import meetona.data.repository.UserRepository;
-import meetona.data.security.AppUserDetails;
 import meetona.data.security.AuthEntryPoint;
 import meetona.data.security.AuthFilter;
 import meetona.data.security.AuthManager;
@@ -29,12 +28,15 @@ import java.util.Optional;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    protected static final String[] WHITELIST = { "/v3/api-docs/**", "/swagger-ui/**" };
+    protected static final String[] WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
-    public SecurityConfig(UserRepository repository) {
-        this.repository = repository;
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -45,18 +47,17 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         var authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService(repository));
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository repository) {
+    public UserDetailsService userDetailsService() {
         return username -> {
-            Optional<AppUserDetails> isUser = Optional.ofNullable((AppUserDetails) repository.findByUsername(username));
-            if (isUser.isPresent()) {
-                AppUserDetails user = isUser.get();
-                return (AppUserDetails) User.builder()
+            User user = userRepository.findByUsername(username);
+            if (user != null) {
+                return User.builder()
                         .password(passwordEncoder().encode(user.getPassword()))
                         .username(user.getUsername())
                         .roles(user.getRoles())
