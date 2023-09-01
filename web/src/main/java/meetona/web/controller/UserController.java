@@ -2,6 +2,7 @@ package meetona.web.controller;
 
 import java.util.concurrent.CompletableFuture;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,14 +24,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public CompletableFuture<ResponseEntity<ApiResponse>> register(@RequestBody SignupDto signupDto) {
+    public CompletableFuture<ResponseEntity<ApiResponse>> register(@RequestBody @Valid SignupDto signupDto) {
         return userService
                 .register(signupDto)
                 .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/login")
-    public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@RequestBody LoginDto loginDto) {
+    public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@RequestBody @Valid LoginDto loginDto) {
         return userService
                 .authenticate(loginDto)
                 .thenApply(ResponseEntity::ok);
