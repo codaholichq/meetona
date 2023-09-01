@@ -1,7 +1,7 @@
-package meetona.data.Dto.request;
+package meetona.core.Dto.request;
 
-import meetona.data.validation.annotation.MatchPassword;
 import jakarta.validation.constraints.NotBlank;
+import meetona.core.validation.annotation.MatchPassword;
 
 import java.io.Serializable;
 

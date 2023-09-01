@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import meetona.data.Dto.request.LoginDto;
-import meetona.data.Dto.request.SignupDto;
-import meetona.data.Dto.response.ApiResponse;
-import meetona.data.Dto.response.AuthResponse;
+import meetona.core.Dto.request.LoginDto;
+import meetona.core.Dto.request.SignupDto;
+import meetona.core.Dto.response.ApiResponse;
+import meetona.core.Dto.response.AuthResponse;
 import meetona.data.service.UserService;
 import lombok.RequiredArgsConstructor;
 

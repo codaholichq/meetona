@@ -1,4 +1,4 @@
-package meetona.data.Dto.response;
+package meetona.core.Dto.response;
 
 import lombok.*;
 

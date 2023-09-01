@@ -1,4 +1,4 @@
-package meetona.data.Dto.request;
+package meetona.core.Dto.request;
 
 import meetona.core.enums.Role;
 import jakarta.validation.constraints.Email;

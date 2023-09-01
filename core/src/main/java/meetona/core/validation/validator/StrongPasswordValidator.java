@@ -1,6 +1,6 @@
-package meetona.data.validation.validator;
+package meetona.core.validation.validator;
 
-import meetona.data.validation.annotation.StrongPassword;
+import meetona.core.validation.annotation.StrongPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

@@ -1,7 +1,7 @@
-package meetona.data.validation.validator;
+package meetona.core.validation.validator;
 
 import meetona.core.Dto.request.ResetPasswordDto;
-import meetona.data.validation.annotation.MatchPassword;
+import meetona.core.validation.annotation.MatchPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
