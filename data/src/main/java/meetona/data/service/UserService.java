@@ -26,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher eventPublisher;
@@ -46,8 +46,8 @@ public class UserService implements IUserService {
     }
 
     public CompletableFuture<ApiResponse> register(SignupDto signupDto) {
-        boolean isUsernameExists = repository.existsByUsername(signupDto.username());
-        boolean isEmailExists = repository.existsByEmail(signupDto.email());
+        boolean isUsernameExists = userRepository.existsByUsername(signupDto.username());
+        boolean isEmailExists = userRepository.existsByEmail(signupDto.email());
 
         if (isUsernameExists) {
             throw new SignupException(signupDto.username(), "Username already exists");
@@ -58,13 +58,13 @@ public class UserService implements IUserService {
         }
 
         User newUser = createUser(signupDto);
-        repository.save(newUser);
+        userRepository.save(newUser);
         eventPublisher.publishEvent(new SignedUpEvent(newUser));
         return CompletableFuture.completedFuture(new ApiResponse("User registered successfully", true));
     }
 
     public CompletableFuture<AuthResponse> authenticate(LoginDto loginDto) {
-        User user = repository.findByUsername(loginDto.username());
+        User user = userRepository.findByUsername(loginDto.username());
 
         if (user == null) {
             throw new LoginException("User not found");
