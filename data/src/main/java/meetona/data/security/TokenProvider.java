@@ -87,7 +87,7 @@ public class TokenProvider {
                 .getBody()
                 .getSubject();
 
-        AppUserDetails user = new AppUserDetails();
+        User user = new User();
         return new UsernamePasswordAuthenticationToken(userName, "", user.getAuthorities());
     }
 
