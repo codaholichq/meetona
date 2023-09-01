@@ -1,4 +1,4 @@
-package meetona.data.repository;
+package meetona.core.interfaces;
 
 import meetona.core.Dto.request.LoginDto;
 import meetona.core.Dto.request.SignupDto;

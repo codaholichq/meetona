@@ -1,6 +1,6 @@
 package meetona.data.service;
 
-import meetona.data.Dto.request.MailRequest;
+import meetona.core.Dto.request.MailRequest;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

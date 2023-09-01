@@ -1,18 +1,19 @@
 package meetona.data.service;
 
-import meetona.data.Dto.request.LoginDto;
-import meetona.data.Dto.request.SignupDto;
-import meetona.data.Dto.response.ApiResponse;
-import meetona.data.Dto.response.AuthResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import meetona.core.entity.User;
 import meetona.core.event.SignedInEvent;
 import meetona.core.event.SignedUpEvent;
 import meetona.core.exception.LoginException;
 import meetona.core.exception.SignupException;
-import meetona.core.entity.User;
+import meetona.core.Dto.request.LoginDto;
+import meetona.core.Dto.request.SignupDto;
+import meetona.core.Dto.response.ApiResponse;
+import meetona.core.Dto.response.AuthResponse;
+import meetona.core.interfaces.IUserService;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.TokenProvider;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements IUserService {
 
     private final UserRepository repository;
     private final TokenProvider tokenProvider;
@@ -80,6 +81,4 @@ public class UserService {
             throw new LoginException("Incorrect username or password");
         }
     }
-
-
 }
