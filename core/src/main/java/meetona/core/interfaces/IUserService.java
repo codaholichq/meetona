@@ -1,9 +1,9 @@
 package meetona.data.repository;
 
-import meetona.data.Dto.request.LoginDto;
-import meetona.data.Dto.request.SignupDto;
-import meetona.data.Dto.response.ApiResponse;
-import meetona.data.Dto.response.AuthResponse;
+import meetona.core.Dto.request.LoginDto;
+import meetona.core.Dto.request.SignupDto;
+import meetona.core.Dto.response.ApiResponse;
+import meetona.core.Dto.response.AuthResponse;
 
 import java.util.concurrent.CompletableFuture;
 
