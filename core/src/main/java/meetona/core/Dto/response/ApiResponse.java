@@ -3,15 +3,15 @@ package meetona.core.Dto.response;
 import lombok.*;
 
 @Data
-public class ApiResponse {
+public class ApiResponse<T> {
 
-    private String data;
+    private T data;
     private Boolean success;
 
     public ApiResponse() {
     }
 
-    public ApiResponse(String data, Boolean success) {
+    public ApiResponse(T data, Boolean success) {
         this.data = data;
         this.success = success;
     }
