@@ -1,6 +1,6 @@
 package meetona.core.Dto.response;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class ApiResponse<T> {
