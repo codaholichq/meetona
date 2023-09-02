@@ -3,7 +3,6 @@ package meetona.core.entity;
 import meetona.core.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Transient;
 import meetona.core.common.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,11 +33,9 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     protected Set<Role> roles = new HashSet<>();
 
-    @Column(name = "unit_id")
-    private long unitId;
-
-    @Transient
-    private Units units;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_id", referencedColumnName = "id")
+    private Unit unit;
 
     private Boolean isEmailVerified;
 
