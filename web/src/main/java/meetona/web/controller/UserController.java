@@ -24,14 +24,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public CompletableFuture<ResponseEntity<ApiResponse>> register(@RequestBody @Valid SignupDto signupDto) {
+    public CompletableFuture<ResponseEntity<ApiResponse>> register(@Valid @RequestBody SignupDto signupDto) {
         return userService
                 .register(signupDto)
                 .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/login")
-    public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@RequestBody @Valid LoginDto loginDto) {
+    public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@Valid @RequestBody LoginDto loginDto) {
         return userService
                 .authenticate(loginDto)
                 .thenApply(ResponseEntity::ok);
