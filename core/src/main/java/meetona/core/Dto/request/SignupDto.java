@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 public record SignupDto(
 
@@ -18,16 +19,16 @@ public record SignupDto(
     @NotBlank(message = "Username cannot be blank")
     String username,
 
-    @Email
+    @Email(message = "Enter a valid email address")
     String email,
 
     @NotBlank(message = "Password cannot be blank")
     String password,
 
-    @NotBlank(message = "Role must note be blank")
+//    @NotEmpty(message = "Role must note be blank")
     Set<Role> roles,
 
-    @NotBlank(message = "Role must note be blank")
-    long unitId
+//    @NotNull(message = "Role must note be blank")
+    UUID unitId
 
 ) implements Serializable {}
