@@ -1,12 +1,14 @@
 package meetona.core.entity;
 
+import jakarta.persistence.*;
 import meetona.core.common.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -15,9 +17,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "units")
 @EqualsAndHashCode(callSuper = false)
-public class Units extends BaseEntity {
+public class Unit extends BaseEntity {
 
     private String name;
     private String location;
+
+    @Transient
+    @Builder.Default
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<User> users = new HashSet<>();
 }
 
