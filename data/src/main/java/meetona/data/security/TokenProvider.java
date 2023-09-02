@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -36,7 +38,11 @@ public class TokenProvider {
     }
 
     public String generateToken(User user) {
-        return generateTokenFromUserId(user.getId());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userName", user.getUsername());
+        claims.put("role", user.getRoles());
+        claims.put("unitId", user.getUnit());
+        return createToken(claims, user.getId());
     }
 
     public Claims getClaims(String token) {
@@ -52,10 +58,11 @@ public class TokenProvider {
         return getClaims(token).getSubject();
     }
 
-    public String generateTokenFromUserId(UUID userId) {
+    private String createToken(Map<String, Object> claims, UUID userId) {
         Instant expiryDate = Instant.now().plusMillis(jwtConfig.getExpiration());
         return Jwts.builder()
                 .setSubject(userId.toString())
+                .addClaims(claims)
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(expiryDate))
                 .signWith(key)
