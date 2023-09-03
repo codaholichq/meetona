@@ -11,7 +11,6 @@ public record UserDto(
         String lastname,
         String username,
         String email,
-        String password,
         List<Role> roles,
         UUID unitId
 ) implements Serializable { }
