@@ -2,16 +2,19 @@ package meetona.data.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import meetona.core.Dto.request.LoginDto;
+import meetona.core.Dto.request.SignupDto;
+import meetona.core.Dto.response.ApiResponse;
+import meetona.core.Dto.response.AuthResponse;
+import meetona.core.Dto.response.UnitDto;
+import meetona.core.Dto.response.UserDto;
 import meetona.core.entity.User;
 import meetona.core.event.SignedInEvent;
 import meetona.core.event.SignedUpEvent;
 import meetona.core.exception.LoginException;
 import meetona.core.exception.SignupException;
-import meetona.core.Dto.request.LoginDto;
-import meetona.core.Dto.request.SignupDto;
-import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.AuthResponse;
 import meetona.core.interfaces.IUserService;
+import meetona.data.mapper.UserMapper;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.TokenProvider;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -40,12 +44,12 @@ public class UserService implements IUserService {
                 .username(signupDto.username())
                 .roles(signupDto.roles())
                 .isEmailVerified(false)
-                .unitId(signupDto.unitId())
+//                .unit(signupDto.unitId())
                 .password(passwordEncoder.encode(signupDto.password()))
                 .build();
     }
 
-    public CompletableFuture<ApiResponse> register(SignupDto signupDto) {
+    public CompletableFuture<ApiResponse<UserDto>> register(SignupDto signupDto) {
         boolean isUsernameExists = userRepository.existsByUsername(signupDto.username());
         boolean isEmailExists = userRepository.existsByEmail(signupDto.email());
 
@@ -60,7 +64,11 @@ public class UserService implements IUserService {
         User newUser = createUser(signupDto);
         userRepository.save(newUser);
         eventPublisher.publishEvent(new SignedUpEvent(newUser));
-        return CompletableFuture.completedFuture(new ApiResponse("User registered successfully", true));
+
+        UserDto userDto = userMapper.ToUserDto(newUser);
+
+        var response = new ApiResponse<>(userDto, true);
+        return CompletableFuture.completedFuture(response);
     }
 
     public CompletableFuture<AuthResponse> authenticate(LoginDto loginDto) {
