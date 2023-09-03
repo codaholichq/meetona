@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 
-public record AddUnitDto(
+public record UnitRequest(
         @NotBlank(message = "unit name cannot be blank")
         String name,
 
