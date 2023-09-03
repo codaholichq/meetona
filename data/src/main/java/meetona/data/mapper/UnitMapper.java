@@ -10,4 +10,6 @@ public interface UnitMapper {
     UnitMapper MAPPER = Mappers.getMapper(UnitMapper.class);
 
     UnitDto ToUnitDto(Unit unit);
+
+    Unit ToUnit(UnitDto unitDto);
 }
