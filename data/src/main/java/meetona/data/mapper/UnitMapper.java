@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface UnitMapper {
-    UnitMapper MAPPER = Mappers.getMapper(UnitMapper.class);
+    UnitMapper INSTANCE = Mappers.getMapper(UnitMapper.class);
 
     UnitDto ToUnitDto(Unit unit);
 
