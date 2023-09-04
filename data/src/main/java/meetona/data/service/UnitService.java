@@ -10,6 +10,7 @@ import meetona.core.interfaces.IUnitService;
 import meetona.data.mapper.UnitMapper;
 import meetona.data.repository.UnitRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class UnitService implements IUnitService {
 
     private final UnitRepository unitRepository;
@@ -55,6 +57,7 @@ public class UnitService implements IUnitService {
     }
 
     @Override
+    @Transactional
     public CompletableFuture<ApiResponse<UnitDto>> add(UnitRequest unitRequest) {
         boolean isNameExists = unitRepository.existsByName(unitRequest.name());
 
@@ -72,6 +75,7 @@ public class UnitService implements IUnitService {
     }
 
     @Override
+    @Transactional
     public CompletableFuture<ApiResponse<UnitDto>> update(UUID id, UnitRequest unitRequest) {
         boolean isUnitExists = unitRepository.existsById(id);
 
@@ -89,6 +93,7 @@ public class UnitService implements IUnitService {
     }
 
     @Override
+    @Transactional
     public CompletableFuture<ApiResponse<UnitDto>> delete(UUID id) {
         boolean isUnitExists = unitRepository.existsById(id);
 
