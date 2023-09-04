@@ -4,6 +4,7 @@ import meetona.core.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import meetona.core.common.BaseEntity;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
+@EntityListeners(AuditingEntityListener.class)
 public class User extends BaseEntity implements UserDetails {
 
     private String firstname;
