@@ -3,19 +3,21 @@ package meetona.core.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 
 @Data
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 5L;
 
@@ -24,7 +26,7 @@ public abstract class BaseEntity implements Serializable {
     private UUID id;
 
     @JsonIgnore
-    @CreatedDate
+    @CreatedBy
     @Column(name = "created_by", updatable = false)
     private String createdBy;
 
@@ -32,7 +34,7 @@ public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(name = "created_dt")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @JsonIgnore
     @LastModifiedBy
@@ -43,7 +45,7 @@ public abstract class BaseEntity implements Serializable {
     @LastModifiedDate
     @Column(name = "updated_dt")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime updatedDate;
+    private Instant updatedDate;
 
     @JsonIgnore
     @Version
