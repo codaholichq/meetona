@@ -28,7 +28,7 @@ public class UnitController {
     }
 
     @GetMapping("{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> getById(@RequestParam UUID id) {
+    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> getById(@PathVariable("id") UUID id) {
         return unitService
                 .getById(id)
                 .thenApplyAsync(ResponseEntity::ok);
@@ -42,14 +42,17 @@ public class UnitController {
     }
 
     @PutMapping("{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> update(UUID id, @RequestBody UnitRequest request){
+    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> update(
+            @PathVariable("id") UUID id,
+            @RequestBody UnitRequest request
+    ){
         return unitService
                 .update(id, request)
                 .thenApplyAsync(ResponseEntity::ok);
     }
 
     @DeleteMapping("{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> delete(UUID id){
+    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> delete(@PathVariable("id") UUID id){
         return unitService
                 .delete(id)
                 .thenApplyAsync(ResponseEntity::ok);
