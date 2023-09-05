@@ -17,14 +17,14 @@ public interface UserMapper {
 
     UserDto ToUserDto(User user);
 
-//    @Mapping(target = "isEmailVerified", ignore = true)
-//    @Mapping(target = "unitId", ignore = true)
+    @Mapping(target = "isEmailVerified", ignore = true)
+    @Mapping(target = "unit", ignore = true)
     User toUser(SignupDto signupDto);
 
     @Mapping(target = "isEmailVerified", ignore = true)
     @Mapping(target = "firstname", ignore = true)
     @Mapping(target = "lastname", ignore = true)
-//    @Mapping(target = "unitId", ignore = true)
+    @Mapping(target = "unit", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "roles", ignore = true)
     User toUser(LoginDto loginDto);
