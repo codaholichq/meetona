@@ -1,16 +1,14 @@
 package meetona.core.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import meetona.core.common.BaseEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
+@Data
 @Entity
 @Builder
 @NoArgsConstructor
