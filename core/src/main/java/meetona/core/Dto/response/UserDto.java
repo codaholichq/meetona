@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 public record UserDto(
+        UUID id,
         String firstname,
         String lastname,
         String username,
         String email,
-        List<Role> roles,
-        UUID unitId
+        List<Role> roles
+//        UUID unitId
 ) implements Serializable { }
