@@ -17,7 +17,10 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 public class Unit extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String location;
 
     @Transient

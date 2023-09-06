@@ -23,10 +23,19 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity implements UserDetails {
 
+    @Column(nullable = false)
     private String firstname;
+
+    @Column(nullable = false)
     private String lastname;
+
+    @Column(nullable = false, unique = true)
     protected String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     protected String password;
 
     @Builder.Default

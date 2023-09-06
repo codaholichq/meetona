@@ -29,12 +29,12 @@ public abstract class BaseEntity implements Serializable {
 
     @JsonIgnore
     @CreatedBy
-    @Column(name = "created_by", updatable = false)
+    @Column(name = "created_by")
     private String createdBy;
 
     @JsonIgnore
     @CreatedDate
-    @Column(name = "created_dt")
+    @Column(name = "created_dt", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Instant createdDate;
 
@@ -45,7 +45,7 @@ public abstract class BaseEntity implements Serializable {
 
     @JsonIgnore
     @LastModifiedDate
-    @Column(name = "updated_dt")
+    @Column(name = "updated_dt", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Instant updatedDate;
 
