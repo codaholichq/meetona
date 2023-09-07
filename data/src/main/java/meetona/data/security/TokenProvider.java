@@ -40,7 +40,7 @@ public class TokenProvider {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userName", user.getUsername());
-        claims.put("role", user.getRoles());
+        claims.put("roles", user.getRoles());
         claims.put("unitId", user.getUnit());
         return createToken(claims, user.getId());
     }
