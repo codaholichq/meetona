@@ -28,7 +28,8 @@ public class SecurityConfig {
 
     protected static final String[] WHITELIST = {
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/api/user/**"
     };
 
     private final UserRepository userRepository;
@@ -81,7 +82,6 @@ public class SecurityConfig {
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST).permitAll()
-                        .requestMatchers("/api/user/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationManager(authManager)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
