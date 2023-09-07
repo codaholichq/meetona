@@ -30,13 +30,13 @@ public class User extends BaseEntity implements UserDetails {
     private String lastname;
 
     @Column(nullable = false, unique = true)
-    protected String username;
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    protected String password;
+    private String password;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
