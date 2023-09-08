@@ -18,19 +18,19 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/api/user/")
 public class UserController {
 
     private final IUserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public CompletableFuture<ResponseEntity<ApiResponse<UserDto>>> register(@Valid @RequestBody SignupDto signupDto) {
         return userService
                 .register(signupDto)
                 .thenApply(ResponseEntity::ok);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@Valid @RequestBody LoginDto loginDto) {
         return userService
                 .authenticate(loginDto)
