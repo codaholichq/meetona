@@ -30,7 +30,7 @@ public class MailService {
     private String mailFrom;
 
     @Value("${app.token.password.reset.duration}")
-    private Long expiration;
+    private long expiration;
 
     public MailService(JavaMailSender mailSender, Configuration templateConfig) {
         this.mailSender = mailSender;
@@ -59,8 +59,8 @@ public class MailService {
      */
     public void sendResetLink(String resetPasswordLink, String to)
             throws IOException, TemplateException, MessagingException {
-        Long expirationInMinutes = TimeUnit.MILLISECONDS.toMinutes(expiration);
-        String expirationInMinutesString = expirationInMinutes.toString();
+        long expirationInMinutes = TimeUnit.MILLISECONDS.toMinutes(expiration);
+        String expirationInMinutesString = Long.toString(expirationInMinutes);
         MailRequest mailRequest = new MailRequest();
         mailRequest.setSubject("Password Reset Link [Meetona]");
         mailRequest.setTo(to);
