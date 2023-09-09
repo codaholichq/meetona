@@ -12,6 +12,11 @@ public record UserDto(
         String lastname,
         String username,
         String email,
-        List<Role> roles
+        List<Role> roles,
+        String accessToken
 //        UUID unitId
-) implements Serializable { }
+) implements Serializable {
+    public UserDto setAccessToken(String accessToken) {
+        return new UserDto(id, firstname, lastname, username, email, roles, accessToken);
+    }
+}
