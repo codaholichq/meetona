@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public CompletableFuture<ResponseEntity<AuthResponse>> authenticate(@Valid @RequestBody LoginDto loginDto) {
+    public CompletableFuture<ResponseEntity<ApiResponse<UserDto>>> authenticate(@Valid @RequestBody LoginDto loginDto) {
         return userService
                 .authenticate(loginDto)
                 .thenApply(ResponseEntity::ok);

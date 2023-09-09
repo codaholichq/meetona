@@ -10,5 +10,5 @@ import java.util.concurrent.CompletableFuture;
 
 public interface IUserService {
     CompletableFuture<ApiResponse<UserDto>> register(SignupDto signupDto);
-    CompletableFuture<AuthResponse> authenticate(LoginDto loginDto);
+    CompletableFuture<ApiResponse<UserDto>> authenticate(LoginDto loginDto);
 }
