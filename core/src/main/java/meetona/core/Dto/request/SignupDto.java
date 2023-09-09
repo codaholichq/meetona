@@ -1,5 +1,6 @@
 package meetona.core.Dto.request;
 
+import jakarta.validation.constraints.NotEmpty;
 import meetona.core.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +26,7 @@ public record SignupDto(
     @NotBlank(message = "Password cannot be blank")
     String password,
 
-//    @NotEmpty(message = "Role must note be blank")
+    @NotEmpty(message = "Role must note be blank")
     Set<Role> roles,
 
 //    @NotNull(message = "Role must note be blank")
