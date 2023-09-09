@@ -3,7 +3,7 @@ package meetona.core.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import meetona.core.common.BaseEntity;
-import meetona.core.enums.Role;
+import meetona.core.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +40,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    protected Set<Role> roles = new HashSet<>();
+    protected Set<UserRole> roles = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", referencedColumnName = "id")

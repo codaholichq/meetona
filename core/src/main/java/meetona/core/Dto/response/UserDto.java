@@ -1,6 +1,6 @@
 package meetona.core.Dto.response;
 
-import meetona.core.enums.Role;
+import meetona.core.enums.UserRole;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ public record UserDto(
         String lastname,
         String username,
         String email,
-        List<Role> roles,
+        List<UserRole> roles,
         String accessToken
 //        UUID unitId
 ) implements Serializable {

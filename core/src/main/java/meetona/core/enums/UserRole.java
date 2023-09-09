@@ -3,7 +3,7 @@ package meetona.core.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
-public enum Role {
+public enum UserRole {
     USER,
     ADMIN,
     SYSTEM
