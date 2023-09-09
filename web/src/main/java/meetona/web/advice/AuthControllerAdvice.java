@@ -34,10 +34,10 @@ public class AuthControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiResponse processValidationError(MethodArgumentNotValidException ex) {
+    public ApiResponse<String> processValidationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         List<ObjectError> allErrors = result.getAllErrors();
-        ApiResponse response = new ApiResponse();
+        var response = new ApiResponse<String>();
         response.setSuccess(false);
         response.setData(String.join("\n", processAllErrors(allErrors)));
         return response;
@@ -54,7 +54,7 @@ public class AuthControllerAdvice {
     }
 
     /**
-     * Resolve localized error message. Utiity method to generate a localized error
+     * Resolve localized error message. Utility method to generate a localized error
      * message
      *
      * @param objectError the field error
@@ -70,8 +70,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = AppException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ApiResponse handleAppException(AppException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleAppException(AppException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -80,8 +80,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = ResourceAlreadyInUseException.class)
     @ResponseStatus(HttpStatus.IM_USED)
     @ResponseBody
-    public ApiResponse handleResourceAlreadyInUseException(ResourceAlreadyInUseException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleResourceAlreadyInUseException(ResourceAlreadyInUseException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -90,8 +90,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ApiResponse handleResourceNotFoundException(ResourceNotFoundException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -100,8 +100,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiResponse handleBadRequestException(BadRequestException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleBadRequestException(BadRequestException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -110,8 +110,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ApiResponse handleUsernameNotFoundException(UsernameNotFoundException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -120,8 +120,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = LoginException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleUserLoginException(LoginException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleUserLoginException(LoginException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -130,8 +130,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = BadCredentialsException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleBadCredentialsException(BadCredentialsException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleBadCredentialsException(BadCredentialsException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -140,8 +140,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = SignupException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleUserRegistrationException(SignupException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleUserRegistrationException(SignupException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -150,8 +150,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = PasswordResetLinkException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handlePasswordResetLinkException(PasswordResetLinkException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handlePasswordResetLinkException(PasswordResetLinkException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -160,8 +160,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = PasswordResetException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handlePasswordResetException(PasswordResetException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handlePasswordResetException(PasswordResetException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -170,8 +170,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = MailSendException.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ResponseBody
-    public ApiResponse handleMailSendException(MailSendException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleMailSendException(MailSendException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -180,8 +180,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = InvalidTokenRequestException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ResponseBody
-    public ApiResponse handleInvalidTokenException(InvalidTokenRequestException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleInvalidTokenException(InvalidTokenRequestException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -190,8 +190,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = UpdatePasswordException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleUpdatePasswordException(UpdatePasswordException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleUpdatePasswordException(UpdatePasswordException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -201,8 +201,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = TokenRefreshException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleTokenRefreshException(TokenRefreshException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleTokenRefreshException(TokenRefreshException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -211,8 +211,8 @@ public class AuthControllerAdvice {
     @ExceptionHandler(value = LogoutException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse handleUserLogoutException(LogoutException ex) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<String> handleUserLogoutException(LogoutException ex) {
+        var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
