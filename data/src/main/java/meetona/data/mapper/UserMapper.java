@@ -15,6 +15,7 @@ public interface UserMapper {
 
     LoginDto toLoginDto(User user);
 
+    @Mapping(target = "accessToken", ignore = true)
     UserDto ToUserDto(User user);
 
     @Mapping(target = "isEmailVerified", ignore = true)
@@ -24,8 +25,8 @@ public interface UserMapper {
     @Mapping(target = "isEmailVerified", ignore = true)
     @Mapping(target = "firstname", ignore = true)
     @Mapping(target = "lastname", ignore = true)
-    @Mapping(target = "unit", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "unit", ignore = true)
     User toUser(LoginDto loginDto);
 }
