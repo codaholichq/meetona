@@ -6,6 +6,8 @@ import meetona.core.exception.*;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
@@ -41,6 +43,15 @@ public class AuthControllerAdvice {
         response.setSuccess(false);
         response.setData(String.join("\n", processAllErrors(allErrors)));
         return response;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        // Customize your error response here
+        String errorMessage = "Access denied: " + ex.getMessage();
+        return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
     }
 
     /**
