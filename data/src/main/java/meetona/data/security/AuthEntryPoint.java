@@ -33,6 +33,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
         errorResponse.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         errorResponse.put("error", "Unauthorized");
         errorResponse.put("message", authException.getMessage());
+        errorResponse.put("path", request.getServletPath());
 
         response.getWriter().write(JsonUtils.toJson(errorResponse));
     }
