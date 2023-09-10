@@ -1,14 +1,15 @@
 package meetona.data.config;
 
-import meetona.core.entity.User;
+import lombok.RequiredArgsConstructor;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.AuthEntryPoint;
 import meetona.data.security.AuthFilter;
-import meetona.data.security.AuthManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     protected static final String[] WHITELIST = {
@@ -32,15 +34,19 @@ public class SecurityConfig {
             "/api/user/**"
     };
 
+    private final AuthFilter authFilter;
+    private final AuthEntryPoint authEntryPoint;
     private final UserRepository userRepository;
-
-    public SecurityConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    UserDetailsService userDetailsService() {
+        return (username) -> userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
     }
 
     @Bean
@@ -52,40 +58,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-            User user = userRepository.findByUsername(username);
-            if (user != null) {
-                return User.builder()
-                        .password(passwordEncoder().encode(user.getPassword()))
-                        .username(user.getUsername())
-                        .roles(user.getRoles())
-                        .build();
-            } else {
-                throw new UsernameNotFoundException("User not found");
-            }
-        };
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            AuthFilter authFilter,
-            AuthEntryPoint authEntryPoint,
-            AuthManager authManager
-    ) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .exceptionHandling(x -> x.authenticationEntryPoint(authEntryPoint))
+                .logout(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(x -> x.authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST).permitAll()
+                        .requestMatchers("/api/unit/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated())
-                .authenticationManager(authManager)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 }
