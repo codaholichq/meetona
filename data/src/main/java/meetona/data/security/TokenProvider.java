@@ -1,23 +1,24 @@
 package meetona.data.security;
 
-import meetona.data.config.JwtConfig;
-import meetona.core.entity.User;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import meetona.data.config.JwtConfig;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.joining;
 
 
 @Slf4j
@@ -37,15 +38,12 @@ public class TokenProvider {
         key = new SecretKeySpec(keyBytes, "HmacSHA512");
     }
 
-    public String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userName", user.getUsername());
-        claims.put("roles", user.getRoles());
-        claims.put("unitId", user.getUnit());
-        return createToken(claims, user.getId());
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
-    public Claims getClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -54,15 +52,23 @@ public class TokenProvider {
                 .getBody();
     }
 
-    public String getUsernameFromToken(String token) {
-        return getClaims(token).getSubject();
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
     }
 
-    private String createToken(Map<String, Object> claims, UUID userId) {
+    public String createToken(Authentication authentication) {
+//        User userPrincipal = (User) authentication.getPrincipal();
+        String username = authentication.getName();
         Instant expiryDate = Instant.now().plusMillis(jwtConfig.getExpiration());
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Claims claims = Jwts.claims().setSubject(username);
+        if (!authorities.isEmpty()) {
+            claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
+        }
         return Jwts.builder()
-                .setSubject(userId.toString())
-                .addClaims(claims)
+//                .setSubject((userPrincipal.getUsername()))
+                .setClaims(claims)
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(expiryDate))
                 .signWith(key)
@@ -78,24 +84,21 @@ public class TokenProvider {
         return UUID.fromString(jwsClaims.getBody().getSubject());
     }
 
-    public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
-
     public Authentication getAuthentication(String token) {
-        String userName = Jwts.parserBuilder()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
 
-        User user = new User();
-        return new UsernamePasswordAuthenticationToken(userName, "", user.getAuthorities());
+        Object authoritiesClaim = claims.get("roles");
+
+        Collection<? extends GrantedAuthority> authorities = authoritiesClaim == null ? AuthorityUtils.NO_AUTHORITIES
+                : AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
+
+        User principal = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
     public Long getExpiryDuration() {
