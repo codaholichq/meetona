@@ -9,6 +9,7 @@ import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUnitService;
 import meetona.data.mapper.UnitMapper;
 import meetona.data.repository.UnitRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class UnitService implements IUnitService {
     }
 
     @Override
-    public CompletableFuture<ApiResponse<List<UnitDto>>> getAll() {
+    public ApiResponse<List<UnitDto>> getAll() {
         List<Unit> units = unitRepository.findAll();
 
         List<UnitDto> unitDto = units.stream()
@@ -40,11 +41,11 @@ public class UnitService implements IUnitService {
 
         ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
 
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
     @Override
-    public CompletableFuture<ApiResponse<UnitDto>> getById(UUID id) {
+    public ApiResponse<UnitDto> getById(UUID id) {
         Optional<Unit> unitOptional = unitRepository.findById(id);
 
         Unit unit = unitOptional.orElse(null); // Unwrap the Optional to get a Unit or null
@@ -53,12 +54,13 @@ public class UnitService implements IUnitService {
 
         var response = new ApiResponse<>(unitDto, true);
 
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
     @Override
+    @Async
     @Transactional
-    public CompletableFuture<ApiResponse<UnitDto>> add(UnitRequest unitRequest) {
+    public ApiResponse<UnitDto> add(UnitRequest unitRequest) {
         boolean isNameExists = unitRepository.existsByName(unitRequest.name());
 
         if (isNameExists) {
@@ -71,12 +73,12 @@ public class UnitService implements IUnitService {
         UnitDto unitDto = unitMapper.ToUnitDto(newUnit);
         var response = new ApiResponse<>(unitDto, true);
 
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
     @Override
     @Transactional
-    public CompletableFuture<ApiResponse<UnitDto>> update(UUID id, UnitRequest unitRequest) {
+    public ApiResponse<UnitDto> update(UUID id, UnitRequest unitRequest) {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(isUnitExists){
@@ -89,12 +91,12 @@ public class UnitService implements IUnitService {
         UnitDto updatedUnit = unitMapper.ToUnitDto(newUnit);
 
         var response = new ApiResponse<>(updatedUnit, true);
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
     @Override
     @Transactional
-    public CompletableFuture<ApiResponse<UnitDto>> delete(UUID id) {
+    public ApiResponse<UnitDto> delete(UUID id) {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(isUnitExists){
@@ -105,7 +107,7 @@ public class UnitService implements IUnitService {
         UnitDto deletedUnitDto = new UnitDto(id, null, null);
 
         var response = new ApiResponse<>(deletedUnitDto, true);
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
     private Unit buildUnit(UnitRequest unitRequest) {

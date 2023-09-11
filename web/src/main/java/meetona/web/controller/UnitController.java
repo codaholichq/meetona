@@ -1,7 +1,6 @@
 package meetona.web.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import meetona.core.Dto.request.UnitRequest;
 import meetona.core.Dto.response.ApiResponse;
 import meetona.core.Dto.response.UnitDto;
@@ -12,50 +11,47 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/unit/")
+@RequestMapping("/api/unit")
 public class UnitController {
 
     private final IUnitService unitService;
 
+    public UnitController(IUnitService unitService) {
+        this.unitService = unitService;
+    }
+
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-    public CompletableFuture<ResponseEntity<ApiResponse<List<UnitDto>>>> getAll() {
-        return unitService
-                .getAll()
-                .thenApplyAsync(ResponseEntity::ok);
+    public ResponseEntity<ApiResponse<List<UnitDto>>> getAll() {
+        return ResponseEntity.ok(unitService.getAll());
     }
 
     @GetMapping(value = "{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> getById(@PathVariable("id") UUID id) {
-        return unitService
-                .getById(id)
-                .thenApplyAsync(ResponseEntity::ok);
+    public ResponseEntity<ApiResponse<UnitDto>> getById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(unitService.getById(id));
     }
 
-    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> add(@Valid @RequestBody UnitRequest request) {
-        return unitService
-                .add(request)
-                .thenApplyAsync(ResponseEntity::ok);
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UnitDto>> add(@Valid @RequestBody UnitRequest request) {
+        return ResponseEntity.ok(unitService.add(request));
     }
 
-    @PutMapping("{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> update(
+    @PutMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ApiResponse<UnitDto>> update(
             @PathVariable("id") UUID id,
             @RequestBody UnitRequest request
-    ){
-        return unitService
-                .update(id, request)
-                .thenApplyAsync(ResponseEntity::ok);
+    ) {
+        return ResponseEntity.ok(unitService.update(id, request));
     }
 
     @DeleteMapping("{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UnitDto>>> delete(@PathVariable("id") UUID id){
-        return unitService
-                .delete(id)
-                .thenApplyAsync(ResponseEntity::ok);
+    public ResponseEntity<ApiResponse<UnitDto>> delete(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(unitService.delete(id));
     }
 }

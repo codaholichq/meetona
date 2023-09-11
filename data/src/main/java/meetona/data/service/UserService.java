@@ -5,12 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import meetona.core.Dto.request.LoginDto;
 import meetona.core.Dto.request.SignupDto;
 import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.AuthResponse;
-import meetona.core.Dto.response.UnitDto;
 import meetona.core.Dto.response.UserDto;
 import meetona.core.entity.User;
-import meetona.core.event.SignedInEvent;
-import meetona.core.event.SignedUpEvent;
 import meetona.core.exception.LoginException;
 import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUserService;
@@ -18,6 +14,9 @@ import meetona.data.mapper.UserMapper;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.TokenProvider;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +33,7 @@ public class UserService implements IUserService {
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher eventPublisher;
+    private final AuthenticationManager authenticationManager;
 
     public User createUser(SignupDto signupDto) {
 
@@ -49,7 +49,7 @@ public class UserService implements IUserService {
                 .build();
     }
 
-    public CompletableFuture<ApiResponse<UserDto>> register(SignupDto signupDto) {
+    public ApiResponse<UserDto> register(SignupDto signupDto) {
         boolean isUsernameExists = userRepository.existsByUsername(signupDto.username());
         boolean isEmailExists = userRepository.existsByEmail(signupDto.email());
 
@@ -63,30 +63,33 @@ public class UserService implements IUserService {
 
         User newUser = createUser(signupDto);
         userRepository.save(newUser);
-        eventPublisher.publishEvent(new SignedUpEvent(newUser));
+
+//        eventPublisher.publishEvent(new SignedUpEvent(newUser));
 
         UserDto userDto = userMapper.ToUserDto(newUser);
 
         var response = new ApiResponse<>(userDto, true);
-        return CompletableFuture.completedFuture(response);
+        return response;
     }
 
-    public CompletableFuture<AuthResponse> authenticate(LoginDto loginDto) {
-        User user = userRepository.findByUsername(loginDto.username());
+    public ApiResponse<UserDto> authenticate(LoginDto loginDto) {
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.username(),
+                loginDto.password())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String accessToken = tokenProvider.createToken(authentication);
+
+        User user = (User) authentication.getPrincipal();
 
         if (user == null) {
             throw new LoginException("User not found");
         }
 
-        if (passwordEncoder.matches(loginDto.password(), user.getPassword())) {
-            String accessToken = tokenProvider.generateToken(user);
-            Long expiryDuration = tokenProvider.getExpiryDuration();
+        UserDto userDto = userMapper.ToUserDto(user).setAccessToken(accessToken);
+        var response = new ApiResponse<>(userDto, true);
 
-            eventPublisher.publishEvent(new SignedInEvent(user));
-
-            return CompletableFuture.completedFuture(new AuthResponse(accessToken, expiryDuration));
-        } else {
-            throw new LoginException("Incorrect username or password");
-        }
+        return response;
     }
 }

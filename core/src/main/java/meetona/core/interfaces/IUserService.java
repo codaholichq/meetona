@@ -5,9 +5,7 @@ import meetona.core.Dto.request.SignupDto;
 import meetona.core.Dto.response.ApiResponse;
 import meetona.core.Dto.response.UserDto;
 
-import java.util.concurrent.CompletableFuture;
-
 public interface IUserService {
-    CompletableFuture<ApiResponse<UserDto>> register(SignupDto signupDto);
-    CompletableFuture<ApiResponse<UserDto>> authenticate(LoginDto loginDto);
+    ApiResponse<UserDto> register(SignupDto signupDto);
+    ApiResponse<UserDto> authenticate(LoginDto loginDto);
 }
