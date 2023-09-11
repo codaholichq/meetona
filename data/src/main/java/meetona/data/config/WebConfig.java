@@ -1,38 +1,47 @@
 package meetona.data.config;
 
-import meetona.core.entity.User;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+//import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.lang.NonNull;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.Executors;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
-public class WebConfig {
+@ConditionalOnProperty(value = "thread-mode", havingValue = "virtual")
+public class WebConfig implements WebMvcConfigurer {
 
-    @Bean
-    public AuditorAware<String> auditorAware() {
-        return () -> {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.isAuthenticated()) {
-                Object principal = auth.getPrincipal();
-                if (principal instanceof User) {
-                    return Optional.of(((User) principal).getUsername());
-                }
-            }
-            return Optional.empty();
-        };
+    @Override
+    public void configureAsyncSupport(@NonNull AsyncSupportConfigurer configurer) {
+        configurer.setDefaultTimeout(-1);
+        configurer.setTaskExecutor(asyncTaskExecutor());
     }
 
+    @Bean
+    public AsyncTaskExecutor asyncTaskExecutor() {
+        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor() {
+            protected void doExecute(Runnable task) {
+                Thread.startVirtualThread(task);
+            }
+        };
+        executor.setThreadNamePrefix("async-");
+        return executor;
+    }
+
+//    @Bean
+//    public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
+//        return protocolHandler -> protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
