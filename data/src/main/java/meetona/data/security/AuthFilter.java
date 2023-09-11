@@ -36,7 +36,6 @@ public class AuthFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException
     {
         String token = parseToken(request);
-        log.info("Extracting token from HttpServletRequest: {}", token);
 
         if (token != null && tokenProvider.validateToken(token)) {
             Authentication auth = tokenProvider.getAuthentication(token);
