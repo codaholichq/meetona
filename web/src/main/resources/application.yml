@@ -55,4 +55,4 @@ logging:
         web: INFO
         meetona: INFO
         org.flywaydb: WARN
-        org.springframework.security: TRACE
+#        org.springframework.security: INFO
