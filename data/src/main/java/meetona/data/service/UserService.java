@@ -19,11 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService implements IUserService {
 
     private final UserMapper userMapper;
@@ -33,20 +35,7 @@ public class UserService implements IUserService {
     private final ApplicationEventPublisher eventPublisher;
     private final AuthenticationManager authenticationManager;
 
-    public User createUser(SignupDto signupDto) {
-
-        return User.builder()
-                .firstname(signupDto.firstname())
-                .lastname(signupDto.lastname())
-                .email(signupDto.email())
-                .username(signupDto.username())
-                .roles(signupDto.roles())
-                .isEmailVerified(false)
-//                .unit(signupDto.unitId())
-                .password(passwordEncoder.encode(signupDto.password()))
-                .build();
-    }
-
+    @Transactional
     public ApiResponse<UserDto> register(SignupDto signupDto) {
         boolean isUsernameExists = userRepository.existsByUsername(signupDto.username());
         boolean isEmailExists = userRepository.existsByEmail(signupDto.email());
@@ -89,5 +78,18 @@ public class UserService implements IUserService {
         var response = new ApiResponse<>(userDto, true);
 
         return response;
+    }
+
+    private User createUser(SignupDto signupDto) {
+        return User.builder()
+                .firstname(signupDto.firstname())
+                .lastname(signupDto.lastname())
+                .email(signupDto.email())
+                .username(signupDto.username())
+                .roles(signupDto.roles())
+                .isEmailVerified(false)
+//                .unit(signupDto.unitId())
+                .password(passwordEncoder.encode(signupDto.password()))
+                .build();
     }
 }
