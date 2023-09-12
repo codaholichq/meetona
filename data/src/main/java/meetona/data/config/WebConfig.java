@@ -4,6 +4,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.support.TaskExecutorAdapter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -13,12 +16,18 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+@EnableAsync
 @Configuration
-@ConditionalOnProperty(value = "thread-mode", havingValue = "virtual")
+@ConditionalOnProperty(value = "spring.thread-executor", havingValue = "virtual")
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
-    public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
+    public AsyncTaskExecutor asyncTaskExecutor() {
+        return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+    }
+
+    @Bean
+    public TomcatProtocolHandlerCustomizer<?> tomcatProtocolHandlerCustomizer() {
         return protocolHandler -> protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
     }
 
