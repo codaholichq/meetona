@@ -1,4 +1,5 @@
 spring:
+    thread-executor: virtual
     application:
         name: meetona
     lifecycle:
