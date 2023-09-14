@@ -2,8 +2,8 @@ spring:
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
-    username: ${RABBIT_HOST}
-    password: ${RABBIT_HOST}
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
     queue:
       name: meetona
     exchange:
