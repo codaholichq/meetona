@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 @EnableAsync
 @Configuration
 @ConditionalOnProperty(value = "spring.thread-executor", havingValue = "virtual")
-public class WebConfig implements WebMvcConfigurer {
+public class AsyncConfig implements WebMvcConfigurer {
 
     @Bean
     public AsyncTaskExecutor asyncTaskExecutor() {
