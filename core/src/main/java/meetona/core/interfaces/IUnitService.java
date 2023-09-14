@@ -1,8 +1,8 @@
 package meetona.core.interfaces;
 
-import meetona.core.Dto.request.UnitRequest;
-import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.UnitDto;
+import meetona.core.payload.request.UnitRequest;
+import meetona.core.payload.response.ApiResponse;
+import meetona.core.payload.response.UnitDto;
 
 import java.util.List;
 import java.util.UUID;
