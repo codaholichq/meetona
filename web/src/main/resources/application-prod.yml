@@ -1,8 +1,24 @@
 spring:
-  #  kafka:
-  #    bootstrap-servers: "localhost:9092"
-  #    consumer:
-  #      group-id: "myGroup"
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_HOST}
+    password: ${RABBIT_HOST}
+    queue:
+      name: meetona
+    exchange:
+      name: meetona_exchange
+    routing:
+      key: meetona_routing_key
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 45000
+          max-attempts: 5
+          multiplier: 1.3
+          max-interval: 80000
+        default-requeue-rejected: true
   
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
