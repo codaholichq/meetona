@@ -1,11 +1,11 @@
 package meetona.data.service;
 
-import meetona.core.Dto.request.MailRequest;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import meetona.core.Dto.request.MailRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -77,9 +77,10 @@ public class MailService {
     }
 
     /**
-     * Send an email to the user indicating an account change event with the correct
+     * Email the user indicating an account change event with the correct
      * status
      */
+    @Async
     public void sendAccountActivityEmail(String to, String action, String actionStatus)
             throws IOException, TemplateException, MessagingException {
         MailRequest mailRequest = new MailRequest();
@@ -108,7 +109,6 @@ public class MailService {
     /**
      * Sends a simple mail as a MIME Multipart message
      */
-    @Async("taskExecutor")
     public void send(MailRequest mailRequest) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
