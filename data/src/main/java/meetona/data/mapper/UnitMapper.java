@@ -1,6 +1,6 @@
 package meetona.data.mapper;
 
-import meetona.core.Dto.response.UnitDto;
+import meetona.core.payload.response.UnitDto;
 import meetona.core.entity.Unit;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

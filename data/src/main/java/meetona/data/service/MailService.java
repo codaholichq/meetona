@@ -5,7 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import meetona.core.Dto.request.MailRequest;
+import meetona.core.payload.request.MailRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -81,7 +81,7 @@ public class MailService {
      * status
      */
     @Async
-    public void sendAccountActivityEmail(String to, String action, String actionStatus)
+    public void sendUserActionEmail(String to, String action, String actionStatus)
             throws IOException, TemplateException, MessagingException {
         MailRequest mailRequest = new MailRequest();
         mailRequest.setSubject("Account Activity");
@@ -109,7 +109,7 @@ public class MailService {
     /**
      * Sends a simple mail as a MIME Multipart message
      */
-    public void send(MailRequest mailRequest) throws MessagingException {
+    private void send(MailRequest mailRequest) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                 StandardCharsets.UTF_8.name());

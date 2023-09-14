@@ -1,8 +1,8 @@
 package meetona.data.mapper;
 
-import meetona.core.Dto.request.LoginDto;
-import meetona.core.Dto.request.SignupDto;
-import meetona.core.Dto.response.UserDto;
+import meetona.core.payload.request.LoginDto;
+import meetona.core.payload.request.SignupDto;
+import meetona.core.payload.response.UserDto;
 import meetona.core.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

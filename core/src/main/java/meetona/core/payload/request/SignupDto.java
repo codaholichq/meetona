@@ -1,4 +1,4 @@
-package meetona.core.Dto.request;
+package meetona.core.payload.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import meetona.core.enums.UserRole;

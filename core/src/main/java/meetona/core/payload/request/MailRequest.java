@@ -1,4 +1,4 @@
-package meetona.core.Dto.request;
+package meetona.core.payload.request;
 
 import lombok.Data;
 
