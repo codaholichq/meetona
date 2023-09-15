@@ -1,6 +1,6 @@
 package meetona.web.advice;
 
-import meetona.core.Dto.response.ApiResponse;
+import meetona.core.payload.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import meetona.core.exception.*;
 import org.springframework.context.MessageSource;
