@@ -21,29 +21,45 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class RabbitConfig implements RabbitListenerConfigurer {
 
-    @Value("${rabbitmq.queue.name}")
-    private String queueName;
+    @Value("${rabbitmq.queue[0].name}")
+    private String userQueueName;
+
+    @Value("${rabbitmq.queue[1].name}")
+    private String unitQueueName;
 
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
 
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+    @Value("${rabbitmq.routing[0].key}")
+    private String userRoutingKey;
+
+    @Value("${rabbitmq.routing[1].key}")
+    private String unitRoutingKey;
 
 
     @Bean
-    public Queue queue() {
-        return new Queue(queueName);
+    public Queue userQueue() {
+        return new Queue(userQueueName);
     }
 
     @Bean
-    public TopicExchange topicExchange() {
+    public Queue unitQueue() {
+        return new Queue(unitQueueName);
+    }
+
+    @Bean
+    public TopicExchange TopicExchange() {
         return new TopicExchange(exchangeName);
     }
 
     @Bean
-    Binding binding(final Queue queue, final TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    Binding binding(final Queue userQueue, final TopicExchange topicExchange) {
+        return BindingBuilder.bind(userQueue).to(topicExchange).with(userRoutingKey);
+    }
+
+    @Bean
+    Binding unitBinding(final Queue unitQueue, final TopicExchange topicExchange) {
+        return BindingBuilder.bind(unitQueue).to(topicExchange).with(unitRoutingKey);
     }
 
     @Bean

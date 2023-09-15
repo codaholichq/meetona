@@ -19,14 +19,14 @@ public class UserActionConsumer {
 
     private final MailService mailService;
 
-    @RabbitListener(queues = {"${rabbitmq.queue.name}"})
+    @RabbitListener(queues = {"${rabbitmq.queue[0].name}"})
     public void fetchMessage(UserDto userDto) throws TemplateException, MessagingException, IOException {
 
         mailService.sendUserActionEmail(userDto.email(), "Login", "Successful");
         log.info("Received message => {}", userDto);
     }
 
-    @RabbitListener(queues = {"${rabbitmq.queue.name}"})
+    @RabbitListener(queues = {"${rabbitmq.queue[0].name}"})
     public void fetchMessage(User user) throws TemplateException, MessagingException, IOException {
 
         mailService.sendUserActionEmail(user.getEmail(), "Register", "Successful");

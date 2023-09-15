@@ -52,11 +52,13 @@ spring:
 
 rabbitmq:
     queue:
-      name: meetona
+      - name: meetona_user
+      - name: meetona_unit
     exchange:
       name: meetona_exchange
     routing:
-      key: meetona_routing_key
+      - key: meetona_user_key
+      - key: meetona_unit_key
 
 app:
   jwt:

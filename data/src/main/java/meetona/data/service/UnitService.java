@@ -1,15 +1,17 @@
 package meetona.data.service;
 
-import meetona.core.Dto.request.UnitRequest;
-import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.UnitDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import meetona.core.entity.Unit;
 import meetona.core.exception.AppException;
 import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUnitService;
+import meetona.core.payload.request.UnitRequest;
+import meetona.core.payload.response.ApiResponse;
+import meetona.core.payload.response.UnitDto;
 import meetona.data.mapper.UnitMapper;
+import meetona.data.messaging.producers.UnitActionProducer;
 import meetona.data.repository.UnitRepository;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +20,15 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UnitService implements IUnitService {
 
-    private final UnitRepository unitRepository;
     private final UnitMapper unitMapper;
-
-    public UnitService(UnitRepository unitRepository, UnitMapper unitMapper) {
-        this.unitRepository = unitRepository;
-        this.unitMapper = unitMapper;
-    }
+    private final UnitRepository unitRepository;
+    private final UnitActionProducer unitActionProducer;
 
     @Override
     public ApiResponse<List<UnitDto>> getAll() {
@@ -40,6 +40,7 @@ public class UnitService implements IUnitService {
 
         ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
 
+        log.info("Fetched users => {}", unitDto);
         return response;
     }
 
@@ -53,11 +54,11 @@ public class UnitService implements IUnitService {
 
         var response = new ApiResponse<>(unitDto, true);
 
+        log.info("Fetched user => {}", unitDto);
         return response;
     }
 
     @Override
-    @Async
     @Transactional
     public ApiResponse<UnitDto> add(UnitRequest unitRequest) {
         boolean isNameExists = unitRepository.existsByName(unitRequest.name());
@@ -72,6 +73,7 @@ public class UnitService implements IUnitService {
         UnitDto unitDto = unitMapper.ToUnitDto(newUnit);
         var response = new ApiResponse<>(unitDto, true);
 
+        unitActionProducer.sendMessage(unitDto);
         return response;
     }
 
@@ -80,7 +82,7 @@ public class UnitService implements IUnitService {
     public ApiResponse<UnitDto> update(UUID id, UnitRequest unitRequest) {
         boolean isUnitExists = unitRepository.existsById(id);
 
-        if(isUnitExists){
+        if(isUnitExists) {
             throw new AppException("Id does not exists");
         }
 
@@ -90,6 +92,8 @@ public class UnitService implements IUnitService {
         UnitDto updatedUnit = unitMapper.ToUnitDto(newUnit);
 
         var response = new ApiResponse<>(updatedUnit, true);
+
+        unitActionProducer.sendMessage(id, updatedUnit);
         return response;
     }
 
@@ -106,6 +110,8 @@ public class UnitService implements IUnitService {
         UnitDto deletedUnitDto = new UnitDto(id, null, null);
 
         var response = new ApiResponse<>(deletedUnitDto, true);
+
+        unitActionProducer.sendMessage(id);
         return response;
     }
 
