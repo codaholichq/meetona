@@ -2,11 +2,12 @@ package meetona.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import meetona.core.Dto.request.LoginDto;
-import meetona.core.Dto.request.SignupDto;
-import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.UserDto;
+import meetona.core.payload.request.LoginDto;
+import meetona.core.payload.request.SignupDto;
+import meetona.core.payload.response.ApiResponse;
+import meetona.core.payload.response.UserDto;
 import meetona.core.interfaces.IUserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user/")
+@RequestMapping(value = "/api/user",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     private final IUserService userService;
