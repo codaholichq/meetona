@@ -2,18 +2,18 @@ package meetona.data.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.core.Dto.request.LoginDto;
-import meetona.core.Dto.request.SignupDto;
-import meetona.core.Dto.response.ApiResponse;
-import meetona.core.Dto.response.UserDto;
+import meetona.core.payload.request.LoginDto;
+import meetona.core.payload.request.SignupDto;
+import meetona.core.payload.response.ApiResponse;
+import meetona.core.payload.response.UserDto;
 import meetona.core.entity.User;
 import meetona.core.exception.LoginException;
 import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUserService;
 import meetona.data.mapper.UserMapper;
+import meetona.data.messaging.producers.UserActionProducer;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.TokenProvider;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,10 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements IUserService {
 
     private final UserMapper userMapper;
-    private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ApplicationEventPublisher eventPublisher;
+    private final UserActionProducer userActionProducer;
     private final AuthenticationManager authenticationManager;
 
     @Transactional
@@ -51,11 +51,11 @@ public class UserService implements IUserService {
         User newUser = createUser(signupDto);
         userRepository.save(newUser);
 
-//        eventPublisher.publishEvent(new SignedUpEvent(newUser));
-
         UserDto userDto = userMapper.ToUserDto(newUser);
 
         var response = new ApiResponse<>(userDto, true);
+
+        userActionProducer.sendMessage(newUser);
         return response;
     }
 
@@ -70,13 +70,12 @@ public class UserService implements IUserService {
 
         User user = (User) authentication.getPrincipal();
 
-        if (user == null) {
-            throw new LoginException("User not found");
-        }
+        if (user == null) throw new LoginException("User not found");
 
         UserDto userDto = userMapper.ToUserDto(user).setAccessToken(accessToken);
         var response = new ApiResponse<>(userDto, true);
 
+        userActionProducer.sendMessage(userDto);
         return response;
     }
 
