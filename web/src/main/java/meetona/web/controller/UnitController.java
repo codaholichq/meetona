@@ -14,9 +14,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(value = "/api/unit",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api/unit")
 public class UnitController {
 
     private final IUnitService unitService;
@@ -25,22 +23,25 @@ public class UnitController {
         this.unitService = unitService;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<UnitDto>>> getAll() {
         return ResponseEntity.ok(unitService.getAll());
     }
 
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UnitDto>> getById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(unitService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UnitDto>> add(@Valid @RequestBody UnitRequest request) {
         return ResponseEntity.ok(unitService.add(request));
     }
 
-    @PutMapping("{id}")
+    @PutMapping(
+            value = "{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UnitDto>> update(
             @PathVariable("id") UUID id,
             @RequestBody UnitRequest request
@@ -48,7 +49,7 @@ public class UnitController {
         return ResponseEntity.ok(unitService.update(id, request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UnitDto>> delete(@PathVariable("id") UUID id){
         return ResponseEntity.ok(unitService.delete(id));
     }

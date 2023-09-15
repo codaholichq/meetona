@@ -16,19 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/user",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api/user")
 public class UserController {
 
     private final IUserService userService;
 
-    @PostMapping("register")
+    @PostMapping(value = "register",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UserDto>> register(@Valid @RequestBody SignupDto signupDto) {
         return ResponseEntity.ok(userService.register(signupDto));
     }
 
-    @PostMapping("login")
+    @PostMapping(value = "login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UserDto>> authenticate(@Valid @RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(userService.authenticate(loginDto));
     }
