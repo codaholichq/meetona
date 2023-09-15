@@ -4,12 +4,6 @@ spring:
     port: ${RABBIT_PORT}
     username: ${RABBIT_USERNAME}
     password: ${RABBIT_PASSWORD}
-    queue:
-      name: meetona
-    exchange:
-      name: meetona_exchange
-    routing:
-      key: meetona_routing_key
     listener:
       simple:
         retry:
@@ -55,6 +49,14 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
+
+rabbitmq:
+    queue:
+      name: meetona
+    exchange:
+      name: meetona_exchange
+    routing:
+      key: meetona_routing_key
 
 app:
   jwt:
