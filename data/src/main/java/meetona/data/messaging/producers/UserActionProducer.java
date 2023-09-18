@@ -2,9 +2,9 @@ package meetona.data.messaging.producers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.core.payload.response.UserDto;
 import meetona.core.entity.User;
-import org.springframework.amqp.core.Binding;
+import meetona.core.payload.response.UserDto;
+import meetona.data.constants.RabbitConstants;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +13,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserActionProducer {
 
-    private final Binding binding;
     private final RabbitTemplate rabbitTemplate;
 
     public void sendMessage(UserDto userDto) {
         log.info("Message sent => {}", userDto.toString());
-        rabbitTemplate.convertAndSend(binding.getExchange(), binding.getRoutingKey(), userDto);
+        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.USER_ROUTING_KEY, userDto);
     }
 
     public void sendMessage(User user) {
         log.info("Message sent => {}", user.toString());
-        rabbitTemplate.convertAndSend(binding.getExchange(), binding.getRoutingKey(), user);
+        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.USER_ROUTING_KEY, user);
     }
 }
