@@ -1,30 +1,9 @@
-package meetona.data.token;
+package meetona.data.constants;
 
-
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-
-
-@Setter
-@Getter
-public class JwtAuthToken extends UsernamePasswordAuthenticationToken {
-
-    private String token;
-
-    public JwtAuthToken(Object principal, Object credentials, String token) {
-        super(null, null);
-        this.token = token;
-    }
-
-    @Override
-    public Object getCredentials() {
-        return null;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return null;
-    }
+public class RabbitConstants {
+    public static final String EXCHANGE = "x.meetona";
+    public static final String USER_QUEUE = "q.meetona.user";
+    public static final String UNIT_QUEUE = "q.meetona.unit";
+    public static final String USER_ROUTING_KEY = "k.meetona.user";
+    public static final String UNIT_ROUTING_KEY = "k.meetona.unit";
 }
