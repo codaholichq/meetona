@@ -1,15 +1,12 @@
 package meetona.data.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import meetona.data.constants.RabbitConstants;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -17,51 +14,38 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 import org.springframework.messaging.handler.annotation.support.MessageHandlerMethodFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
 @Configuration
 @EnableScheduling
 public class RabbitConfig implements RabbitListenerConfigurer {
 
-    @Value("${rabbitmq.queue[0].name}")
-    private String userQueueName;
-
-    @Value("${rabbitmq.queue[1].name}")
-    private String unitQueueName;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
-
-    @Value("${rabbitmq.routing[0].key}")
-    private String userRoutingKey;
-
-    @Value("${rabbitmq.routing[1].key}")
-    private String unitRoutingKey;
-
-
     @Bean
     public Queue userQueue() {
-        return new Queue(userQueueName);
+        return new Queue(RabbitConstants.USER_QUEUE);
     }
 
     @Bean
     public Queue unitQueue() {
-        return new Queue(unitQueueName);
+        return new Queue(RabbitConstants.UNIT_QUEUE);
     }
 
     @Bean
-    public TopicExchange TopicExchange() {
-        return new TopicExchange(exchangeName);
+    public TopicExchange topicExchange() {
+        return new TopicExchange(RabbitConstants.EXCHANGE);
     }
 
     @Bean
-    Binding binding(final Queue userQueue, final TopicExchange topicExchange) {
-        return BindingBuilder.bind(userQueue).to(topicExchange).with(userRoutingKey);
+    public Declarables bindings(
+            final Queue userQueue,
+            final Queue unitQueue,
+            final TopicExchange topicExchange
+    ) {
+        return new Declarables(
+                BindingBuilder.bind(userQueue).to(topicExchange).with(RabbitConstants.USER_ROUTING_KEY),
+                BindingBuilder.bind(unitQueue).to(topicExchange).with(RabbitConstants.UNIT_ROUTING_KEY)
+        );
     }
-
-    @Bean
-    Binding unitBinding(final Queue unitQueue, final TopicExchange topicExchange) {
-        return BindingBuilder.bind(unitQueue).to(topicExchange).with(unitRoutingKey);
-    }
-
+    
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
