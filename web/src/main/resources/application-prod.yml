@@ -49,17 +49,6 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
-
-rabbitmq:
-    queue:
-      - name: meetona_user
-      - name: meetona_unit
-    exchange:
-      name: meetona_exchange
-    routing:
-      - key: meetona_user_key
-      - key: meetona_unit_key
-
 app:
   jwt:
     header:
