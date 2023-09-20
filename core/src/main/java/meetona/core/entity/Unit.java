@@ -21,7 +21,7 @@ public class Unit extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private String location;
+    private String address;
 
     @Transient
     @Builder.Default
