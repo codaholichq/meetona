@@ -12,6 +12,8 @@ import meetona.core.payload.response.UnitDto;
 import meetona.data.mapper.UnitMapper;
 import meetona.data.messaging.producers.UnitActionProducer;
 import meetona.data.repository.UnitRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class UnitService implements IUnitService {
     private final UnitActionProducer unitActionProducer;
 
     @Override
+    @Cacheable("units")
     public ApiResponse<List<UnitDto>> getAll() {
         List<Unit> units = unitRepository.findAll();
 
@@ -45,6 +48,7 @@ public class UnitService implements IUnitService {
     }
 
     @Override
+    @Cacheable("unit")
     public ApiResponse<UnitDto> getById(UUID id) {
         Optional<Unit> unitOptional = unitRepository.findById(id);
 
@@ -54,7 +58,7 @@ public class UnitService implements IUnitService {
 
         var response = new ApiResponse<>(unitDto, true);
 
-        log.info("Fetched user => {}", unitDto);
+        log.info("Fetched unit => {}", unitDto);
         return response;
     }
 
@@ -79,6 +83,7 @@ public class UnitService implements IUnitService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "unit", key = "#unit.id")
     public ApiResponse<UnitDto> update(UUID id, UnitRequest unitRequest) {
         boolean isUnitExists = unitRepository.existsById(id);
 
@@ -99,6 +104,7 @@ public class UnitService implements IUnitService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "unit", key = "#id")
     public ApiResponse<UnitDto> delete(UUID id) {
         boolean isUnitExists = unitRepository.existsById(id);
 
