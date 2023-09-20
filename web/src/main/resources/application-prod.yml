@@ -52,6 +52,12 @@ spring:
       timeout: 60000
 
 app:
+  admin:
+    firstname: ${ADMIN_FIRST_NAME}
+    lastname: ${ADMIN_LAST_NAME}
+    username: ${ADMIN_USER_NAME}
+    email: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
   jwt:
     header:
       nodeValue: Authorization
