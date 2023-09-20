@@ -17,16 +17,14 @@ public class CacheConfig {
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        var cacheConfig = myDefaultCacheConfig(Duration.ofMinutes(10)).disableCachingNullValues();
-
         return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(cacheConfig)
-                .withCacheConfiguration("units", myDefaultCacheConfig(Duration.ofMinutes(5)))
-                .withCacheConfiguration("unit", myDefaultCacheConfig(Duration.ofMinutes(1)))
+                .cacheDefaults(cacheConfiguration(Duration.ofMinutes(10)).disableCachingNullValues())
+                .withCacheConfiguration("units", cacheConfiguration(Duration.ofMinutes(5)))
+                .withCacheConfiguration("unit", cacheConfiguration(Duration.ofMinutes(1)))
                 .build();
     }
 
-    private RedisCacheConfiguration myDefaultCacheConfig(Duration duration) {
+    private RedisCacheConfiguration cacheConfiguration(Duration duration) {
         return RedisCacheConfiguration
                 .defaultCacheConfig()
                 .entryTtl(duration)
