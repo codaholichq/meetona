@@ -9,5 +9,5 @@ public record UnitRequest(
         String name,
 
         @NotBlank(message = "unit location cannot be blank")
-        String location
+        String address
 ) implements Serializable { }

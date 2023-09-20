@@ -6,5 +6,5 @@ import java.util.UUID;
 public record UnitDto(
         UUID id,
         String name,
-        String location
+        String address
 ) implements Serializable { }
