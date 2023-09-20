@@ -16,18 +16,17 @@ import java.io.IOException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@RabbitListener(queues = RabbitConstants.USER_QUEUE)
 public class UserActionConsumer {
 
     private final MailService mailService;
 
-    @RabbitListener(queues = RabbitConstants.USER_QUEUE)
     public void fetchMessage(UserDto userDto) throws TemplateException, MessagingException, IOException {
 
         mailService.sendUserActionEmail(userDto.email(), "Login", "Successful");
         log.info("Received message => {}", userDto);
     }
 
-    @RabbitListener(queues = RabbitConstants.USER_QUEUE)
     public void fetchMessage(User user) throws TemplateException, MessagingException, IOException {
 
         mailService.sendUserActionEmail(user.getEmail(), "Register", "Successful");
