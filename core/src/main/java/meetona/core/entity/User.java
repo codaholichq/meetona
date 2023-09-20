@@ -40,7 +40,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    protected Set<UserRole> roles = new HashSet<>();
+    private Set<UserRole> roles = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
