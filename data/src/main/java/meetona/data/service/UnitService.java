@@ -14,13 +14,14 @@ import meetona.data.messaging.producers.UnitActionProducer;
 import meetona.data.repository.UnitRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,16 +35,19 @@ public class UnitService implements IUnitService {
 
     @Override
     @Cacheable("units")
-    public ApiResponse<List<UnitDto>> getAll() {
-        List<Unit> units = unitRepository.findAll();
+    public ApiResponse<List<UnitDto>> getAll(Pageable pageable) {
+        Page<Unit> units = unitRepository.findAll(pageable);
 
+//        var unitList = units.getContent();
         List<UnitDto> unitDto = units.stream()
                 .map(unitMapper::ToUnitDto)
-                .collect(Collectors.toList());
+                .toList();
+
+//        List<UnitDto> unitDto = unitList.map(unitMapper::ToUnitDto);
 
         ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
 
-        log.info("Fetched users => {}", unitDto);
+        log.info("Fetched units => {}", unitDto);
         return response;
     }
 
@@ -124,7 +128,7 @@ public class UnitService implements IUnitService {
     private Unit buildUnit(UnitRequest unitRequest) {
         return Unit.builder()
                 .name(unitRequest.name())
-                .location(unitRequest.location())
+                .address(unitRequest.address())
                 .build();
     }
 }
