@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public record UnitRequest(
-        @NotBlank(message = "unit name cannot be blank")
+        @NotBlank(message = "Unit name cannot be blank")
         String name,
 
-        @NotBlank(message = "unit location cannot be blank")
+        @NotBlank(message = "Unit address cannot be blank")
         String address
 ) implements Serializable { }
