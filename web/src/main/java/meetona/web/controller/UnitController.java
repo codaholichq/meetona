@@ -1,10 +1,12 @@
 package meetona.web.controller;
 
 import jakarta.validation.Valid;
+import meetona.core.interfaces.IUnitService;
 import meetona.core.payload.request.UnitRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UnitDto;
-import meetona.core.interfaces.IUnitService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,8 @@ public class UnitController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<UnitDto>>> getAll() {
-        return ResponseEntity.ok(unitService.getAll());
+    public ResponseEntity<ApiResponse<List<UnitDto>>> getAll(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(unitService.getAll(pageable));
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
