@@ -2,10 +2,10 @@ package meetona.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import meetona.core.payload.request.AddUserDto;
+import meetona.core.interfaces.IAuthService;
+import meetona.core.payload.request.LoginDto;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UserDto;
-import meetona.core.interfaces.IUserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/auth")
+public class AuthController {
 
-    private final IUserService userService;
+    private final IAuthService authService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UserDto>> add(@Valid @RequestBody AddUserDto addUserDto) {
-        return ResponseEntity.ok(userService.add(addUserDto));
+    @PostMapping(value = "login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserDto>> authenticate(@Valid @RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(authService.authenticate(loginDto));
     }
 }

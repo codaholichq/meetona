@@ -2,12 +2,10 @@ package meetona.data.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.core.payload.request.LoginDto;
-import meetona.core.payload.request.SignupDto;
+import meetona.core.payload.request.AddUserDto;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UserDto;
 import meetona.core.entity.User;
-import meetona.core.exception.LoginException;
 import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUserService;
 import meetona.data.mapper.UserMapper;
@@ -15,8 +13,6 @@ import meetona.data.messaging.producers.UserActionProducer;
 import meetona.data.repository.UserRepository;
 import meetona.data.security.TokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,19 +32,19 @@ public class UserService implements IUserService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public ApiResponse<UserDto> register(SignupDto signupDto) {
-        boolean isUsernameExists = userRepository.existsByUsername(signupDto.username());
-        boolean isEmailExists = userRepository.existsByEmail(signupDto.email());
+    public ApiResponse<UserDto> add(AddUserDto addUserDto) {
+        boolean isUsernameExists = userRepository.existsByUsername(addUserDto.username());
+        boolean isEmailExists = userRepository.existsByEmail(addUserDto.email());
 
         if (isUsernameExists) {
-            throw new SignupException(signupDto.username(), "Username already exists");
+            throw new SignupException(addUserDto.username(), "Username already exists");
         }
 
         if (isEmailExists) {
-            throw new SignupException(signupDto.email(), "Email already exists");
+            throw new SignupException(addUserDto.email(), "Email already exists");
         }
 
-        User newUser = createUser(signupDto);
+        User newUser = createUser(addUserDto);
         userRepository.save(newUser);
 
         UserDto userDto = userMapper.ToUserDto(newUser);
@@ -59,36 +55,16 @@ public class UserService implements IUserService {
         return response;
     }
 
-    public ApiResponse<UserDto> authenticate(LoginDto loginDto) {
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.username(),
-                loginDto.password())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String accessToken = tokenProvider.createToken(authentication);
-
-        User user = (User) authentication.getPrincipal();
-
-        if (user == null) throw new LoginException("User not found");
-
-        UserDto userDto = userMapper.ToUserDto(user).setAccessToken(accessToken);
-        var response = new ApiResponse<>(userDto, true);
-
-        userActionProducer.sendMessage(userDto);
-        return response;
-    }
-
-    private User createUser(SignupDto signupDto) {
+    private User createUser(AddUserDto addUserDto) {
         return User.builder()
-                .firstname(signupDto.firstname())
-                .lastname(signupDto.lastname())
-                .email(signupDto.email())
-                .username(signupDto.username())
-                .roles(signupDto.roles())
+                .firstname(addUserDto.firstname())
+                .lastname(addUserDto.lastname())
+                .email(addUserDto.email())
+                .username(addUserDto.username())
+                .roles(addUserDto.roles())
                 .isEmailVerified(false)
 //                .unit(signupDto.unitId())
-                .password(passwordEncoder.encode(signupDto.password()))
+                .password(passwordEncoder.encode(addUserDto.password()))
                 .build();
     }
 }
