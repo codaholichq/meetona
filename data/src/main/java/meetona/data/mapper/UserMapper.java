@@ -1,7 +1,7 @@
 package meetona.data.mapper;
 
 import meetona.core.payload.request.LoginDto;
-import meetona.core.payload.request.AddUserDto;
+import meetona.core.payload.request.UserRequest;
 import meetona.core.payload.response.UserDto;
 import meetona.core.entity.User;
 import org.mapstruct.Mapper;
@@ -20,7 +20,7 @@ public interface UserMapper {
 
     @Mapping(target = "isEmailVerified", ignore = true)
     @Mapping(target = "unit", ignore = true)
-    User toUser(AddUserDto addUserDto);
+    User toUser(UserRequest userRequest);
 
     @Mapping(target = "isEmailVerified", ignore = true)
     @Mapping(target = "firstname", ignore = true)
