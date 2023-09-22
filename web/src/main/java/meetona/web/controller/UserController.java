@@ -1,27 +1,57 @@
 package meetona.web.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import meetona.core.payload.request.AddUserDto;
+import meetona.core.interfaces.IUserService;
+import meetona.core.payload.request.UserRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UserDto;
-import meetona.core.interfaces.IUserService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
     private final IUserService userService;
 
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAll(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getAll(pageable));
+    }
+
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserDto>> getById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UserDto>> add(@Valid @RequestBody AddUserDto addUserDto) {
-        return ResponseEntity.ok(userService.add(addUserDto));
+    public ResponseEntity<ApiResponse<UserDto>> add(@Valid @RequestBody UserRequest request) {
+        return ResponseEntity.ok(userService.add(request));
+    }
+
+    @PutMapping(
+            value = "{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserDto>> update(
+            @PathVariable("id") UUID id,
+            @RequestBody UserRequest request
+    ) {
+        return ResponseEntity.ok(userService.update(id, request));
+    }
+
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserDto>> delete(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(userService.delete(id));
     }
 }
