@@ -29,7 +29,7 @@ public abstract class BaseEntity implements Serializable {
 
     @JsonIgnore
     @CreatedBy
-    @Column(name = "created_by")
+    @Column(name = "created_by", length = 50)
     private String createdBy;
 
     @JsonIgnore
@@ -40,7 +40,7 @@ public abstract class BaseEntity implements Serializable {
 
     @JsonIgnore
     @LastModifiedBy
-    @Column(name = "updated_by")
+    @Column(name = "updated_by", length = 50)
     private String updatedBy;
 
     @JsonIgnore
