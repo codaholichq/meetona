@@ -36,6 +36,11 @@ public class SecurityConfig {
     protected static final String[] WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/api/auth/**"
+    };
+
+    protected static final String[] ADMIN = {
+            "/api/unit/**",
             "/api/user/**"
     };
 
@@ -90,7 +95,7 @@ public class SecurityConfig {
                 .exceptionHandling(x -> x.authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST).permitAll()
-                        .requestMatchers("/api/unit/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(ADMIN).hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
