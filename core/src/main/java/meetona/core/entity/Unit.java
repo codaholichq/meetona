@@ -27,5 +27,10 @@ public class Unit extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
+
+    @Transient
+    @Builder.Default
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Member> members = new HashSet<>();
 }
 
