@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
-public record AddUserDto(
+public record UserRequest(
 
     @NotBlank(message = "first name cannot be blank")
     String firstname,
