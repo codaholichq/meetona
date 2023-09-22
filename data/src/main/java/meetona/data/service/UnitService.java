@@ -38,12 +38,9 @@ public class UnitService implements IUnitService {
     public ApiResponse<List<UnitDto>> getAll(Pageable pageable) {
         Page<Unit> units = unitRepository.findAll(pageable);
 
-//        var unitList = units.getContent();
         List<UnitDto> unitDto = units.stream()
                 .map(unitMapper::ToUnitDto)
                 .toList();
-
-//        List<UnitDto> unitDto = unitList.map(unitMapper::ToUnitDto);
 
         ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
 
@@ -68,14 +65,14 @@ public class UnitService implements IUnitService {
 
     @Override
     @Transactional
-    public ApiResponse<UnitDto> add(UnitRequest unitRequest) {
-        boolean isNameExists = unitRepository.existsByName(unitRequest.name());
+    public ApiResponse<UnitDto> add(UnitRequest request) {
+        boolean isNameExists = unitRepository.existsByName(request.name());
 
         if (isNameExists) {
-            throw new SignupException(unitRequest.name(), "Unit name already exists");
+            throw new SignupException(request.name(), "Unit name already exists");
         }
 
-        Unit newUnit = buildUnit(unitRequest);
+        Unit newUnit = buildUnit(request);
         unitRepository.save(newUnit);
 
         UnitDto unitDto = unitMapper.ToUnitDto(newUnit);
@@ -88,14 +85,14 @@ public class UnitService implements IUnitService {
     @Override
     @Transactional
     @CacheEvict(value = "unit", key = "#unit.id")
-    public ApiResponse<UnitDto> update(UUID id, UnitRequest unitRequest) {
+    public ApiResponse<UnitDto> update(UUID id, UnitRequest request) {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(isUnitExists) {
             throw new AppException("Id does not exists");
         }
 
-        Unit newUnit = buildUnit(unitRequest);
+        Unit newUnit = buildUnit(request);
 
         unitRepository.save(newUnit);
         UnitDto updatedUnit = unitMapper.ToUnitDto(newUnit);
@@ -125,10 +122,10 @@ public class UnitService implements IUnitService {
         return response;
     }
 
-    private Unit buildUnit(UnitRequest unitRequest) {
+    private Unit buildUnit(UnitRequest request) {
         return Unit.builder()
-                .name(unitRequest.name())
-                .address(unitRequest.address())
+                .name(request.name())
+                .address(request.address())
                 .build();
     }
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface IUnitService {
     ApiResponse<List<UnitDto>> getAll(Pageable pageable);
     ApiResponse<UnitDto> getById(UUID id);
-    ApiResponse<UnitDto> add(UnitRequest unitRequest);
-    ApiResponse<UnitDto> update(UUID id, UnitRequest unitRequest);
+    ApiResponse<UnitDto> add(UnitRequest request);
+    ApiResponse<UnitDto> update(UUID id, UnitRequest request);
     ApiResponse<UnitDto> delete(UUID id);
 }
