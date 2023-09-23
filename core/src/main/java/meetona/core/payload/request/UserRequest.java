@@ -1,21 +1,16 @@
 package meetona.core.payload.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import meetona.core.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import meetona.core.enums.Role;
 
 import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
 public record UserRequest(
-
-    @NotBlank(message = "first name cannot be blank")
-    String firstname,
-
-    @NotBlank(message = "last name cannot be blank")
-    String lastname,
 
     @NotBlank(message = "Username cannot be blank")
     String username,
@@ -29,7 +24,7 @@ public record UserRequest(
     @NotEmpty(message = "Role must note be blank")
     Set<Role> roles,
 
-//    @NotNull(message = "Role must note be blank")
-    UUID unitId
+    @NotNull(message = "Unit Id must note be blank")
+    UUID memberId
 
 ) implements Serializable {}

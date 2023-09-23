@@ -21,13 +21,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(nullable = false)
-    private String firstname;
-
-    @Column(nullable = false)
-    private String lastname;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 50)
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -41,8 +35,8 @@ public class User extends BaseEntity implements UserDetails {
     private Collection<Role> roles;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unit_id", referencedColumnName = "id")
-    private Unit unit;
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member member;
 
     private Boolean isEmailVerified;
 

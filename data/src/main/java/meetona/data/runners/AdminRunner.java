@@ -18,12 +18,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AdminRunner implements CommandLineRunner {
 
-    @Value("${app.admin.firstname}")
-    private String FIRSTNAME;
-
-    @Value("${app.admin.lastname}")
-    private String LASTNAME;
-
     @Value("${app.admin.username}")
     private String USERNAME;
 
@@ -43,8 +37,6 @@ public class AdminRunner implements CommandLineRunner {
 
         if (!existsAdmin) {
             User adminUser = User.builder()
-                    .firstname(FIRSTNAME)
-                    .lastname(LASTNAME)
                     .username(USERNAME)
                     .email(EMAIL)
                     .roles(Set.of(Role.ADMIN))

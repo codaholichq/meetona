@@ -8,15 +8,13 @@ import java.util.UUID;
 
 public record UserDto(
         UUID id,
-        String firstname,
-        String lastname,
         String username,
         String email,
         List<Role> roles,
+        UUID memberId,
         String accessToken
-//        UUID unitId
 ) implements Serializable {
     public UserDto setAccessToken(String accessToken) {
-        return new UserDto(id, firstname, lastname, username, email, roles, accessToken);
+        return new UserDto(id, username, email, roles, memberId, accessToken);
     }
 }

@@ -11,6 +11,7 @@ import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UserDto;
 import meetona.data.mapper.UserMapper;
 import meetona.data.messaging.producers.UserActionProducer;
+import meetona.data.repository.MemberRepository;
 import meetona.data.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +34,7 @@ public class UserService implements IUserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserActionProducer userActionProducer;
 
@@ -69,15 +71,11 @@ public class UserService implements IUserService {
     @Transactional
     public ApiResponse<UserDto> add(UserRequest userRequest) {
         boolean isUsernameExists = userRepository.existsByUsername(userRequest.username());
-        boolean isEmailExists = userRepository.existsByEmail(userRequest.email());
 
         if (isUsernameExists) {
             throw new SignupException(userRequest.username(), "Username already exists");
         }
 
-        if (isEmailExists) {
-            throw new SignupException(userRequest.email(), "Email already exists");
-        }
 
         User newUser = buildUser(userRequest);
         userRepository.save(newUser);
@@ -122,7 +120,7 @@ public class UserService implements IUserService {
         }
 
         userRepository.deleteById(id);
-        UserDto deletedUser = new UserDto(id, null, null, null, null, null, null);
+        UserDto deletedUser = new UserDto(id, null, null, null, null, null);
 
         var response = new ApiResponse<>(deletedUser, true);
 
@@ -131,14 +129,15 @@ public class UserService implements IUserService {
     }
 
     private User buildUser(UserRequest request) {
+        var member = memberRepository
+                .findById(request.memberId())
+                .orElseThrow(() -> new IllegalArgumentException(request.memberId() + " does not exist"));
+
         return User.builder()
-                .firstname(request.firstname())
-                .lastname(request.lastname())
-                .email(request.email())
                 .username(request.username())
                 .roles(request.roles())
                 .isEmailVerified(false)
-//                .unit(request.unitId())
+                .member(member)
                 .password(passwordEncoder.encode(request.password()))
                 .build();
     }

@@ -19,14 +19,11 @@ public interface UserMapper {
     UserDto ToUserDto(User user);
 
     @Mapping(target = "isEmailVerified", ignore = true)
-    @Mapping(target = "unit", ignore = true)
+    @Mapping(target = "member", ignore = true)
     User toUser(UserRequest userRequest);
 
     @Mapping(target = "isEmailVerified", ignore = true)
-    @Mapping(target = "firstname", ignore = true)
-    @Mapping(target = "lastname", ignore = true)
-    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "member", ignore = true)
     @Mapping(target = "roles", ignore = true)
-    @Mapping(target = "unit", ignore = true)
     User toUser(LoginDto loginDto);
 }
