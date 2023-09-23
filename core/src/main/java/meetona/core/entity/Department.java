@@ -1,9 +1,11 @@
 package meetona.core.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import meetona.core.common.BaseEntity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -14,6 +16,14 @@ import meetona.core.common.BaseEntity;
 @EqualsAndHashCode(callSuper = false)
 public class Department extends BaseEntity {
 
+    @Column(nullable = false, length = 50)
     private String name;
+
+    @Column(nullable = false, length = 50)
     private String lead;
+
+    @Transient
+    @Builder.Default
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Member> members = new HashSet<>();
 }
