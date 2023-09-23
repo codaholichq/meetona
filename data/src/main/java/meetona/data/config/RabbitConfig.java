@@ -30,6 +30,16 @@ public class RabbitConfig implements RabbitListenerConfigurer {
     }
 
     @Bean
+    public Queue memberQueue() {
+        return new Queue(RabbitConstants.MEMBER_QUEUE);
+    }
+
+    @Bean
+    public Queue meetingQueue() {
+        return new Queue(RabbitConstants.MEETING_QUEUE);
+    }
+
+    @Bean
     public TopicExchange topicExchange() {
         return new TopicExchange(RabbitConstants.EXCHANGE);
     }
@@ -38,11 +48,15 @@ public class RabbitConfig implements RabbitListenerConfigurer {
     public Declarables bindings(
             final Queue userQueue,
             final Queue unitQueue,
+            final Queue memberQueue,
+            final Queue meetingQueue,
             final TopicExchange topicExchange
     ) {
         return new Declarables(
                 BindingBuilder.bind(userQueue).to(topicExchange).with(RabbitConstants.USER_ROUTING_KEY),
-                BindingBuilder.bind(unitQueue).to(topicExchange).with(RabbitConstants.UNIT_ROUTING_KEY)
+                BindingBuilder.bind(unitQueue).to(topicExchange).with(RabbitConstants.UNIT_ROUTING_KEY),
+                BindingBuilder.bind(memberQueue).to(topicExchange).with(RabbitConstants.MEMBER_ROUTING_KEY),
+                BindingBuilder.bind(meetingQueue).to(topicExchange).with(RabbitConstants.MEETING_ROUTING_KEY)
         );
     }
     
