@@ -7,6 +7,7 @@ import meetona.core.enums.Gender;
 import meetona.core.enums.MaritalStatus;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record MemberRequest(
@@ -23,13 +24,23 @@ public record MemberRequest(
     @NotBlank(message = "Gender cannot be blank")
     Gender gender,
 
-    @NotBlank(message = "Marital Status cannot be blank")
-    MaritalStatus maritalStatus,
-
     @Email(message = "Enter a valid email address")
     String email,
 
+    @NotBlank(message = "Enter a valid phone number")
+    String phoneNumber,
+
+    @NotBlank(message = "BirthDate cannot be blank")
+    LocalDate birthDate,
+
+    @NotBlank(message = "Marital Status cannot be blank")
+    MaritalStatus maritalStatus,
+
+    LocalDate MarriageDate,
+
     @NotNull(message = "Unit must note be blank")
-    UUID unitId
+    UUID unitId,
+
+    UUID departmentId
 
 ) implements Serializable {}
