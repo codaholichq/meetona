@@ -1,13 +1,7 @@
 package meetona.data.mapper;
 
-import meetona.core.entity.Department;
-import meetona.core.entity.Member;
-import meetona.core.entity.Unit;
-import meetona.core.entity.User;
-import meetona.core.payload.response.DepartmentDto;
-import meetona.core.payload.response.MemberDto;
-import meetona.core.payload.response.UnitDto;
-import meetona.core.payload.response.UserDto;
+import meetona.core.entity.*;
+import meetona.core.payload.response.*;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -21,6 +15,7 @@ public interface GeneralMapper {
     UnitDto toDto(Unit unit);
     UserDto toDto(User user);
     MemberDto toDto(Member member);
+    MeetingDto toDto(Meeting meeting);
     DepartmentDto toDto(Department department);
 
     Unit ToEntity(UnitDto unitDto);
