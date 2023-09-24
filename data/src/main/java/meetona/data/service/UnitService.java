@@ -9,7 +9,7 @@ import meetona.core.interfaces.IUnitService;
 import meetona.core.payload.request.UnitRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UnitDto;
-import meetona.data.mapper.UnitMapper;
+import meetona.data.mapper.GeneralMapper;
 import meetona.data.messaging.producers.UnitActionProducer;
 import meetona.data.repository.UnitRepository;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UnitService implements IUnitService {
 
-    private final UnitMapper unitMapper;
+    private final GeneralMapper mapper;
     private final UnitRepository unitRepository;
     private final UnitActionProducer unitActionProducer;
 
@@ -39,7 +39,7 @@ public class UnitService implements IUnitService {
         Page<Unit> units = unitRepository.findAll(pageable);
 
         List<UnitDto> unitDto = units.stream()
-                .map(unitMapper::ToUnitDto)
+                .map(mapper::toDto)
                 .toList();
 
         ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
@@ -55,7 +55,7 @@ public class UnitService implements IUnitService {
 
         Unit unit = unitOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
-        UnitDto unitDto = unitMapper.ToUnitDto(unit);
+        UnitDto unitDto = mapper.toDto(unit);
 
         var response = new ApiResponse<>(unitDto, true);
 
@@ -75,7 +75,7 @@ public class UnitService implements IUnitService {
         Unit newUnit = buildUnit(request);
         unitRepository.save(newUnit);
 
-        UnitDto unitDto = unitMapper.ToUnitDto(newUnit);
+        UnitDto unitDto = mapper.toDto(newUnit);
         var response = new ApiResponse<>(unitDto, true);
 
         unitActionProducer.sendMessage(unitDto);
@@ -95,7 +95,7 @@ public class UnitService implements IUnitService {
         Unit newUnit = buildUnit(request);
 
         unitRepository.save(newUnit);
-        UnitDto updatedUnit = unitMapper.ToUnitDto(newUnit);
+        UnitDto updatedUnit = mapper.toDto(newUnit);
 
         var response = new ApiResponse<>(updatedUnit, true);
 

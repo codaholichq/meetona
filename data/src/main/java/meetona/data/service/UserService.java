@@ -9,7 +9,7 @@ import meetona.core.interfaces.IUserService;
 import meetona.core.payload.request.UserRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.UserDto;
-import meetona.data.mapper.UserMapper;
+import meetona.data.mapper.GeneralMapper;
 import meetona.data.messaging.producers.UserActionProducer;
 import meetona.data.repository.MemberRepository;
 import meetona.data.repository.UserRepository;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class UserService implements IUserService {
 
-    private final UserMapper userMapper;
+    private final GeneralMapper generalMapper;
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -44,7 +44,7 @@ public class UserService implements IUserService {
         Page<User> users = userRepository.findAll(pageable);
 
         List<UserDto> userDto = users.stream()
-                .map(userMapper::ToUserDto)
+                .map(generalMapper::toDto)
                 .toList();
 
         ApiResponse<List<UserDto>> response = new ApiResponse<>(userDto, true);
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
 
         User user = userOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
-        UserDto userDto = userMapper.ToUserDto(user);
+        UserDto userDto = generalMapper.toDto(user);
 
         var response = new ApiResponse<>(userDto, true);
 
@@ -80,7 +80,7 @@ public class UserService implements IUserService {
         User newUser = buildUser(userRequest);
         userRepository.save(newUser);
 
-        UserDto userDto = userMapper.ToUserDto(newUser);
+        UserDto userDto = generalMapper.toDto(newUser);
 
         var response = new ApiResponse<>(userDto, true);
 
@@ -101,7 +101,7 @@ public class UserService implements IUserService {
         User newUser = buildUser(request);
 
         userRepository.save(newUser);
-        UserDto updatedUser = userMapper.ToUserDto(newUser);
+        UserDto updatedUser = generalMapper.toDto(newUser);
 
         var response = new ApiResponse<>(updatedUser, true);
 

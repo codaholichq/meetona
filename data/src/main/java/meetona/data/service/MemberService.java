@@ -9,7 +9,7 @@ import meetona.core.interfaces.IMemberService;
 import meetona.core.payload.request.MemberRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.MemberDto;
-import meetona.data.mapper.MemberMapper;
+import meetona.data.mapper.GeneralMapper;
 import meetona.data.repository.DepartmentRepository;
 import meetona.data.repository.MemberRepository;
 import meetona.data.repository.UnitRepository;
@@ -30,7 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberService implements IMemberService {
 
-    private final MemberMapper memberMapper;
+    private final GeneralMapper mapper;
     private final UnitRepository unitRepository;
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;
@@ -42,7 +42,7 @@ public class MemberService implements IMemberService {
         Page<Member> members = memberRepository.findAll(pageable);
 
         List<MemberDto> memberDto = members.stream()
-                .map(memberMapper::ToMemberDto)
+                .map(mapper::toDto)
                 .toList();
 
         ApiResponse<List<MemberDto>> response = new ApiResponse<>(memberDto, true);
@@ -58,7 +58,7 @@ public class MemberService implements IMemberService {
 
         Member member = memberOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
-        MemberDto memberDto = memberMapper.ToMemberDto(member);
+        MemberDto memberDto = mapper.toDto(member);
 
         var response = new ApiResponse<>(memberDto, true);
 
@@ -83,7 +83,7 @@ public class MemberService implements IMemberService {
         Member newMember = buildMember(request);
         memberRepository.save(newMember);
 
-        MemberDto unitDto = memberMapper.ToMemberDto(newMember);
+        MemberDto unitDto = mapper.toDto(newMember);
         var response = new ApiResponse<>(unitDto, true);
 
 //        unitActionProducer.sendMessage(unitDto);
@@ -103,7 +103,7 @@ public class MemberService implements IMemberService {
         Member newMember = buildMember(request);
 
         memberRepository.save(newMember);
-        MemberDto updatedMember = memberMapper.ToMemberDto(newMember);
+        MemberDto updatedMember = mapper.toDto(newMember);
 
         var response = new ApiResponse<>(updatedMember, true);
 
