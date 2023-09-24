@@ -30,7 +30,7 @@ spring:
       max-create-connection-time: 30s
   
   liquibase:
-    change-log: classpath:db/changelog/changelog.sql
+    change-log: classpath:db/changelog/changelog-master.sql
   
   mail:
     host: ${MAIL_HOST}
