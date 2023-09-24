@@ -7,12 +7,10 @@ import meetona.core.common.BaseEntity;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@Entity
-@Builder
+@Data @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "departments")
+@Entity @Table(name = "departments")
 @EqualsAndHashCode(callSuper = false)
 public class Department extends BaseEntity {
 

@@ -9,13 +9,11 @@ import meetona.core.enums.MaritalStatus;
 
 import java.time.LocalDate;
 
-@Data
-@Entity
-@Builder
+@Data @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "members")
-@EqualsAndHashCode(callSuper = false)
+@Entity @Table(name = "members")
+@EqualsAndHashCode(callSuper = false, exclude = {"unit", "department"})
 public class Member extends BaseEntity {
 
     @Column(nullable = false, length = 50)
@@ -32,9 +30,10 @@ public class Member extends BaseEntity {
     private Gender gender;
 
     @Email
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, unique = true, length = 11)
     private String phoneNumber;
 
     @Column(nullable = false, columnDefinition = "DATE")
@@ -54,7 +53,4 @@ public class Member extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Meeting> meetings;
 }
