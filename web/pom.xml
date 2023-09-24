@@ -16,7 +16,7 @@
         <dependency>
             <groupId>meetona</groupId>
             <artifactId>data</artifactId>
-            <version>0.0.1</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
         
