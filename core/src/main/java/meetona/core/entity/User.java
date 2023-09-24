@@ -11,14 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-
-@Data
-@Entity
-@Builder
+@Data @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-@EqualsAndHashCode(callSuper = false)
+@Entity @Table(name = "users")
+@EqualsAndHashCode(callSuper = false, exclude = "member")
 public class User extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, unique = true, length = 50)
