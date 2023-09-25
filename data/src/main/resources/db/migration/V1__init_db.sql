@@ -24,6 +24,21 @@ CREATE TABLE units (
 );
 
 
+CREATE TABLE meetings (
+  id UUID NOT NULL,
+   created_by VARCHAR(50),
+   created_dt TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+   updated_by VARCHAR(50),
+   updated_dt TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+   version INTEGER,
+   member_count INTEGER NOT NULL,
+   prayer_point VARCHAR(255) NOT NULL,
+   unit_id UUID,
+   CONSTRAINT pk_meetings PRIMARY KEY (id)
+);
+ALTER TABLE meetings ADD CONSTRAINT FK_MEETINGS_ON_UNIT FOREIGN KEY (unit_id) REFERENCES units (id);
+
+
 CREATE TABLE members (
   id UUID NOT NULL,
    created_by VARCHAR(50),

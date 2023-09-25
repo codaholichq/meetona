@@ -1,2 +1,0 @@
--- Liquibase Changelog Master File
--- This file intentionally left blank

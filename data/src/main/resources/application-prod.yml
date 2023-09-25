@@ -15,7 +15,7 @@ spring:
         default-requeue-rejected: true
   
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
@@ -29,8 +29,13 @@ spring:
       validation-query: select 1
       max-create-connection-time: 30s
   
-  liquibase:
-    change-log: classpath:db/changelog/changelog-master.sql
+  flyway:
+    enabled: true
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    baseline-version: 0
+    baseline-on-migrate: true
+    baseline-description: "init"
   
   mail:
     host: ${MAIL_HOST}
