@@ -1,11 +1,10 @@
 <configuration scan="true" scanPeriod="30 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>
-                %d %green([%thread]) %highlight(%level) [%cyan(%logger{40}):%magenta(%line)] %red(%method) - %msg%n
-            </pattern>
-            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
         </encoder>
     </appender>
 
