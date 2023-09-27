@@ -30,7 +30,7 @@ spring:
       max-create-connection-time: 30s
   
   flyway:
-    enabled: true
+    enabled: false
     user: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     baseline-version: 0

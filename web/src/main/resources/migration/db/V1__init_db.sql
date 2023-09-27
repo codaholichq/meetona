@@ -75,11 +75,22 @@ CREATE TABLE users (
    username VARCHAR(50) NOT NULL,
    email VARCHAR(255) NOT NULL,
    password VARCHAR(255) NOT NULL,
-   roles VARCHAR(255) NOT NULL,
    member_id UUID,
    is_email_verified BOOLEAN,
    CONSTRAINT pk_users PRIMARY KEY (id)
 );
+
+CREATE TABLE users_roles (
+  role_id UUID NOT NULL,
+   user_id UUID NOT NULL
+);
+
 ALTER TABLE users ADD CONSTRAINT uc_users_email UNIQUE (email);
+
 ALTER TABLE users ADD CONSTRAINT uc_users_username UNIQUE (username);
+
 ALTER TABLE users ADD CONSTRAINT FK_USERS_ON_MEMBER FOREIGN KEY (member_id) REFERENCES members (id);
+
+ALTER TABLE users_roles ADD CONSTRAINT fk_userol_on_role FOREIGN KEY (role_id) REFERENCES roles (id);
+
+ALTER TABLE users_roles ADD CONSTRAINT fk_userol_on_user FOREIGN KEY (user_id) REFERENCES users (id);

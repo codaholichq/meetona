@@ -11,12 +11,12 @@ spring:
     jooq:
         sql-dialect: POSTGRES
     jpa:
-        hibernate:
-            ddl-auto: validate
+        generate-ddl: true
         open-in-view: false
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
+                ddl-auto: update
                 format_sql: true
                 show-sql: true
     jackson:
