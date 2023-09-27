@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Data @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "roles")
 @Entity @Table(name = "users")
 @EqualsAndHashCode(callSuper = false, exclude = {"member", "roles"})
 public class User extends BaseEntity implements UserDetails {
