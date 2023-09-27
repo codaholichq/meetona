@@ -21,7 +21,7 @@ public record MemberRequest(
     @NotBlank(message = "last name cannot be blank")
     String lastName,
 
-    @NotBlank(message = "Gender cannot be blank")
+    @NotNull(message = "Gender cannot be blank")
     Gender gender,
 
     @Email(message = "Enter a valid email address")
@@ -30,10 +30,10 @@ public record MemberRequest(
     @NotBlank(message = "Enter a valid phone number")
     String phoneNumber,
 
-    @NotBlank(message = "BirthDate cannot be blank")
+    @NotNull(message = "BirthDate cannot be blank")
     LocalDate birthDate,
 
-    @NotBlank(message = "Marital Status cannot be blank")
+    @NotNull(message = "Marital Status cannot be blank")
     MaritalStatus maritalStatus,
 
     LocalDate MarriageDate,

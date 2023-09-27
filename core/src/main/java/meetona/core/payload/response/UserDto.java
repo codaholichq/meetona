@@ -1,6 +1,6 @@
 package meetona.core.payload.response;
 
-import meetona.core.enums.Role;
+import meetona.core.entity.Role;
 
 import java.io.Serializable;
 import java.util.List;

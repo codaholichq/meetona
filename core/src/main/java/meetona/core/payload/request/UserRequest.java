@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import meetona.core.enums.Role;
+import meetona.core.entity.Role;
 
 import java.io.Serializable;
 import java.util.Set;
