@@ -14,6 +14,7 @@ public interface GeneralMapper {
 
     UnitDto toDto(Unit unit);
     UserDto toDto(User user);
+    RoleDto toDto(Role role);
     MemberDto toDto(Member member);
     MeetingDto toDto(Meeting meeting);
     DepartmentDto toDto(Department department);
