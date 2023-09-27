@@ -22,10 +22,6 @@ public class Unit extends BaseEntity {
 
     @Transient
     @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<User> users;
-
-    @Transient
-    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Member> members;
 }
 
