@@ -1,6 +1,6 @@
 package meetona.data.config;
 
-import meetona.core.enums.Role;
+import meetona.core.enums.AppRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -20,7 +20,7 @@ public class AuditConfig {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (authentication == null || !authentication.isAuthenticated()) {
-                return Optional.of(Role.SYSTEM.name());
+                return Optional.of(AppRole.SYSTEM.name());
             }
 
             var username = authentication.getName();

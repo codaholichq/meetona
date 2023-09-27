@@ -1,6 +1,6 @@
 package meetona.core.enums;
 
-public enum Role {
+public enum AppRole {
     USER,
     ADMIN,
     SYSTEM
