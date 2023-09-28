@@ -4,7 +4,7 @@ import meetona.core.enums.Gender;
 import meetona.core.enums.MaritalStatus;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.UUID;
 
 public record MemberDto(
@@ -15,8 +15,8 @@ public record MemberDto(
         Gender gender,
         String email,
         String phoneNumber,
-        LocalDate birthDate,
-        LocalDate marriageDate,
+        Date birthDate,
+        Date marriageDate,
         MaritalStatus maritalStatus,
         UUID unitId
 ) implements Serializable { }
