@@ -2,6 +2,7 @@ package meetona.data.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import meetona.core.entity.Department;
 import meetona.core.entity.Member;
 import meetona.core.exception.AppException;
 import meetona.core.exception.SignupException;
@@ -136,9 +137,14 @@ public class MemberService implements IMemberService {
                 .findById(request.unitId())
                 .orElseThrow(() -> new IllegalArgumentException(request.unitId() + " does not exist"));
 
-//        var department = departmentRepository
-//                .findById(request.departmentId())
-//                .orElseThrow(() -> new IllegalArgumentException(request.departmentId() + " does not exist"));
+        Department department = null;
+        UUID departmentId = request.departmentId();
+
+        if(departmentId != null) {
+            department = departmentRepository
+                    .findById(departmentId)
+                    .orElseThrow(() -> new IllegalArgumentException(request.departmentId() + " does not exist"));
+        }
 
         return Member.builder()
                 .firstName(request.firstName())
@@ -151,7 +157,7 @@ public class MemberService implements IMemberService {
                 .maritalStatus(request.maritalStatus())
                 .marriageDate(request.MarriageDate())
                 .unit(unit)
-//                .department(department)
+                .department(department)
                 .build();
     }
 }
