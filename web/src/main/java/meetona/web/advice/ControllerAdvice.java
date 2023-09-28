@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,14 +25,33 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class AuthControllerAdvice {
+public class ControllerAdvice {
 
     private final MessageSource messageSource;
 
-    public AuthControllerAdvice(MessageSource messageSource) {
+    public ControllerAdvice(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<ApiResponse<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        var response = new ApiResponse<String>();
+        response.setData(ex.getMessage());
+        response.setSuccess(false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiResponse<String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        var response = new ApiResponse<String>();
+        response.setData(ex.getMessage());
+        response.setSuccess(false);
+        return ResponseEntity.badRequest().body(response);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
