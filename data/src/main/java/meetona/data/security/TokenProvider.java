@@ -3,7 +3,7 @@ package meetona.data.security;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import meetona.data.config.JwtConfig;
+import meetona.data.settings.JwtSetting;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,15 +26,15 @@ import static java.util.stream.Collectors.joining;
 public class TokenProvider {
 
     private SecretKeySpec key;
-    private final JwtConfig jwtConfig;
+    private final JwtSetting jwtSetting;
 
-    public TokenProvider(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
+    public TokenProvider(JwtSetting jwtSetting) {
+        this.jwtSetting = jwtSetting;
     }
 
     @PostConstruct
     protected void init() {
-        byte[] keyBytes = jwtConfig.getSecret().getBytes();
+        byte[] keyBytes = jwtSetting.getSecret().getBytes();
         key = new SecretKeySpec(keyBytes, "HmacSHA512");
     }
 
@@ -59,7 +59,7 @@ public class TokenProvider {
     public String createToken(Authentication authentication) {
 //        User userPrincipal = (User) authentication.getPrincipal();
         String username = authentication.getName();
-        Instant expiryDate = Instant.now().plusMillis(jwtConfig.getExpiration());
+        Instant expiryDate = Instant.now().plusMillis(jwtSetting.getExpiration());
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Claims claims = Jwts.claims().setSubject(username);
@@ -102,7 +102,7 @@ public class TokenProvider {
     }
 
     public Long getExpiryDuration() {
-        return jwtConfig.getExpiration();
+        return jwtSetting.getExpiration();
     }
 
     public boolean validateToken(String token) {
