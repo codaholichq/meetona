@@ -1,4 +1,4 @@
-package meetona.data.config;
+package meetona.data.settings;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties("app.jwt")
-public class JwtConfig {
+public class JwtSetting {
     private String secret;
     private String header;
     private long expiration;
