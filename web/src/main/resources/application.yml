@@ -1,5 +1,5 @@
 spring:
-    application:
-        name: meetona
-    config:
-        import: optional:configserver:http://localhost:8080
+  application:
+    name: meetona
+  config:
+    import: optional:configserver:http://localhost:8080
