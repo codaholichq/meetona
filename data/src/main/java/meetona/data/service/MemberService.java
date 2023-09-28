@@ -10,6 +10,7 @@ import meetona.core.payload.request.MemberRequest;
 import meetona.core.payload.response.ApiResponse;
 import meetona.core.payload.response.MemberDto;
 import meetona.data.mapper.GeneralMapper;
+import meetona.data.messaging.producers.MemberActionProducer;
 import meetona.data.repository.DepartmentRepository;
 import meetona.data.repository.MemberRepository;
 import meetona.data.repository.UnitRepository;
@@ -34,7 +35,7 @@ public class MemberService implements IMemberService {
     private final UnitRepository unitRepository;
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;
-//    private final MemberActionProducer memberActionProducer;
+    private final MemberActionProducer memberActionProducer;
 
     @Override
     @Cacheable("members")
@@ -86,7 +87,7 @@ public class MemberService implements IMemberService {
         MemberDto unitDto = mapper.toDto(newMember);
         var response = new ApiResponse<>(unitDto, true);
 
-//        unitActionProducer.sendMessage(unitDto);
+        memberActionProducer.sendMessage(unitDto);
         return response;
     }
 
@@ -107,7 +108,7 @@ public class MemberService implements IMemberService {
 
         var response = new ApiResponse<>(updatedMember, true);
 
-//        memberActionProducer.sendMessage(id, updatedUnit);
+        memberActionProducer.sendMessage(id, updatedMember);
         return response;
     }
 
@@ -126,7 +127,7 @@ public class MemberService implements IMemberService {
 
         var response = new ApiResponse<>(deletedMemberDto, true);
 
-//        memberActionProducer.sendMessage(id);
+        memberActionProducer.sendMessage(id);
         return response;
     }
 
@@ -135,21 +136,22 @@ public class MemberService implements IMemberService {
                 .findById(request.unitId())
                 .orElseThrow(() -> new IllegalArgumentException(request.unitId() + " does not exist"));
 
-        var department = departmentRepository
-                .findById(request.departmentId())
-                .orElseThrow(() -> new IllegalArgumentException(request.departmentId() + " does not exist"));
+//        var department = departmentRepository
+//                .findById(request.departmentId())
+//                .orElseThrow(() -> new IllegalArgumentException(request.departmentId() + " does not exist"));
 
         return Member.builder()
                 .firstName(request.firstName())
                 .middleName(request.middleName())
                 .lastName(request.lastName())
+                .gender(request.gender())
                 .email(request.email())
                 .phoneNumber(request.phoneNumber())
                 .birthDate(request.birthDate())
                 .maritalStatus(request.maritalStatus())
                 .marriageDate(request.MarriageDate())
                 .unit(unit)
-                .department(department)
+//                .department(department)
                 .build();
     }
 }
