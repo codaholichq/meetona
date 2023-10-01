@@ -1,0 +1,23 @@
+plugins {
+    id 'org.graalvm.buildtools.native'
+}
+
+jar.enabled = true
+
+bootJar {
+    mainClass = 'meetona.web.Application'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':data')
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.flywaydb:flyway-core'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

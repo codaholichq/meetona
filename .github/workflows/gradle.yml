@@ -19,7 +19,7 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
           architecture: x64
-          cache: maven
+          cache: gradle
       
-      - name: Maven Build
-        run: mvn -B install -DskipTests
+      - name: Gradle Build
+        run: gradle clean build -x test

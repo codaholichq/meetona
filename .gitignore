@@ -39,3 +39,6 @@ target/
 
 .DS_Store
 .env
+
+# Ignore Gradle build output directory
+build

@@ -1,0 +1,18 @@
+jar.enabled = true
+
+bootJar.enabled = false
+
+dependencies {
+    implementation project(':core')
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+}

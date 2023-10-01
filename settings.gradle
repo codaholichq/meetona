@@ -1,0 +1,5 @@
+rootProject.name = 'meetona'
+
+include 'core'
+include 'data'
+include 'web'
