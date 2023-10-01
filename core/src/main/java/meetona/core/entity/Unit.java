@@ -20,7 +20,6 @@ public class Unit extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
-    @Transient
     @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Member> members;
 }
