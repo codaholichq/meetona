@@ -18,5 +18,5 @@ public record MemberDto(
         Date birthDate,
         Date marriageDate,
         MaritalStatus maritalStatus,
-        UUID unitId
+        String unit
 ) implements Serializable { }
