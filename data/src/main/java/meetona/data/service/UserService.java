@@ -2,7 +2,9 @@ package meetona.data.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import meetona.core.entity.Role;
 import meetona.core.entity.User;
+import meetona.core.enums.AppRole;
 import meetona.core.exception.AppException;
 import meetona.core.exception.SignupException;
 import meetona.core.interfaces.IUserService;
@@ -12,6 +14,7 @@ import meetona.core.payload.response.UserDto;
 import meetona.data.mapper.GeneralMapper;
 import meetona.data.messaging.producers.UserActionProducer;
 import meetona.data.repository.MemberRepository;
+import meetona.data.repository.RoleRepository;
 import meetona.data.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -32,8 +37,9 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class UserService implements IUserService {
 
-    private final GeneralMapper generalMapper;
+    private final GeneralMapper mapper;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserActionProducer userActionProducer;
@@ -44,7 +50,7 @@ public class UserService implements IUserService {
         Page<User> users = userRepository.findAll(pageable);
 
         List<UserDto> userDto = users.stream()
-                .map(generalMapper::toDto)
+                .map(mapper::toDto)
                 .toList();
 
         ApiResponse<List<UserDto>> response = new ApiResponse<>(userDto, true);
@@ -60,7 +66,7 @@ public class UserService implements IUserService {
 
         User user = userOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
-        UserDto userDto = generalMapper.toDto(user);
+        UserDto userDto = mapper.toDto(user);
 
         var response = new ApiResponse<>(userDto, true);
 
@@ -80,11 +86,11 @@ public class UserService implements IUserService {
         User newUser = buildUser(userRequest);
         userRepository.save(newUser);
 
-        UserDto userDto = generalMapper.toDto(newUser);
+        UserDto userDto = mapper.toDto(newUser);
 
         var response = new ApiResponse<>(userDto, true);
 
-        userActionProducer.sendMessage(newUser);
+        userActionProducer.sendMessage(userDto);
         return response;
     }
 
@@ -101,7 +107,7 @@ public class UserService implements IUserService {
         User newUser = buildUser(request);
 
         userRepository.save(newUser);
-        UserDto updatedUser = generalMapper.toDto(newUser);
+        UserDto updatedUser = mapper.toDto(newUser);
 
         var response = new ApiResponse<>(updatedUser, true);
 
@@ -133,9 +139,14 @@ public class UserService implements IUserService {
                 .findById(request.memberId())
                 .orElseThrow(() -> new IllegalArgumentException(request.memberId() + " does not exist"));
 
+        Set<Role> roles = request.roles().stream()
+                .map(role -> roleRepository.findByName(AppRole.valueOf(role)))
+                .collect(Collectors.toSet());
+
         return User.builder()
                 .username(request.username())
-                .roles(request.roles())
+                .email(request.email())
+                .roles(roles)
                 .isEmailVerified(false)
                 .member(member)
                 .password(passwordEncoder.encode(request.password()))
