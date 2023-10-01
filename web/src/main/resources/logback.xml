@@ -1,9 +1,8 @@
 <configuration scan="true" scanPeriod="30 seconds">
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <pattern>%date %highlight(%-5level) --- [%5thread] %cyan(%-40.40logger{40}) : %msg %n</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
