@@ -2,7 +2,7 @@
 ![Logo](https://github.com/emmysteven/meetona/blob/main/web/src/main/resources/static/meetona.png)
 
 <div align="center">
-	<img alt="status" src="https://github.com/emmysteven/meetona/actions/workflows/maven.yml/badge.svg?branch=main">
+	<img alt="status" src="https://github.com/emmysteven/meetona/actions/workflows/gradle.yml/badge.svg?branch=main">
     <img alt="status" src="https://img.shields.io/badge/Status-developing-brightgree">
 	<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/emmysteven/meetona">
 	<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed/emmysteven/meetona">
@@ -16,8 +16,8 @@
 
 <br/>
 
-An Implementation of Spring Boot with Java 20.
-With this Codebase, you will get access to the world of Loosely-Coupled and Inverted-Dependency Architecture in Java 20
+An Implementation of Spring Boot with Java 21.
+With this Codebase, you will get access to the world of Loosely-Coupled and Inverted-Dependency Architecture in Java 21
 
 ## Upcoming Release
 
@@ -54,9 +54,9 @@ This project will also help community leaders:
 
 
 ## Technologies
-- GraalVM Java 20
-- Spring Boot 3.1.3
-- Maven 3.9.4
+- GraalVM Java 21
+- Spring Boot 3.1.4
+- Gradle 8.3
 - PostgreSQL 15
 - IntelliJ IDEA CE
 
@@ -78,7 +78,7 @@ This project will also help community leaders:
 
 ## Prerequisites
 - IntelliJ IDEA CE
-- JDK 20 and above
+- JDK 21 and above
 - Basic Understanding of Spring Boot
 - I Recommend that you read:
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
