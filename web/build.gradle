@@ -1,10 +1,11 @@
 plugins {
+    id 'com.google.cloud.tools.jib' version '3.4.0'
     id 'org.graalvm.buildtools.native'
 }
 
 jar.enabled = true
 
-bootJar {
+bootRun {
     mainClass = 'meetona.web.Application'
 }
 
@@ -15,6 +16,9 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+    implementation 'de.siegmar:logback-gelf:4.0.2'
     implementation 'org.flywaydb:flyway-core'
 }
 
