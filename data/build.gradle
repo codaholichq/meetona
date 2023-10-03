@@ -1,16 +1,26 @@
+plugins {
+    id 'java-library'
+}
+
 jar.enabled = true
 
 bootJar.enabled = false
 
 dependencies {
-    implementation project(':core')
+    api project(':core')
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
