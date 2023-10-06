@@ -1,4 +1,4 @@
-import meetona.web.Application;
+import meetona.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

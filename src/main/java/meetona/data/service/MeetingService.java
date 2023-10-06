@@ -70,7 +70,7 @@ public class MeetingService implements IMeetingService {
         MeetingDto meetingDto = mapper.toDto(newMeeting);
         var response = new ApiResponse<>(meetingDto, true);
 
-//        meetingActionProducer.sendMessage(unitDto);
+//        meetingActionProducer.sendMessage(meetingDto);
         return response;
     }
 
@@ -87,11 +87,11 @@ public class MeetingService implements IMeetingService {
         Meeting newMeeting = buildMeeting(request);
 
         meetingRepository.save(newMeeting);
-        MeetingDto updatedMember = mapper.toDto(newMeeting);
+        MeetingDto updatedMeeting = mapper.toDto(newMeeting);
 
-        var response = new ApiResponse<>(updatedMember, true);
+        var response = new ApiResponse<>(updatedMeeting, true);
 
-//        meetingActionProducer.sendMessage(id, updatedUnit);
+//        meetingActionProducer.sendMessage(id, updatedMember);
         return response;
     }
 

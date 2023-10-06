@@ -3,7 +3,6 @@ package meetona.data.messaging.producers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.core.payload.response.MemberDto;
-import meetona.core.payload.response.UnitDto;
 import meetona.data.constants.RabbitConstants;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
