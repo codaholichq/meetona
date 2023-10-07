@@ -1,7 +1,7 @@
 package meetona.shared.config;
 
 import lombok.RequiredArgsConstructor;
-import meetona.features.user.UserRepository;
+import meetona.user.UserRepository;
 import meetona.security.AuthEntryPoint;
 import meetona.security.AuthFilter;
 import org.springframework.context.annotation.Bean;

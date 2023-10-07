@@ -2,7 +2,7 @@ package meetona.shared.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import meetona.features.auth.ResetPasswordDto;
+import meetona.auth.ResetPasswordDto;
 import meetona.shared.validation.annotation.MatchPassword;
 
 
