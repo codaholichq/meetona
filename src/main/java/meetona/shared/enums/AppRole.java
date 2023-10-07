@@ -1,4 +1,4 @@
-package meetona.features.role;
+package meetona.shared.enums;
 
 public enum AppRole {
     USER,

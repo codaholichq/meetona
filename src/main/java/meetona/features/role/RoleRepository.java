@@ -1,5 +1,6 @@
 package meetona.features.role;
 
+import meetona.shared.enums.AppRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

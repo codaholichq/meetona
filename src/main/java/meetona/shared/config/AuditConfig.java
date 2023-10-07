@@ -1,6 +1,6 @@
 package meetona.shared.config;
 
-import meetona.features.role.AppRole;
+import meetona.shared.enums.AppRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

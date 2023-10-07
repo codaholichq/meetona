@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.features.common.GeneralMapper;
 import meetona.features.member.MemberRepository;
-import meetona.features.role.AppRole;
+import meetona.shared.enums.AppRole;
 import meetona.features.role.Role;
 import meetona.features.role.RoleRepository;
 import meetona.shared.exception.AppException;

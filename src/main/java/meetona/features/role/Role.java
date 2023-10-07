@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import meetona.features.common.BaseEntity;
 import meetona.features.user.User;
+import meetona.shared.enums.AppRole;
 
 import java.util.Collection;
 

@@ -2,7 +2,7 @@ package meetona.features.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.role.AppRole;
+import meetona.shared.enums.AppRole;
 import meetona.features.role.Role;
 import meetona.features.role.RoleRepository;
 import meetona.features.user.User;
