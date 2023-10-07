@@ -2,10 +2,10 @@ package meetona.features.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.common.GeneralMapper;
 import meetona.features.user.User;
 import meetona.features.user.UserActionProducer;
 import meetona.features.user.UserDto;
+import meetona.features.user.UserMapper;
 import meetona.security.TokenProvider;
 import meetona.shared.exception.LoginException;
 import meetona.shared.response.ApiResponse;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
 
-    private final GeneralMapper mapper;
+    private final UserMapper mapper;
     private final TokenProvider tokenProvider;
     private final UserActionProducer userActionProducer;
     private final AuthenticationManager authenticationManager;

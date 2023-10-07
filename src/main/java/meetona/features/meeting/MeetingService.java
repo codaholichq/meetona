@@ -2,7 +2,6 @@ package meetona.features.meeting;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.common.GeneralMapper;
 import meetona.features.unit.UnitRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.response.ApiResponse;
@@ -22,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MeetingService implements IMeetingService {
 
-    private final GeneralMapper mapper;
+    private final MeetingMapper mapper;
     private final UnitRepository unitRepository;
     private final MeetingRepository meetingRepository;
 //    private final MeetingActionProducer meetingActionProducer;

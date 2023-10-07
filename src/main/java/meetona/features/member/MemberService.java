@@ -2,7 +2,6 @@ package meetona.features.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.common.GeneralMapper;
 import meetona.features.department.Department;
 import meetona.features.department.DepartmentRepository;
 import meetona.features.unit.UnitRepository;
@@ -26,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberService implements IMemberService {
 
-    private final GeneralMapper mapper;
+    private final MemberMapper mapper;
     private final UnitRepository unitRepository;
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;

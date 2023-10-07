@@ -2,7 +2,6 @@ package meetona.features.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.common.GeneralMapper;
 import meetona.features.member.MemberRepository;
 import meetona.shared.enums.AppRole;
 import meetona.features.role.Role;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class UserService implements IUserService {
 
-    private final GeneralMapper mapper;
+    private final UserMapper mapper;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final MemberRepository memberRepository;

@@ -2,7 +2,6 @@ package meetona.features.department;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.features.common.GeneralMapper;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.SignupException;
 import meetona.shared.response.ApiResponse;
@@ -22,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DepartmentService implements IDepartmentService {
 
-    private final GeneralMapper mapper;
+    private final DepartmentMapper mapper;
     private final DepartmentRepository repository;
 //    private final MemberActionProducer memberActionProducer;
 
