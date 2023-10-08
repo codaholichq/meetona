@@ -1,4 +1,4 @@
-package meetona.auth;
+package meetona.user.dtos;
 
 import lombok.Data;
 

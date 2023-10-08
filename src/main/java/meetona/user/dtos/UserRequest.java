@@ -1,4 +1,4 @@
-package meetona.user;
+package meetona.user.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

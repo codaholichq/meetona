@@ -3,16 +3,24 @@ package meetona.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.member.MemberRepository;
+import meetona.user.security.TokenProvider;
 import meetona.shared.enums.AppRole;
 import meetona.role.Role;
 import meetona.role.RoleRepository;
 import meetona.shared.exception.AppException;
+import meetona.shared.exception.LoginException;
 import meetona.shared.exception.SignupException;
 import meetona.shared.response.ApiResponse;
+import meetona.user.dtos.AuthDto;
+import meetona.user.dtos.UserDto;
+import meetona.user.dtos.UserRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +39,34 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
 
     private final UserMapper mapper;
+    private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserActionProducer userActionProducer;
+    private final AuthenticationManager authenticationManager;
+
+    @Override
+    public ApiResponse<UserDto> authenticate(AuthDto authDto) {
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                authDto.username(),
+                authDto.password())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String accessToken = tokenProvider.createToken(authentication);
+
+        User user = (User) authentication.getPrincipal();
+
+        if (user == null) throw new LoginException("User not found");
+
+        UserDto userDto = mapper.toDto(user).setAccessToken(accessToken);
+        var response = new ApiResponse<>(userDto, true);
+
+        userActionProducer.sendMessage(userDto);
+        return response;
+    }
 
     @Override
     @Cacheable("users")

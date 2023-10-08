@@ -1,4 +1,4 @@
-package meetona.auth;
+package meetona.user.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import meetona.shared.validation.annotation.MatchPassword;

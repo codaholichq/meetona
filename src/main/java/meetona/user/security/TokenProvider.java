@@ -1,4 +1,4 @@
-package meetona.security;
+package meetona.user.security;
 
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;

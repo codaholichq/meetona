@@ -1,9 +1,7 @@
-package meetona.shared.config;
+package meetona.user.security;
 
 import lombok.RequiredArgsConstructor;
 import meetona.user.UserRepository;
-import meetona.security.AuthEntryPoint;
-import meetona.security.AuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +34,7 @@ public class SecurityConfig {
     protected static final String[] WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/api/auth/**"
+            "/api/auth"
     };
 
     protected static final String[] ADMIN = {

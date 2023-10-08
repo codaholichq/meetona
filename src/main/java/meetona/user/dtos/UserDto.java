@@ -1,4 +1,4 @@
-package meetona.user;
+package meetona.user.dtos;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,12 +1,10 @@
-package meetona.auth;
+package meetona.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.enums.AppRole;
 import meetona.role.Role;
 import meetona.role.RoleRepository;
-import meetona.user.User;
-import meetona.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
