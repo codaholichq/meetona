@@ -41,7 +41,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UserDto>> add(@Valid @RequestBody UserRequest request) {
         return ResponseEntity.ok(userService.add(request));
     }
