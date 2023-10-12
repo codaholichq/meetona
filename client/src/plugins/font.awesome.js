@@ -11,4 +11,8 @@ import {
 
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faTrashAlt);
 
-export { FontAwesomeIcon };
+export default {
+  install(app) {
+    app.component("font-awesome-icon", FontAwesomeIcon);
+  }
+};
