@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand">
-        <img src="../assets/logo.png" height="55" width="55" />&nbsp;&nbsp;RCNLagos
+        <img src="../assets/logo.png" height="55" width="55"  alt="RCNLagos Logo"/>&nbsp;&nbsp;RCNLagos
       </a>
       <button
         class="navbar-toggler"
