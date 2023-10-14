@@ -6,13 +6,17 @@ import lombok.*;
 import meetona.common.BaseEntity;
 import meetona.user.User;
 import meetona.shared.enums.AppRole;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Collection;
 
-@Data @Builder
+@Data
+@Builder
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity @Table(name = "roles")
+@Entity(name = "role")
+@Table(name = "roles")
 @EqualsAndHashCode(callSuper = false)
 public class Role extends BaseEntity {
 

@@ -5,6 +5,7 @@ import lombok.*;
 import meetona.common.BaseEntity;
 import meetona.member.Member;
 import meetona.role.Role;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,11 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Data @Builder
+@Data
+@Builder
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "user")
+@Table(name = "users")
 @ToString(exclude = "roles")
-@Entity @Table(name = "users")
 @EqualsAndHashCode(callSuper = false, exclude = {"member", "roles"})
 public class User extends BaseEntity implements UserDetails {
 

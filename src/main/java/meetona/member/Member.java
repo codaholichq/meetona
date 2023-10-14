@@ -7,13 +7,17 @@ import meetona.common.BaseEntity;
 import meetona.department.Department;
 import meetona.unit.Unit;
 import meetona.user.User;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 
-@Data @Builder
+@Data
+@Builder
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity @Table(name = "members")
+@Entity(name = "member")
+@Table(name = "members")
 @EqualsAndHashCode(callSuper = false)
 public class Member extends BaseEntity {
 

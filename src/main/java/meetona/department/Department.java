@@ -4,14 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 import meetona.common.BaseEntity;
 import meetona.member.Member;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @Builder
+@Data
+@Builder
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity @Table(name = "departments")
+@Entity(name = "department")
+@Table(name = "departments")
 @EqualsAndHashCode(callSuper = false)
 public class Department extends BaseEntity {
 
