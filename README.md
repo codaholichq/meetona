@@ -2,7 +2,7 @@
 ![Logo](https://github.com/emmysteven/meetona/blob/main/src/main/resources/static/meetona.png)
 
 <div align="center">
-	<img alt="status" src="https://github.com/emmysteven/meetona/actions/workflows/maven.yml/badge.svg?branch=main">
+	<img alt="status" src="https://github.com/codaholichq/meetona/actions/workflows/maven.yml/badge.svg?branch=main">
     <img alt="status" src="https://img.shields.io/badge/Status-developing-brightgree">
 	<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/emmysteven/meetona">
 	<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed/emmysteven/meetona">
