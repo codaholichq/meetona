@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    
+defaults:
+  run:
+    working-directory: backend
 
 jobs:
   build:
@@ -22,4 +26,4 @@ jobs:
           cache: maven
       
       - name: Maven Build
-        run: mvn -B install -DskipTests
+        run: mvn -B package -DskipTests

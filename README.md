@@ -1,14 +1,14 @@
 
-![Logo](https://github.com/emmysteven/meetona/blob/main/src/main/resources/static/meetona.png)
+![Logo](https://github.com/codaholichq/backend/blob/main/src/main/resources/static/meetona.png)
 
 <div align="center">
-	<img alt="status" src="https://github.com/codaholichq/meetona/actions/workflows/maven.yml/badge.svg?branch=main">
+	<img alt="status" src="https://github.com/codaholichq/backend/actions/workflows/maven.yml/badge.svg?branch=main">
     <img alt="status" src="https://img.shields.io/badge/Status-developing-brightgree">
-	<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/emmysteven/meetona">
-	<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed/emmysteven/meetona">
-	<img alt="GitHub stars" src="https://img.shields.io/github/stars/emmysteven/meetona">
+	<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/codaholichq/meetona">
+	<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed/codaholichq/meetona">
+	<img alt="GitHub stars" src="https://img.shields.io/github/stars/codaholichq/meetona">
 	<img alt="visitors" src="https://visitor-badge.laobi.icu/badge?page_id=meetona">
-	<a href="https://twitter.com/intent/tweet?hashtags=meetona,java,Spring Boot,oss&text=A+portal+for+efficient+and+effective+community+management&url=https%3A%2F%2Fgithub.com%2Femmysteven%2Fmeetona&via=emmysteven_">
+	<a href="https://twitter.com/intent/tweet?hashtags=meetona,java,Spring Boot,oss&text=A+portal+for+efficient+and+effective+community+management&url=https%3A%2F%2Fgithub.com%2Fcodaholichq%2Fmeetona&via=codaholichq">
 		<img alt="Twitter" src="https://img.shields.io/twitter/url/http/shields.io.svg?style=flat&logo=twitter">
 	</a>
 
@@ -23,14 +23,14 @@ With this Codebase, you will get access to the world of Loosely-Coupled and Inve
 
 ### v0.0.1-release
 
-Read the [Changelog file](https://github.com/emmysteven/meetona/blob/main/CHANGELOG.md) to see the new changes.
+Read the [Changelog file](https://github.com/codaholichq/meetona/blob/main/CHANGELOG.md) to see the new changes.
 
 Clone this repository to get the latest unreleased version.
 
 
 ## Releases
 
-v0.0.1-snapshot - IS NOT YET OUT<!--[Download the first snapshot here](https://github.com/emmysteven/meetona/releases/tag/v0.0.1-snapshot) -->
+v0.0.1-snapshot - IS NOT YET OUT<!--[Download the first snapshot here](https://github.com/codaholichq/meetona/releases/tag/v0.0.1-snapshot) -->
 
 ## Getting Started
 Follow these steps to get started
@@ -108,4 +108,4 @@ Please share this Repository within your developer community, if you think this 
 - Linkedin - [Emmy Steven](https://www.linkedin.com/in/emmysteven/)
 
 ## Licensing
-This project is licensed with the [MIT License](https://github.com/emmysteven/meetona/blob/main/LICENSE).
+This project is licensed with the [MIT License](https://github.com/codaholichq/meetona/blob/main/LICENSE).

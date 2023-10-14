@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>meetona</groupId>
-    <artifactId>meetona</artifactId>
+    <artifactId>backend</artifactId>
     <version>0.0.1</version>
     <name>meetona</name>
 
@@ -204,6 +204,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.name}-${project.version}</finalName>
         <plugins>
 
             <plugin>
@@ -217,6 +218,11 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
 
         </plugins>
