@@ -2,7 +2,7 @@ package meetona.meeting;
 
 import jakarta.persistence.*;
 import lombok.*;
-import meetona.common.BaseEntity;
+import meetona.shared.entity.BaseEntity;
 import meetona.unit.Unit;
 import org.hibernate.annotations.DynamicUpdate;
 

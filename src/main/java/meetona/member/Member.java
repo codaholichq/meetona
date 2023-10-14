@@ -3,7 +3,7 @@ package meetona.member;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import meetona.common.BaseEntity;
+import meetona.shared.entity.BaseEntity;
 import meetona.department.Department;
 import meetona.unit.Unit;
 import meetona.user.User;

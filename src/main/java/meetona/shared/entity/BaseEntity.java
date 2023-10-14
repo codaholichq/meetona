@@ -1,4 +1,4 @@
-package meetona.common;
+package meetona.shared.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

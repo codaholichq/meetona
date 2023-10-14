@@ -3,7 +3,7 @@ package meetona.role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import meetona.common.BaseEntity;
+import meetona.shared.entity.BaseEntity;
 import meetona.user.User;
 import meetona.shared.enums.AppRole;
 import org.hibernate.annotations.DynamicUpdate;
