@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/codaholichq/backend/blob/main/src/main/resources/static/meetona.png)
+![Logo](https://github.com/codaholichq/meetona/blob/main/images/banner.png)
 
 <div align="center">
 	<img alt="status" src="https://github.com/codaholichq/meetona/actions/workflows/maven.yml/badge.svg?branch=main">
