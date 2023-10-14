@@ -107,11 +107,6 @@
             <version>${jjwt.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml.version}</version>
-        </dependency>
-        <dependency>
             <groupId>de.siegmar</groupId>
             <artifactId>logback-gelf</artifactId>
             <version>4.0.2</version>
