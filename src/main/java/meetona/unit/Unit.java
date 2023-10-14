@@ -4,14 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 import meetona.common.BaseEntity;
 import meetona.member.Member;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Set;
 
 
-@Data @Builder
+@Data
+@Builder
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity @Table(name = "units")
+@Entity(name = "unit")
+@Table(name = "units")
 @EqualsAndHashCode(callSuper = false)
 public class Unit extends BaseEntity {
 
