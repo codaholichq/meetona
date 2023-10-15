@@ -6,6 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
+      alias: "/login",
       meta: {
         requiresAuth: false
       },
@@ -13,12 +14,8 @@ const router = createRouter({
     },
 
     {
-      path: '/login',
-      name: 'login',
-      meta: {
-        requiresAuth: false
-      },
-      component: () => import('@/views/Login.vue')
+      path: '/:pathMatch(.*)*',
+      // component: NotFound
     }
   ]
 })
