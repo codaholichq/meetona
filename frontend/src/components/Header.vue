@@ -17,7 +17,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item me-2 dropdown">
+          <li v-if="isLoggedIn" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -33,7 +33,7 @@
             </ul>
           </li>
 
-          <li class="nav-item me-2 dropdown">
+          <li v-if="isLoggedIn" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -49,7 +49,7 @@
             </ul>
           </li>
 
-          <li class="nav-item me-2 dropdown">
+          <li v-if="isLoggedIn" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -65,7 +65,7 @@
             </ul>
           </li>
 
-          <li class="nav-item me-2 dropdown">
+          <li v-if="isAdmin && isLoggedIn" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -73,12 +73,12 @@
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              >Checks</a
+              >Members</a
             >
-            <!-- <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
                 <router-link to="/dashboard/checks/add" class="dropdown-item"
-                  >Add Checks</router-link
+                  >Add Member</router-link
                 >
               </li>
               <li>
@@ -86,7 +86,7 @@
                   >Add Summary</router-link
                 >
               </li>
-            </ul> -->
+            </ul>
           </li>
 
           <li class="nav-item">
@@ -99,7 +99,51 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode'
+import {useAuthStore} from "@/stores";
+
 export default {
-  name: 'AppHeader'
+  name: 'AppHeader',
+  computed: {
+    username() {
+      const token = JSON.parse(localStorage.getItem('token'));
+      return token !== null ? JSON.parse(token).data.username : null;
+    },
+
+    isAdmin: function () {
+      const token = localStorage.getItem('token');
+      return token !== null ? JSON.parse(token).data.roles.includes("ADMIN") : false;
+    },
+
+    isLoggedIn: function () {
+      const token = localStorage.getItem('token');
+      if (token !== null) {
+        const data = JSON.parse(token);
+        const decoded = jwt_decode(data.data.accessToken);
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+
+        if (decoded.exp && decoded.exp > currentTime) return true;
+      }
+      return false; // User is not logged in or the token has expired
+    }
+  },
+
+  methods: {
+    logout() {
+      const authStore = useAuthStore();
+
+      authStore.logout().then(
+        () => {
+          this.$router.push('/login');
+        },
+        (error) => {
+          this.message =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
+  }
 };
 </script>
