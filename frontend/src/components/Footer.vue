@@ -33,13 +33,8 @@ code {
 }
 </style>
 
-<script>
-export default {
-  name: 'AppFooter',
-  data() {
-    return {
-      showYear: new Date().getFullYear()
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue';
+
+const showYear = ref(new Date().getFullYear());
 </script>
