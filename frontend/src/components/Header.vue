@@ -17,7 +17,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li v-if="authStore.isLoggedIn" class="nav-item me-2 dropdown">
+          <li v-if="authStore.isLoggedIn && authStore.isAdmin" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -32,37 +32,7 @@
             </ul>
           </li>
 
-          <li v-if="authStore.isLoggedIn" class="nav-item me-2 dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >Todos</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" :href="`/dashboard/todos/add`">Add Todo</a></li>
-              <li><a class="dropdown-item" :href="`/dashboard/todos`">Todos</a></li>
-            </ul>
-          </li>
-
-          <li v-if="authStore.isLoggedIn" class="nav-item me-2 dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >Reports</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" :href="`/dashboard/checks`">Checks</a></li>
-              <li><a class="dropdown-item" :href="`/dashboard/summary`">Summary</a></li>
-            </ul>
-          </li>
-
-          <li v-if="authStore.isAdmin && authStore.isLoggedIn" class="nav-item me-2 dropdown">
+          <li v-if="authStore.isLoggedIn && authStore.isAdmin" class="nav-item me-2 dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
@@ -73,10 +43,10 @@
             >Members</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" :href="`/dashboard/checks/add`">Add Member</a>
+                <a class="dropdown-item" :href="`/dashboard/member/add`">Add Member</a>
               </li>
               <li>
-                <a class="dropdown-item" :href="`/dashboard/summary/add`">Add Summary</a>
+                <a class="dropdown-item" :href="`/dashboard/member/update`">Update Member</a>
               </li>
             </ul>
           </li>
@@ -95,7 +65,5 @@ import { useAuthStore } from "@/stores";
 
 const authStore = useAuthStore();
 
-const logout = () => {
-  authStore.logout()
-}
+const logout = () => authStore.logout();
 </script>
