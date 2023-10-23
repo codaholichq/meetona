@@ -46,57 +46,45 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import * as yup from 'yup';
 import { useAuthStore } from '@/stores';
 
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Login',
-  data() {
-    const schema = yup.object().shape({
-      username: yup.string().required('Username is required!'),
-      password: yup.string().required('Password is required!')
-    });
+const authStore = useAuthStore();
+const router = useRouter();
 
-    return {
-      loading: false,
-      message: '',
-      schema
-    };
-  },
+const loading = ref(false);
+const message = ref('');
+const schema = yup.object().shape({
+  username: yup.string().required('Username is required!'),
+  password: yup.string().required('Password is required!')
+});
 
-  computed: {
-    loggedIn() {
-      return useAuthStore().loggedIn;
-    }
-  },
+const loggedIn = computed(() => authStore.loggedIn);
 
-  created () {
-    if (this.loggedIn) {
-      this.$router.push('/dashboard/member/add');
-    }
-  },
-
-  methods: {
-    login(username, password) {
-      this.loading = true;
-      const authStore = useAuthStore();
-
-      authStore.login(username, password).then(
-        () => {
-          this.$router.push('/dashboard/member/add');
-        },
-        (error) => {
-          this.loading = false;
-          this.message =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-    }
+onMounted(() => {
+  if (loggedIn.value) {
+    router.push('/dashboard/member/add');
   }
+});
+
+const login = (username, password) => {
+  loading.value = true;
+
+  authStore.login(username, password).then(
+    () => {
+      router.push('/dashboard/member/add');
+    },
+    (error) => {
+      loading.value = false;
+      message.value =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  );
 }
 </script>
 
