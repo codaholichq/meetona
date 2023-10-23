@@ -14,10 +14,10 @@ const router = createRouter({
     },
 
     {
-      path: '/admin',
-      name: 'admin',
+      path: '/dashboard/member/add',
+      name: 'add-member',
       meta: { requiresAuth: true },
-      component: () => import('@/views/Admin.vue')
+      component: () => import('@/views/AddMember.vue')
     },
 
     {

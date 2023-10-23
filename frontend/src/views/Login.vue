@@ -66,14 +66,15 @@ export default {
     };
   },
 
-  // computed: {
-  //   loggedIn() {
-  //     return this.$store.state.auth.status.loggedIn;
-  //   }
-  // },
-  created() {
+  computed: {
+    loggedIn() {
+      return useAuthStore().loggedIn;
+    }
+  },
+
+  created () {
     if (this.loggedIn) {
-      this.$router.push('/admin');
+      this.$router.push('/dashboard/member/add');
     }
   },
 
@@ -84,7 +85,7 @@ export default {
 
       authStore.login(username, password).then(
         () => {
-          this.$router.push('/admin');
+          this.$router.push('/dashboard/member/add');
         },
         (error) => {
           this.loading = false;
