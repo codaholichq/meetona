@@ -22,7 +22,9 @@ const router = createRouter({
 
     {
       path: '/:pathMatch(.*)*',
-      // component: NotFound
+      name: 'NotFound',
+      meta: { requiresAuth: false },
+      component: () => import('@/views/NotFound.vue')
     }
   ]
 })
