@@ -22,6 +22,8 @@ export const useAuthStore = defineStore({
 
         if (decoded.exp && decoded.exp > currentTime) return true;
       }
+      this.user = null;
+      localStorage.removeItem('token');
       return false;
     },
 
