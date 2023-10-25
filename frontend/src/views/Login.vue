@@ -4,7 +4,7 @@
       <h4 class="card-header">Login</h4>
       <div class="card-body">
 
-        <vee-form @submit="login" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+        <vee-form @submit="login" :validation-schema="schema" v-slot="{ errors, loading }">
           <div class="form-group">
             <label for="username">Username</label>
             <vee-field
@@ -32,8 +32,8 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary mt-4" :disabled="isSubmitting">
-              <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+            <button :disabled="loading" class="btn btn-primary mt-4">
+              <span v-if="loading" class="spinner-border spinner-border-sm mr-1"></span>
               Login
             </button>
           </div>
