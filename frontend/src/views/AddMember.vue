@@ -45,16 +45,16 @@
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <select
+            <Field as="select"
               id="gender"
               name="gender"
               class="form-control"
               :class="{ 'is-invalid': errors.gender }"
             >
-              <option>Gender</option>
+              <option value="">Gender</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
-            </select>
+            </Field>
             <div class="invalid-feedback">{{ errors.gender }}</div>
           </div>
 
@@ -98,7 +98,7 @@
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <select
+            <Field as="select"
               id="maritalStatus"
               name="maritalStatus"
               class="form-control"
@@ -108,7 +108,7 @@
               <option value="SINGLE">Single</option>
               <option value="ENGAGED">Engaged</option>
               <option value="MARRIED">Married</option>
-            </select>
+            </Field>
             <div class="invalid-feedback">{{ errors.maritalStatus }}</div>
           </div>
 
