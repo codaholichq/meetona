@@ -4,10 +4,10 @@
       <h4 class="card-header">Login</h4>
       <div class="card-body">
 
-        <vee-form @submit="login" :validation-schema="schema" v-slot="{ errors, loading }">
+        <Form @submit="login" :validation-schema="schema" v-slot="{ errors, loading }">
           <div class="form-group">
             <label for="username">Username</label>
-            <vee-field
+            <Field
               id="username"
               name="username"
               type="text"
@@ -20,7 +20,7 @@
 
           <div class="form-group mt-3">
             <label for="password">Password</label>
-            <vee-field
+            <Field
               id="password"
               name="password"
               type="password"
@@ -39,7 +39,7 @@
           </div>
 
           <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
-        </vee-form>
+        </Form>
 
       </div>
     </div>
