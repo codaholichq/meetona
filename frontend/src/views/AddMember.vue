@@ -154,14 +154,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 import * as yup from 'yup';
-import { useAuthStore, useMemberStore } from '@/stores';
+import { useMemberStore } from '@/stores';
 
 const memberStore = useMemberStore()
-const authStore = useAuthStore()
-const router = useRouter()
 
 const loading = ref(false);
 const message = ref('');
@@ -177,23 +174,13 @@ const schema = yup.object().shape({
   marriageDate: yup.string().required('Marriage Date is required!')
 });
 
-const loggedIn = computed(() => authStore.loggedIn);
-
-onMounted(() => {
-  if (loggedIn.value) {
-    router.push('/dashboard/member/add');
-  }
-});
-
-const add = (data) => {
-  console.log("inside submit")
+const add = (data, { resetForm }) => {
   loading.value = true;
 
   memberStore.add(data).then(
     () => {
-      // loading.value = false;
-      router.push('/dashboard/member/add');
-      // this.$refs.form.resetForm();
+      loading.value = false;
+      resetForm();
     },
     (error) => {
       loading.value = false;
