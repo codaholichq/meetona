@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties("app.jwt")
-public class JwtSetting {
+public class JwtProperty {
     private String secret;
     private String header;
     private long expiration;
