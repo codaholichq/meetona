@@ -84,8 +84,8 @@
             <div class="invalid-feedback">{{ errors.phoneNumber }}</div>
           </div>
 
-          <div class="form-group col-md-12 mt-3">
-            <label for="birthDate">Birth Date</label>
+          <div class="form-group mt-3 d-flex">
+            <label for="birthDate" class="col-md-6 pt-1">Birth Date</label>
             <Field
               id="birthDate"
               name="birthDate"
@@ -112,9 +112,8 @@
             <div class="invalid-feedback">{{ errors.maritalStatus }}</div>
           </div>
 
-          <div class="form-group mt-3">
-            <label for="marriageDate" class="col-md-4">Marriage Date</label>
-            <div class="col-md-5">
+          <div class="form-group mt-3 d-flex">
+            <label for="marriageDate" class="col-md-6 pt-1">Marriage Date</label>
             <Field
               id="marriageDate"
               name="marriageDate"
@@ -123,7 +122,6 @@
               class="form-control"
               :class="{ 'is-invalid': errors.marriageDate }"
             />
-            </div>
             <div class="invalid-feedback">{{ errors.marriageDate }}</div>
           </div>
 
