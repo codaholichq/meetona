@@ -13,8 +13,8 @@ export const useMemberStore = defineStore({
   actions: {
     async add(data) {
       const member = await apiWrapper.post(`${API_URL}/member`, data);
-      this.members = member;
-      return member;
+      this.members.push(member);
+      return this.members;
     }
   }
 
