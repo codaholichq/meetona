@@ -27,8 +27,8 @@
               aria-expanded="false"
             >User</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" :href="`/dashboard/users/add`">Add User</a></li>
-              <li><a class="dropdown-item" :href="`/dashboard/users`">View Users</a></li>
+              <li><router-link class="dropdown-item" to="/dashboard/users/add">Add User</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/users">View Users</router-link></li>
             </ul>
           </li>
 
@@ -42,12 +42,8 @@
               aria-expanded="false"
             >Members</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item" :href="`/dashboard/member/add`">Add Member</a>
-              </li>
-              <li>
-                <a class="dropdown-item" :href="`/dashboard/member/update`">Update Member</a>
-              </li>
+              <li><router-link class="dropdown-item" to="/dashboard/member/add">Add Member</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/member/update">Update Member</router-link></li>
             </ul>
           </li>
 
