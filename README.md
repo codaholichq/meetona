@@ -55,8 +55,8 @@ This project will also help community leaders:
 
 ## Technologies
 - GraalVM Java 21
-- Spring Boot 3.1.4
-- Maven 3.9.4
+- Spring Boot 3.1.5
+- Maven 3.9.5
 - PostgreSQL 15
 - IntelliJ IDEA CE
 
