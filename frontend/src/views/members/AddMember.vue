@@ -7,46 +7,43 @@
         <Form @submit="add" :validation-schema="schema" v-slot="{ errors, loading }">
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="firstname"
-              name="firstname"
+              name="firstName"
               type="text"
               autocomplete="on"
               class="form-control"
               placeholder="First Name"
-              :class="{ 'is-invalid': errors.firstname }"
+              :class="{ 'is-invalid': errors.firstName }"
             />
-            <div class="invalid-feedback">{{ errors.firstname }}</div>
+            <div class="invalid-feedback">{{ errors.firstName }}</div>
           </div>
 
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="middlename"
-              name="middlename"
+              name="middleName"
               type="text"
               autocomplete="on"
               placeholder="Middle Name"
               class="form-control"
-              :class="{ 'is-invalid': errors.middlename }"
+              :class="{ 'is-invalid': errors.middleName }"
             />
-            <div class="invalid-feedback">{{ errors.middlename }}</div>
+            <div class="invalid-feedback">{{ errors.middleName }}</div>
           </div>
 
           <div class="form-group col-md-12 mt-3">
             <Field
               type="text"
-              id="lastname"
-              name="lastname"
+              name="lastName"
               autocomplete="on"
               placeholder="Last Name"
               class="form-control"
-              :class="{ 'is-invalid': errors.lastname }"
+              :class="{ 'is-invalid': errors.lastName }"
             />
-            <div class="invalid-feedback">{{ errors.lastname }}</div>
+            <div class="invalid-feedback">{{ errors.lastName }}</div>
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <Field as="select"
-              id="gender"
+            <Field
+              as="select"
               name="gender"
               class="form-control"
               :class="{ 'is-invalid': errors.gender }"
@@ -60,7 +57,6 @@
 
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="email"
               name="email"
               type="email"
               autocomplete="on"
@@ -73,7 +69,6 @@
 
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="phoneNumber"
               name="phoneNumber"
               type="text"
               autocomplete="on"
@@ -87,7 +82,6 @@
           <div class="form-group mt-3 d-flex">
             <label for="birthDate" class="col-md-6 pt-1">Birth Date</label>
             <Field
-              id="birthDate"
               name="birthDate"
               type="date"
               autocomplete="on"
@@ -98,8 +92,8 @@
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <Field as="select"
-              id="maritalStatus"
+            <Field
+              as="select"
               name="maritalStatus"
               class="form-control"
               :class="{ 'is-invalid': errors.maritalStatus }"
@@ -115,7 +109,6 @@
           <div class="form-group mt-3 d-flex">
             <label for="marriageDate" class="col-md-6 pt-1">Marriage Date</label>
             <Field
-              id="marriageDate"
               name="marriageDate"
               type="date"
               autocomplete="on"
@@ -126,16 +119,17 @@
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <label for="unitId">UnitId</label>
             <Field
-              id="unitId"
+              as="select"
               name="unitId"
-              type="text"
-              autocomplete="on"
-              placeholder="3fa85f64-5717-4562-b3fc-2c963f66afa6"
               class="form-control"
               :class="{ 'is-invalid': errors.unitId }"
-            />
+            >
+              <option value="">Choose Unit</option>
+              <option v-for="unit in units" :key="unit.id" :value="unit.id">
+                {{ unit.name }}
+              </option>
+            </Field>
             <div class="invalid-feedback">{{ errors.unitId }}</div>
           </div>
 
@@ -156,33 +150,34 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import * as yup from 'yup';
-import { useAuthStore, useMemberStore } from '@/stores';
+import { useUnitStore, useMemberStore } from '@/stores';
 
 const memberStore = useMemberStore()
+const unitStore = useUnitStore()
 
 const loading = ref(false);
 const message = ref('');
+// const units = ref([]);
 
 const schema = yup.object().shape({
-  firstname: yup.string().required('First Name is required!'),
-  lastname: yup.string().required('Last Name is required!'),
+  firstName: yup.string().required('First Name is required!'),
+  lastName: yup.string().required('Last Name is required!'),
   gender: yup.string().required("Gender is required!"),
   phoneNumber: yup.string().required('Phone Number is required!'),
   email: yup.string().required('Email is required!'),
   birthDate: yup.string().required('Birth Day is required!'),
   maritalStatus: yup.string().required('Marital Status is required!'),
-  marriageDate: yup.string().required('Marriage Date is required!')
+  unitId: yup.string().required('Unit Id is required!')
 });
 
-const unitId = computed(() => memberStore.getById());
+const unitData = computed(() => unitStore.listAll);
+const units = unitData.value
 
-// const loggedIn = computed(() => authStore.);
-
-onMounted(() => {
-});
+onMounted(() => { unitStore.fetchAll() });
 
 const add = (data, { resetForm }) => {
   loading.value = true;
+  console.log(data)
 
   memberStore.add(data).then(
     () => {
