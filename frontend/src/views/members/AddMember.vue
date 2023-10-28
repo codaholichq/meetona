@@ -82,6 +82,7 @@
           <div class="form-group mt-3 d-flex">
             <label for="birthDate" class="col-md-6 pt-1">Birth Date</label>
             <Field
+              id="birthDate"
               name="birthDate"
               type="date"
               autocomplete="on"
@@ -109,6 +110,7 @@
           <div class="form-group mt-3 d-flex">
             <label for="marriageDate" class="col-md-6 pt-1">Marriage Date</label>
             <Field
+              id="marriageDate"
               name="marriageDate"
               type="date"
               autocomplete="on"
