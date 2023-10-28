@@ -1,23 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.API_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'login',
+      name: 'Login',
       alias: "/login",
       meta: {
         requiresAuth: false
       },
-      component: () => import('@/views/Login.vue')
+      component: () => import('@/views/auth/Login.vue')
     },
 
     {
       path: '/dashboard/member/add',
-      name: 'add-member',
+      name: 'AddMember',
       meta: { requiresAuth: true },
-      component: () => import('@/views/AddMember.vue')
+      component: () => import('@/views/members/AddMember.vue')
+    },
+
+    {
+      path: '/dashboard/users/add',
+      name: 'AddUser',
+      meta: { requiresAuth: true },
+      component: () => import('@/views/users/AddUser.vue')
     },
 
     {
