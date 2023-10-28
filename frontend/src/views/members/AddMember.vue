@@ -154,9 +154,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import * as yup from 'yup';
-import { useMemberStore } from '@/stores';
+import { useAuthStore, useMemberStore } from '@/stores';
 
 const memberStore = useMemberStore()
 
@@ -172,6 +172,13 @@ const schema = yup.object().shape({
   birthDate: yup.string().required('Birth Day is required!'),
   maritalStatus: yup.string().required('Marital Status is required!'),
   marriageDate: yup.string().required('Marriage Date is required!')
+});
+
+const unitId = computed(() => memberStore.getById());
+
+// const loggedIn = computed(() => authStore.);
+
+onMounted(() => {
 });
 
 const add = (data, { resetForm }) => {
