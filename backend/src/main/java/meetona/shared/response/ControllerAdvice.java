@@ -167,10 +167,10 @@ public class ControllerAdvice {
         return apiResponse;
     }
 
-    @ExceptionHandler(value = SignupException.class)
+    @ExceptionHandler(value = InsertionFailedException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleUserRegistrationException(SignupException ex) {
+    public ApiResponse<String> handleUserRegistrationException(InsertionFailedException ex) {
         var apiResponse = new ApiResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());

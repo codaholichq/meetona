@@ -6,7 +6,7 @@ import meetona.department.Department;
 import meetona.department.DepartmentRepository;
 import meetona.unit.UnitRepository;
 import meetona.shared.exception.AppException;
-import meetona.shared.exception.SignupException;
+import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.response.ApiResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -68,11 +68,11 @@ public class MemberService implements IMemberService {
         boolean isPhoneNumberExists = memberRepository.existsByPhoneNumber(request.phoneNumber());
 
         if (isEmailExists) {
-            throw new SignupException(request.email(), " already exists");
+            throw new InsertionFailedException(request.email(), " already exists");
         }
 
         if (isPhoneNumberExists) {
-            throw new SignupException(request.phoneNumber(), " already exists");
+            throw new InsertionFailedException(request.phoneNumber(), " already exists");
         }
 
         Member newMember = buildMember(request);

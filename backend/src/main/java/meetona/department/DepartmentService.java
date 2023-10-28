@@ -3,7 +3,7 @@ package meetona.department;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.AppException;
-import meetona.shared.exception.SignupException;
+import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.response.ApiResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -60,11 +60,11 @@ public class DepartmentService implements IDepartmentService {
         boolean isLeadExists = repository.existsByLead(request.lead());
 
         if (isNameExists) {
-            throw new SignupException(request.name(), " already exists");
+            throw new InsertionFailedException(request.name(), " already exists");
         }
 
         if (isLeadExists) {
-            throw new SignupException(request.lead(), " already exists");
+            throw new InsertionFailedException(request.lead(), " already exists");
         }
 
         Department newDepartment = buildDepartment(request);

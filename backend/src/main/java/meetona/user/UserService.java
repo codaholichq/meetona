@@ -9,7 +9,7 @@ import meetona.role.Role;
 import meetona.role.RoleRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.LoginException;
-import meetona.shared.exception.SignupException;
+import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.response.ApiResponse;
 import meetona.user.dtos.AuthDto;
 import meetona.user.dtos.UserDto;
@@ -103,7 +103,7 @@ public class UserService implements IUserService {
         boolean isUsernameExists = userRepository.existsByUsername(userRequest.username());
 
         if (isUsernameExists) {
-            throw new SignupException(userRequest.username(), "Username already exists");
+            throw new InsertionFailedException(userRequest.username(), "Username already exists");
         }
 
 

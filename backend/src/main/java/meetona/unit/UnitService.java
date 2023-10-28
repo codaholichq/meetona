@@ -3,7 +3,7 @@ package meetona.unit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.AppException;
-import meetona.shared.exception.SignupException;
+import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.response.ApiResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -62,7 +62,7 @@ public class UnitService implements IUnitService {
         boolean isNameExists = unitRepository.existsByName(request.name());
 
         if (isNameExists) {
-            throw new SignupException(request.name(), "Unit name already exists");
+            throw new InsertionFailedException(request.name(), "Unit name already exists");
         }
 
         Unit newUnit = buildUnit(request);
