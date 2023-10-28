@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import jwt_decode from 'jwt-decode';
-import { apiWrapper } from '@/helpers';
+import { httpService } from '@/services';
 import router from '@/router'
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -40,7 +40,7 @@ export const useAuthStore = defineStore({
 
   actions: {
     async login(data) {
-      const user = await apiWrapper.post(`${API_URL}/auth`, data);
+      const user = await httpService.post(`${API_URL}/auth`, data);
 
       this.user = user;
       localStorage.setItem('token', JSON.stringify(user));

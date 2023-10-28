@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { apiWrapper } from '@/helpers';
+import { httpService } from '@/services';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,7 +12,7 @@ export const useUserStore = defineStore({
 
   getters: {
     getById(id) {
-      const user = apiWrapper.get(`${API_URL}/user`, id)
+      const user = httpService.get(`${API_URL}/user`, id)
       this.users.push(user)
       return user.data.id;
     }
@@ -20,7 +20,7 @@ export const useUserStore = defineStore({
 
   actions: {
     async add(data) {
-      const user = await apiWrapper.post(`${API_URL}/user`, data);
+      const user = await httpService.post(`${API_URL}/user`, data);
       this.users.push(user);
       return this.user;
     }

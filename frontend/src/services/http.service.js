@@ -27,7 +27,7 @@ function request(method) {
   }
 }
 
-export const apiWrapper = {
+export const httpService = {
   get: request('GET'),
   post: request('POST'),
   put: request('PUT'),
