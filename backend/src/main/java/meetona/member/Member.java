@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false, columnDefinition = "DATE")
     private LocalDate birthDate;
 
-    @Column(nullable = false, columnDefinition = "DATE")
+    @Column(columnDefinition = "DATE")
     private LocalDate marriageDate;
 
     @Enumerated(EnumType.STRING)
