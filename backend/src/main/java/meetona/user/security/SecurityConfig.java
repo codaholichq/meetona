@@ -39,7 +39,8 @@ public class SecurityConfig {
 
     protected static final String[] ADMIN = {
             "/api/unit/**",
-            "/api/user/**"
+            "/api/user/**",
+            "/api/member/**"
     };
 
     private final AuthFilter authFilter;
