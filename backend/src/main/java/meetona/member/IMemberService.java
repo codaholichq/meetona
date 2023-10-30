@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface IMemberService {
     ApiResponse<List<MemberDto>> getAll(Pageable pageable);
     ApiResponse<MemberDto> getById(UUID id);
+    ApiResponse<MemberDto> getByEmail(String email);
     ApiResponse<MemberDto> add(MemberRequest request);
     ApiResponse<MemberDto> update(UUID id, MemberRequest request);
     ApiResponse<MemberDto> delete(UUID id);

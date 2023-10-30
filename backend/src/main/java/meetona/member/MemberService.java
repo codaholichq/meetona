@@ -62,6 +62,21 @@ public class MemberService implements IMemberService {
     }
 
     @Override
+    @Cacheable("member")
+    public ApiResponse<MemberDto> getByEmail(String email) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+
+        Member member = memberOptional.orElse(null);
+
+        MemberDto memberDto = mapper.toDto(member);
+
+        var response = new ApiResponse<>(memberDto, true);
+
+        log.info("Fetched unit => {}", memberDto);
+        return response;
+    }
+
+    @Override
     @Transactional
     public ApiResponse<MemberDto> add(MemberRequest request) {
         boolean isEmailExists = memberRepository.existsByEmail(request.email());

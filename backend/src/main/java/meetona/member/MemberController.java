@@ -31,6 +31,11 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getById(id));
     }
 
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<MemberDto>> getByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(memberService.getByEmail(email));
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<MemberDto>> add(@Valid @RequestBody MemberRequest request) {
         return ResponseEntity.ok(memberService.add(request));
