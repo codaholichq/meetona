@@ -108,7 +108,6 @@ const schema = yup.object().shape({
 
 const add = (data, { resetForm }) => {
   loading.value = true;
-  
   data.roles = data.roles.split(','); // convert roles to array of strings
 
   userStore.add(data).then(
