@@ -57,7 +57,7 @@
               aria-expanded="false"
             >Members</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><router-link class="dropdown-item" to="/dashboard/member/add">Add Member</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/members/add">Add Member</router-link></li>
               <li><router-link class="dropdown-item" to="/dashboard/members">View Members</router-link></li>
             </ul>
           </li>

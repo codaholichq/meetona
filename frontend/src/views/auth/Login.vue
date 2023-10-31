@@ -66,7 +66,7 @@ const loggedIn = computed(() => authStore.loggedIn);
 
 onMounted(() => {
   if (loggedIn.value) {
-    router.push('/dashboard/member/add');
+    router.push('/dashboard/members/add');
   }
 });
 
@@ -75,7 +75,7 @@ const login = (username, password) => {
 
   authStore.login(username, password).then(
     () => {
-      router.push('/dashboard/member/add');
+      router.push('/dashboard/members/add');
     },
     (error) => {
       loading.value = false;
