@@ -9,6 +9,10 @@ export const useUserStore = defineStore({
   }),
 
   getters: {
+    listAll() {
+      return this.users;
+    },
+
     getById(id) {
       const user = http.get("user", id)
       this.users.push(user)
@@ -21,7 +25,17 @@ export const useUserStore = defineStore({
       const user = await http.post("user", data);
       this.users.push(user);
       return this.user;
-    }
+    },
+
+    async delete(id) {
+      const user = await http.delete(`user/${id}`);
+      this.users.remove(user);
+    },
+
+    async fetchAll() {
+      const users = await http.get("user");
+      this.users = users.data;
+    },
   }
 
 })
