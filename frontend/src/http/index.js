@@ -27,7 +27,7 @@ function request(method) {
   }
 }
 
-export const httpService = {
+export const http = {
   get: request('GET'),
   post: request('POST'),
   put: request('PUT'),
