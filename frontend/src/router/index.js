@@ -28,6 +28,20 @@ const router = createRouter({
     },
 
     {
+      path: '/dashboard/units',
+      name: 'GetUnits',
+      meta: { requiresAuth: true },
+      component: () => import('@/views/Units/GetUnits.vue')
+    },
+
+    {
+      path: '/dashboard/units/add',
+      name: 'AddUnit',
+      meta: { requiresAuth: true },
+      component: () => import('@/views/Units/AddUnit.vue')
+    },
+
+    {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       meta: { requiresAuth: false },
