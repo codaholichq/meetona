@@ -2,6 +2,7 @@ package meetona.meeting;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import meetona.shared.exception.ResourceNotFoundException;
 import meetona.unit.UnitRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.response.ApiResponse;
@@ -96,7 +97,7 @@ public class MeetingService implements IMeetingService {
         boolean isUnitExists = meetingRepository.existsById(id);
 
         if(isUnitExists){
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         meetingRepository.deleteById(id);

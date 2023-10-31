@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
+import meetona.shared.exception.ResourceNotFoundException;
 import meetona.shared.response.ApiResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -105,7 +106,7 @@ public class DepartmentService implements IDepartmentService {
         boolean isDepartmentExists = repository.existsById(id);
 
         if(isDepartmentExists){
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         repository.deleteById(id);

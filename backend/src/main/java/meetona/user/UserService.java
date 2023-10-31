@@ -3,6 +3,7 @@ package meetona.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.member.MemberRepository;
+import meetona.shared.exception.ResourceNotFoundException;
 import meetona.user.security.TokenProvider;
 import meetona.shared.enums.AppRole;
 import meetona.role.Role;
@@ -103,7 +104,7 @@ public class UserService implements IUserService {
         boolean isUsernameExists = userRepository.existsByUsername(userRequest.username());
 
         if (isUsernameExists) {
-            throw new InsertionFailedException(userRequest.username(), "Username already exists");
+            throw new InsertionFailedException(userRequest.username(), " already exists");
         }
 
 
@@ -125,7 +126,7 @@ public class UserService implements IUserService {
         boolean isUserExists = userRepository.existsById(id);
 
         if(isUserExists) {
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         User newUser = buildUser(request);
@@ -146,7 +147,7 @@ public class UserService implements IUserService {
         boolean isUserExists = userRepository.existsById(id);
 
         if(isUserExists){
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         userRepository.deleteById(id);

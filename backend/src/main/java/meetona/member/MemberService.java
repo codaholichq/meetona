@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.department.Department;
 import meetona.department.DepartmentRepository;
+import meetona.shared.exception.ResourceNotFoundException;
 import meetona.unit.UnitRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
@@ -128,7 +129,7 @@ public class MemberService implements IMemberService {
         boolean isUnitExists = memberRepository.existsById(id);
 
         if(isUnitExists){
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         memberRepository.deleteById(id);

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
+import meetona.shared.exception.ResourceNotFoundException;
 import meetona.shared.response.ApiResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -82,7 +83,7 @@ public class UnitService implements IUnitService {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(isUnitExists) {
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         Unit newUnit = buildUnit(request);
@@ -103,7 +104,7 @@ public class UnitService implements IUnitService {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(isUnitExists){
-            throw new AppException("Id does not exists");
+            throw new ResourceNotFoundException("User", "id", id);
         }
 
         unitRepository.deleteById(id);
