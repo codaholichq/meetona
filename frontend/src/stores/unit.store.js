@@ -1,7 +1,5 @@
 import {defineStore} from 'pinia';
-import {httpService} from '@/services';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { http } from '@/http';
 
 export const useUnitStore = defineStore({
   id: 'unit',
@@ -18,12 +16,12 @@ export const useUnitStore = defineStore({
 
   actions: {
     async fetchAll() {
-      const units = await httpService.get(`${API_URL}/unit`);
+      const units = await http.get("unit");
       this.units = units.data;
     },
 
     async add(data) {
-      const units = await httpService.post(`${API_URL}/unit`, data);
+      const units = await http.post("unit", data);
       this.units.push(units);
       return units;
     }
