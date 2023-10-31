@@ -25,6 +25,21 @@
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+            >Unit</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><router-link class="dropdown-item" to="/dashboard/units/add">Add Unit</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/units">View Units</router-link></li>
+            </ul>
+          </li>
+
+          <li v-if="authStore.isLoggedIn && authStore.isAdmin" class="nav-item me-2 dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
             >User</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><router-link class="dropdown-item" to="/dashboard/users/add">Add User</router-link></li>
@@ -43,7 +58,7 @@
             >Members</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><router-link class="dropdown-item" to="/dashboard/member/add">Add Member</router-link></li>
-              <li><router-link class="dropdown-item" to="/dashboard/member/update">Update Member</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/members">View Members</router-link></li>
             </ul>
           </li>
 
