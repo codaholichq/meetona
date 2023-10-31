@@ -5,27 +5,15 @@
       <div class="card-body">
 
         <Form @submit="add" :validation-schema="schema" v-slot="{ errors, loading }">
-          <div class="form-group col-md-12 mt-3">
-            <Field
-              id="username"
-              name="username"
-              type="text"
-              autocomplete="on"
-              class="form-control"
-              placeholder="Username"
-              :class="{ 'is-invalid': errors.username }"
-            />
-            <div class="invalid-feedback">{{ errors.username }}</div>
-          </div>
 
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="email"
-              name="email"
               type="email"
-              autocomplete="on"
-              class="form-control"
+              name="email"
               placeholder="Email"
+              class="form-control"
+              autocomplete="off"
+              @focusout="search"
               :class="{ 'is-invalid': errors.email }"
             />
             <div class="invalid-feedback">{{ errors.email }}</div>
@@ -33,42 +21,58 @@
 
           <div class="form-group col-md-12 mt-3">
             <Field
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="on"
-              class="form-control"
-              placeholder="Password"
-              :class="{ 'is-invalid': errors.password }"
-            />
-            <div class="invalid-feedback">{{ errors.password }}</div>
-          </div>
-
-          <div class="form-group mt-3">
-            <Field
-              id="roles"
-              name="roles"
+              disabled
               type="text"
-              autocomplete="on"
-              placeholder="Roles"
+              name="username"
               class="form-control"
-              :class="{ 'is-invalid': errors.roles }"
+              placeholder="Username"
+              autocomplete="off"
+              v-model="member.username"
+              :class="{ 'is-invalid': errors.username }"
             />
-            <div class="invalid-feedback">{{ errors.roles }}</div>
+            <div class="invalid-feedback">{{ errors.username }}</div>
           </div>
 
           <div class="form-group col-md-12 mt-3">
-            <label for="memberId">Member Id</label>
             <Field
-              id="memberId"
-              name="memberId"
+              disabled
               type="text"
-              autocomplete="on"
-              placeholder="3fa85f64-5717-4562-b3fc-2c963f66afa6"
+              name="memberId"
+              autocomplete="off"
+              placeholder="Member ID"
+              v-model="member.id"
               class="form-control"
               :class="{ 'is-invalid': errors.memberId }"
             />
             <div class="invalid-feedback">{{ errors.memberId }}</div>
+          </div>
+
+          <div class="form-group col-md-12 mt-3">
+            <Field
+              as="select"
+              name="roles"
+              class="form-control"
+              autocomplete="off"
+              :class="{ 'is-invalid': errors.roles }"
+            >
+              <option value="">Roles</option>
+              <option value="ADMIN">Admin</option>
+              <option value="USER">User</option>
+            </Field>
+            <div class="invalid-feedback">{{ errors.roles }}</div>
+          </div>
+
+          <div class="form-group col-md-12 mt-3">
+            <Field
+              id="password"
+              name="password"
+              type="password"
+              class="form-control"
+              autocomplete="off"
+              placeholder="Password"
+              :class="{ 'is-invalid': errors.password }"
+            />
+            <div class="invalid-feedback">{{ errors.password }}</div>
           </div>
 
           <div class="form-group">
@@ -86,32 +90,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import * as yup from 'yup';
-import { useUserStore } from '@/stores';
+import { useMemberStore, useUserStore } from '@/stores';
 
 const userStore = useUserStore()
+const memberStore = useMemberStore();
 
 const loading = ref(false);
 const message = ref('');
+const member = ref({})
 
 const schema = yup.object().shape({
-  firstname: yup.string().required('First Name is required!'),
-  lastname: yup.string().required('Last Name is required!'),
-  gender: yup.string().required("Gender is required!"),
-  phoneNumber: yup.string().required('Phone Number is required!'),
-  email: yup.string().required('Email is required!')
-});
-
-// const unitId = computed(() => memberStore.getById());
-
-// const loggedIn = computed(() => authStore.);
-
-onMounted(() => {
+  email: yup.string().required('Email is required!'),
+  roles: yup.string().required('Role is required!')
 });
 
 const add = (data, { resetForm }) => {
   loading.value = true;
+  
+  data.roles = data.roles.split(','); // convert roles to array of strings
 
   userStore.add(data).then(
     () => {
@@ -126,6 +124,26 @@ const add = (data, { resetForm }) => {
         error.toString();
     }
   );
+}
+
+const search = (event) => {
+  const email = event.target.value;
+
+  memberStore.search(email).then(
+    (data) => {
+      console.log(data)
+      member.value = data
+
+      const firstLetter = data.firstName.charAt(0);
+      member.value.username = (firstLetter + data.lastName).toLowerCase();
+    },
+    (error) => {
+      message.value =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  )
 }
 </script>
 
