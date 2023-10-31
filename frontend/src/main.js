@@ -8,11 +8,11 @@ import router from './router'
 
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FontAwesomeIcon, validation } from './plugins'
+import { icon, validation } from './plugins'
 
 createApp(App)
-  .use(FontAwesomeIcon)
   .use(createPinia())
   .use(validation)
   .use(router)
+  .use(icon)
   .mount('#app')
