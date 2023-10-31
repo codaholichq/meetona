@@ -10,8 +10,8 @@ export const useMemberStore = defineStore({
   }),
 
   getters: {
-    list() {
-      return this.member;
+    listAll() {
+      return this.members;
     }
   },
 
@@ -22,9 +22,14 @@ export const useMemberStore = defineStore({
       return this.members;
     },
 
+    async fetchAll() {
+      const members = await http.get("member");
+      this.members = members.data;
+      console.log(members.data)
+    },
+
     async search(data) {
       try {
-        console.log(data)
         const response = await http.get(`member/search?email=${data}`);
         this.member = response.data
         return response.data;
