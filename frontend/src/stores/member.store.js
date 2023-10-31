@@ -1,28 +1,37 @@
 import { defineStore } from 'pinia';
-import { httpService } from '@/services';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { http } from '@/http';
 
 export const useMemberStore = defineStore({
   id: 'member',
 
   state: () => ({
-    members: []
+    members: [],
+    member: {}
   }),
 
   getters: {
-    getById(id) {
-      const member = httpService.get(`${API_URL}/member`, id)
-      this.members.push(member)
-      return member.data.id;
+    list() {
+      return this.member;
     }
   },
 
   actions: {
     async add(data) {
-      const member = await httpService.post(`${API_URL}/member`, data);
+      const member = await http.post("member", data);
       this.members.push(member);
       return this.members;
+    },
+
+    async search(data) {
+      try {
+        console.log(data)
+        const response = await http.get(`member/search?email=${data}`);
+        this.member = response.data
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
   }
 
