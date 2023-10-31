@@ -12,10 +12,17 @@ const router = createRouter({
     },
 
     {
-      path: '/dashboard/member/add',
+      path: '/dashboard/members/add',
       name: 'AddMember',
       meta: { requiresAuth: true },
       component: () => import('@/views/members/AddMember.vue')
+    },
+
+    {
+      path: '/dashboard/members',
+      name: 'GetMembers',
+      meta: { requiresAuth: true },
+      component: () => import('@/views/members/GetMembers.vue')
     },
 
     {
