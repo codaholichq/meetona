@@ -84,7 +84,7 @@ public class DepartmentService implements IDepartmentService {
     public ApiResponse<DepartmentDto> update(UUID id, DepartmentRequest request) {
         boolean isUnitExists = repository.existsById(id);
 
-        if(isUnitExists) {
+        if(!isUnitExists) {
             throw new AppException("Id does not exists");
         }
 
@@ -105,7 +105,7 @@ public class DepartmentService implements IDepartmentService {
     public ApiResponse<DepartmentDto> delete(UUID id) {
         boolean isDepartmentExists = repository.existsById(id);
 
-        if(isDepartmentExists){
+        if(!isDepartmentExists){
             throw new ResourceNotFoundException("User", "id", id);
         }
 

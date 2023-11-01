@@ -82,7 +82,7 @@ public class UnitService implements IUnitService {
     public ApiResponse<UnitDto> update(UUID id, UnitRequest request) {
         boolean isUnitExists = unitRepository.existsById(id);
 
-        if(isUnitExists) {
+        if(!isUnitExists) {
             throw new ResourceNotFoundException("User", "id", id);
         }
 
@@ -103,7 +103,7 @@ public class UnitService implements IUnitService {
     public ApiResponse<UnitDto> delete(UUID id) {
         boolean isUnitExists = unitRepository.existsById(id);
 
-        if(isUnitExists){
+        if(!isUnitExists){
             throw new ResourceNotFoundException("User", "id", id);
         }
 

@@ -107,7 +107,7 @@ public class MemberService implements IMemberService {
     public ApiResponse<MemberDto> update(UUID id, MemberRequest request) {
         boolean isUnitExists = memberRepository.existsById(id);
 
-        if(isUnitExists) {
+        if(!isUnitExists) {
             throw new AppException("Id does not exists");
         }
 
@@ -128,7 +128,7 @@ public class MemberService implements IMemberService {
     public ApiResponse<MemberDto> delete(UUID id) {
         boolean isUnitExists = memberRepository.existsById(id);
 
-        if(isUnitExists){
+        if(!isUnitExists){
             throw new ResourceNotFoundException("User", "id", id);
         }
 

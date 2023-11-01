@@ -75,7 +75,7 @@ public class MeetingService implements IMeetingService {
     public ApiResponse<MeetingDto> update(UUID id, MeetingRequest request) {
         boolean isMeetingExists = meetingRepository.existsById(id);
 
-        if(isMeetingExists) {
+        if(!isMeetingExists) {
             throw new AppException("Id does not exists");
         }
 
@@ -96,7 +96,7 @@ public class MeetingService implements IMeetingService {
     public ApiResponse<MeetingDto> delete(UUID id) {
         boolean isUnitExists = meetingRepository.existsById(id);
 
-        if(isUnitExists){
+        if(!isUnitExists){
             throw new ResourceNotFoundException("User", "id", id);
         }
 

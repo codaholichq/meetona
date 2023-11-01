@@ -125,7 +125,7 @@ public class UserService implements IUserService {
     public ApiResponse<UserDto> update(UUID id, UserRequest request) {
         boolean isUserExists = userRepository.existsById(id);
 
-        if(isUserExists) {
+        if(!isUserExists) {
             throw new ResourceNotFoundException("User", "id", id);
         }
 
@@ -146,7 +146,7 @@ public class UserService implements IUserService {
     public ApiResponse<UserDto> delete(UUID id) {
         boolean isUserExists = userRepository.existsById(id);
 
-        if(isUserExists){
+        if(!isUserExists){
             throw new ResourceNotFoundException("User", "id", id);
         }
 
