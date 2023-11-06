@@ -4,7 +4,7 @@
       <h4 class="card-header">Add Cell</h4>
       <div class="card-body">
 
-        <Form @submit="add" :validation-schema="schema" v-slot="{ errors, loading }">
+        <Form @submit="create" :validation-schema="schema" v-slot="{ errors, loading }">
 
           <div class="form-group col-md-12 mt-3">
             <Field
@@ -63,11 +63,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import * as yup from 'yup';
-import { useUnitStore, useUserStore } from '@/stores';
+import { unitService } from '@/services';
+import { useUserStore } from '@/stores';
 
-const unitStore = useUnitStore()
 const userStore = useUserStore()
-
 const loading = ref(false);
 const message = ref('');
 
@@ -81,10 +80,10 @@ const users = userData.value
 
 onMounted(() => { userStore.fetchAll() });
 
-const add = (data, { resetForm }) => {
+const create = (data, { resetForm }) => {
   loading.value = true;
 
-  unitStore.add(data).then(
+  unitService.create(data).then(
     () => {
       loading.value = false;
       resetForm();
