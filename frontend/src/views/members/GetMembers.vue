@@ -22,25 +22,37 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
-import { useMemberStore } from '@/stores';
+import { ref, onMounted } from 'vue';
+import { memberService } from '@/services';
 
-const memberStore = useMemberStore()
+const message = ref('');
+const members = ref(null);
 
-const memberData = computed(() => memberStore.listAll);
-const members = computed(() => {
-  return memberData.value.map(member => ({
-    ...member,
-    name: `${member.firstName} ${member.middleName.charAt(0)}. ${member.lastName}`
-  }));
-});
+onMounted(() => { getMembers() });
+
+const getMembers = () => {
+  members.value = null;
+
+  memberService.getAll().then(
+    (data) => {
+      members.value = data.map(member => ({
+        ...member,
+        name: `${member.firstName} ${member.middleName.charAt(0)}. ${member.lastName}`
+      }));
+    },
+    (error) => {
+      message.value =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  )
+}
 
 const convertToSentenceCase = (str) => {
   return str.toLowerCase().split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
-
-onMounted(() => { memberStore.fetchAll() });
 </script>
 
 <style scoped>
