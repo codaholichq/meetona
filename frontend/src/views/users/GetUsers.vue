@@ -29,28 +29,40 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useUserStore } from '@/stores';
+import { ref, onMounted } from 'vue';
+import { userService } from '@/services';
 
-const userStore = useUserStore()
-const userData = computed(() => userStore.listAll);
-const users = userData.value
-
+const users = ref(null);
 const message = ref('');
-
-onMounted(() => { userStore.fetchAll() });
 
 const rolesToString = (roles) => {
   return roles.map(role => role.toLowerCase()).join(', ');
 };
 
+onMounted(() => { getUsers() });
+
+const getUsers = () => {
+  users.value = null;
+
+  userService.getAll().then(
+    (data) => {
+      users.value = data
+    },
+    (error) => {
+      message.value =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  )
+}
+
 const remove = (userId) => {
   console.log(userId)
 
-  userStore.delete(userId).then(
+  userService.remove(userId).then(
     (data) => {
       console.log(data)
-      // member.value = data
     },
     (error) => {
       message.value =
