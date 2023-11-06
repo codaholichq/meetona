@@ -4,7 +4,7 @@
       <h4 class="card-header">Add Member</h4>
       <div class="card-body">
 
-        <Form @submit="add" :validation-schema="schema" v-slot="{ errors, loading }">
+        <Form @submit="create" :validation-schema="schema" v-slot="{ errors, loading }">
           <div class="form-group col-md-12 mt-3">
             <Field
               name="firstName"
@@ -150,16 +150,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import * as yup from 'yup';
-import { useUnitStore, useMemberStore } from '@/stores';
-
-const memberStore = useMemberStore()
-const unitStore = useUnitStore()
+import { unitService, memberService } from '@/services';
 
 const loading = ref(false);
 const message = ref('');
-// const units = ref([]);
+const units = ref(null);
 
 const schema = yup.object().shape({
   firstName: yup.string().required('First Name is required!'),
@@ -172,16 +169,13 @@ const schema = yup.object().shape({
   unitId: yup.string().required('Unit Id is required!')
 });
 
-const unitData = computed(() => unitStore.listAll);
-const units = unitData.value
+onMounted(() => { getUnits() });
 
-onMounted(() => { unitStore.fetchAll() });
-
-const add = (data, { resetForm }) => {
+const create = (data, { resetForm }) => {
   loading.value = true;
   console.log(data)
 
-  memberStore.add(data).then(
+  memberService.create(data).then(
     () => {
       loading.value = false;
       resetForm();
@@ -195,4 +189,21 @@ const add = (data, { resetForm }) => {
     }
   );
 }
+
+const getUnits = () => {
+  units.value = null;
+
+  unitService.getAll().then(
+    (data) => {
+      units.value = data
+    },
+    (error) => {
+      message.value =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  )
+}
+
 </script>
