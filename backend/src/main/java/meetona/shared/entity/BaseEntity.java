@@ -23,7 +23,7 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 5L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @JsonIgnore
