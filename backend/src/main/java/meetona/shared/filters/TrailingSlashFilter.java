@@ -19,8 +19,9 @@ public class TrailingSlashFilter implements Filter {
             String newPath = path.substring(0, path.length() - 1);
             HttpServletRequest newRequest = new HttpRequestWrapper(httpRequest, newPath);
             chain.doFilter(newRequest, response);
+        } else {
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 
     private static class HttpRequestWrapper extends HttpServletRequestWrapper {
