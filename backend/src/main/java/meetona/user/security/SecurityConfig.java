@@ -31,16 +31,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    protected static final String[] WHITELIST = {
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/api/auth"
-    };
-
     protected static final String[] ADMIN = {
             "/api/unit/**",
             "/api/user/**",
-            "/api/member/**"
+            "/api/member/**",
+            "/actuator/**"
     };
 
     private final AuthFilter authFilter;
@@ -96,9 +91,8 @@ public class SecurityConfig {
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(x -> x.authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITELIST).permitAll()
                         .requestMatchers(ADMIN).hasAnyAuthority("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
