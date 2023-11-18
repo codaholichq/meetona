@@ -1,15 +1,15 @@
 package meetona.department;
 
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface IDepartmentService {
-    ApiResponse<List<DepartmentDto>> getAll(Pageable pageable);
-    ApiResponse<DepartmentDto> getById(UUID id);
-    ApiResponse<DepartmentDto> add(DepartmentRequest request);
-    ApiResponse<DepartmentDto> update(UUID id, DepartmentRequest request);
-    ApiResponse<DepartmentDto> delete(UUID id);
+    ServiceResponse<List<DepartmentDto>> getAll(Pageable pageable);
+    ServiceResponse<DepartmentDto> getById(UUID id);
+    ServiceResponse<DepartmentDto> add(DepartmentRequest request);
+    ServiceResponse<DepartmentDto> update(UUID id, DepartmentRequest request);
+    ServiceResponse<DepartmentDto> delete(UUID id);
 }

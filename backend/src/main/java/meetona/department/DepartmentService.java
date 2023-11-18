@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.exception.ResourceNotFoundException;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -28,14 +28,14 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     @Cacheable("departments")
-    public ApiResponse<List<DepartmentDto>> getAll(Pageable pageable) {
+    public ServiceResponse<List<DepartmentDto>> getAll(Pageable pageable) {
         Page<Department> departments = repository.findAll(pageable);
 
         List<DepartmentDto> departmentDto = departments.stream()
                 .map(mapper::toDto)
                 .toList();
 
-        var response = new ApiResponse<>(departmentDto, true);
+        var response = new ServiceResponse<>(departmentDto, true);
 
         log.info("Fetched units => {}", departmentDto);
         return response;
@@ -43,12 +43,12 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     @Cacheable("department")
-    public ApiResponse<DepartmentDto> getById(UUID id) {
+    public ServiceResponse<DepartmentDto> getById(UUID id) {
         Department department = repository.findById(id).orElse(null);
 
         DepartmentDto memberDto = mapper.toDto(department);
 
-        var response = new ApiResponse<>(memberDto, true);
+        var response = new ServiceResponse<>(memberDto, true);
 
         log.info("Fetched unit => {}", memberDto);
         return response;
@@ -56,7 +56,7 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     @Transactional
-    public ApiResponse<DepartmentDto> add(DepartmentRequest request) {
+    public ServiceResponse<DepartmentDto> add(DepartmentRequest request) {
         boolean isNameExists = repository.existsByName(request.name());
         boolean isLeadExists = repository.existsByLead(request.lead());
 
@@ -72,7 +72,7 @@ public class DepartmentService implements IDepartmentService {
         repository.save(newDepartment);
 
         DepartmentDto departmentDto = mapper.toDto(newDepartment);
-        var response = new ApiResponse<>(departmentDto, true);
+        var response = new ServiceResponse<>(departmentDto, true);
 
 //        unitActionProducer.sendMessage(unitDto);
         return response;
@@ -81,7 +81,7 @@ public class DepartmentService implements IDepartmentService {
     @Override
     @Transactional
     @CacheEvict(value = "department", key = "#department.id")
-    public ApiResponse<DepartmentDto> update(UUID id, DepartmentRequest request) {
+    public ServiceResponse<DepartmentDto> update(UUID id, DepartmentRequest request) {
         boolean isUnitExists = repository.existsById(id);
 
         if(!isUnitExists) {
@@ -93,7 +93,7 @@ public class DepartmentService implements IDepartmentService {
         repository.save(newDepartment);
         DepartmentDto updatedDepartment = mapper.toDto(newDepartment);
 
-        var response = new ApiResponse<>(updatedDepartment, true);
+        var response = new ServiceResponse<>(updatedDepartment, true);
 
 //        memberActionProducer.sendMessage(id, updatedUnit);
         return response;
@@ -102,7 +102,7 @@ public class DepartmentService implements IDepartmentService {
     @Override
     @Transactional
     @CacheEvict(value = "department", key = "#id")
-    public ApiResponse<DepartmentDto> delete(UUID id) {
+    public ServiceResponse<DepartmentDto> delete(UUID id) {
         boolean isDepartmentExists = repository.existsById(id);
 
         if(!isDepartmentExists){
@@ -112,7 +112,7 @@ public class DepartmentService implements IDepartmentService {
         repository.deleteById(id);
         var deletedDepartment = new DepartmentDto(id, null, null);
 
-        var response = new ApiResponse<>(deletedDepartment, true);
+        var response = new ServiceResponse<>(deletedDepartment, true);
 
 //        memberActionProducer.sendMessage(id);
         return response;

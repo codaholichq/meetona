@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.ResourceNotFoundException;
 import meetona.unit.UnitRepository;
 import meetona.shared.exception.AppException;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -29,14 +29,14 @@ public class MeetingService implements IMeetingService {
 
     @Override
     @Cacheable("meetings")
-    public ApiResponse<List<MeetingDto>> getAll(Pageable pageable) {
+    public ServiceResponse<List<MeetingDto>> getAll(Pageable pageable) {
         Page<Meeting> meetings = meetingRepository.findAll(pageable);
 
         List<MeetingDto> meetingDto = meetings.stream()
                 .map(mapper::toDto)
                 .toList();
 
-        var response = new ApiResponse<>(meetingDto, true);
+        var response = new ServiceResponse<>(meetingDto, true);
 
         log.info("Fetched units => {}", meetingDto);
         return response;
@@ -44,12 +44,12 @@ public class MeetingService implements IMeetingService {
 
     @Override
     @Cacheable("meeting")
-    public ApiResponse<MeetingDto> getById(UUID id) {
+    public ServiceResponse<MeetingDto> getById(UUID id) {
         Meeting meeting = meetingRepository.findById(id).orElse(null);
 
         MeetingDto meetingDto = mapper.toDto(meeting);
 
-        var response = new ApiResponse<>(meetingDto, true);
+        var response = new ServiceResponse<>(meetingDto, true);
 
         log.info("Fetched unit => {}", meetingDto);
         return response;
@@ -57,13 +57,13 @@ public class MeetingService implements IMeetingService {
 
     @Override
     @Transactional
-    public ApiResponse<MeetingDto> add(MeetingRequest request) {
+    public ServiceResponse<MeetingDto> add(MeetingRequest request) {
 
         Meeting newMeeting = buildMeeting(request);
         meetingRepository.save(newMeeting);
 
         MeetingDto meetingDto = mapper.toDto(newMeeting);
-        var response = new ApiResponse<>(meetingDto, true);
+        var response = new ServiceResponse<>(meetingDto, true);
 
 //        meetingActionProducer.sendMessage(meetingDto);
         return response;
@@ -72,7 +72,7 @@ public class MeetingService implements IMeetingService {
     @Override
     @Transactional
     @CacheEvict(value = "meeting", key = "#meeting.id")
-    public ApiResponse<MeetingDto> update(UUID id, MeetingRequest request) {
+    public ServiceResponse<MeetingDto> update(UUID id, MeetingRequest request) {
         boolean isMeetingExists = meetingRepository.existsById(id);
 
         if(!isMeetingExists) {
@@ -84,7 +84,7 @@ public class MeetingService implements IMeetingService {
         meetingRepository.save(newMeeting);
         MeetingDto updatedMeeting = mapper.toDto(newMeeting);
 
-        var response = new ApiResponse<>(updatedMeeting, true);
+        var response = new ServiceResponse<>(updatedMeeting, true);
 
 //        meetingActionProducer.sendMessage(id, updatedMember);
         return response;
@@ -93,7 +93,7 @@ public class MeetingService implements IMeetingService {
     @Override
     @Transactional
     @CacheEvict(value = "meeting", key = "#id")
-    public ApiResponse<MeetingDto> delete(UUID id) {
+    public ServiceResponse<MeetingDto> delete(UUID id) {
         boolean isUnitExists = meetingRepository.existsById(id);
 
         if(!isUnitExists){
@@ -103,7 +103,7 @@ public class MeetingService implements IMeetingService {
         meetingRepository.deleteById(id);
         MeetingDto deletedMeeting = new MeetingDto(id, 0, null, null);
 
-        var response = new ApiResponse<>(deletedMeeting, true);
+        var response = new ServiceResponse<>(deletedMeeting, true);
 
 //        meetingActionProducer.sendMessage(id);
         return response;

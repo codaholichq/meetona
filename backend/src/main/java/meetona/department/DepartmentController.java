@@ -1,7 +1,7 @@
 package meetona.department;
 
 import jakarta.validation.Valid;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -22,17 +22,17 @@ public class DepartmentController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<DepartmentDto>>> getAll(@PageableDefault Pageable pageable) {
+    public ResponseEntity<ServiceResponse<List<DepartmentDto>>> getAll(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(departmentService.getAll(pageable));
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<DepartmentDto>> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<ServiceResponse<DepartmentDto>> getById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(departmentService.getById(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<DepartmentDto>> add(@Valid @RequestBody DepartmentRequest request) {
+    public ResponseEntity<ServiceResponse<DepartmentDto>> add(@Valid @RequestBody DepartmentRequest request) {
         return ResponseEntity.ok(departmentService.add(request));
     }
 
@@ -40,7 +40,7 @@ public class DepartmentController {
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<DepartmentDto>> update(
+    public ResponseEntity<ServiceResponse<DepartmentDto>> update(
             @PathVariable("id") UUID id,
             @RequestBody DepartmentRequest request
     ) {
@@ -48,7 +48,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<DepartmentDto>> delete(@PathVariable("id") UUID id){
+    public ResponseEntity<ServiceResponse<DepartmentDto>> delete(@PathVariable("id") UUID id){
         return ResponseEntity.ok(departmentService.delete(id));
     }
 }

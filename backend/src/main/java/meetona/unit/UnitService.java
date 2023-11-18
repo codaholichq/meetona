@@ -2,10 +2,9 @@ package meetona.unit;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.exception.ResourceNotFoundException;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -29,14 +28,14 @@ public class UnitService implements IUnitService {
 
     @Override
     @Cacheable("units")
-    public ApiResponse<List<UnitDto>> getAll(Pageable pageable) {
+    public ServiceResponse<List<UnitDto>> getAll(Pageable pageable) {
         Page<Unit> units = unitRepository.findAll(pageable);
 
         List<UnitDto> unitDto = units.stream()
                 .map(mapper::toDto)
                 .toList();
 
-        ApiResponse<List<UnitDto>> response = new ApiResponse<>(unitDto, true);
+        ServiceResponse<List<UnitDto>> response = new ServiceResponse<>(unitDto, true);
 
         log.info("Fetched units => {}", unitDto);
         return response;
@@ -44,14 +43,14 @@ public class UnitService implements IUnitService {
 
     @Override
     @Cacheable("unit")
-    public ApiResponse<UnitDto> getById(UUID id) {
+    public ServiceResponse<UnitDto> getById(UUID id) {
         Optional<Unit> unitOptional = unitRepository.findById(id);
 
         Unit unit = unitOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
         UnitDto unitDto = mapper.toDto(unit);
 
-        var response = new ApiResponse<>(unitDto, true);
+        var response = new ServiceResponse<>(unitDto, true);
 
         log.info("Fetched unit => {}", unitDto);
         return response;
@@ -59,7 +58,7 @@ public class UnitService implements IUnitService {
 
     @Override
     @Transactional
-    public ApiResponse<UnitDto> add(UnitRequest request) {
+    public ServiceResponse<UnitDto> add(UnitRequest request) {
         boolean isNameExists = unitRepository.existsByName(request.name());
 
         if (isNameExists) {
@@ -70,7 +69,7 @@ public class UnitService implements IUnitService {
         unitRepository.save(newUnit);
 
         UnitDto unitDto = mapper.toDto(newUnit);
-        var response = new ApiResponse<>(unitDto, true);
+        var response = new ServiceResponse<>(unitDto, true);
 
         unitActionProducer.sendMessage(unitDto);
         return response;
@@ -79,7 +78,7 @@ public class UnitService implements IUnitService {
     @Override
     @Transactional
     @CacheEvict(value = "unit", key = "#unit.id")
-    public ApiResponse<UnitDto> update(UUID id, UnitRequest request) {
+    public ServiceResponse<UnitDto> update(UUID id, UnitRequest request) {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(!isUnitExists) {
@@ -91,7 +90,7 @@ public class UnitService implements IUnitService {
         unitRepository.save(newUnit);
         UnitDto updatedUnit = mapper.toDto(newUnit);
 
-        var response = new ApiResponse<>(updatedUnit, true);
+        var response = new ServiceResponse<>(updatedUnit, true);
 
         unitActionProducer.sendMessage(id, updatedUnit);
         return response;
@@ -100,7 +99,7 @@ public class UnitService implements IUnitService {
     @Override
     @Transactional
     @CacheEvict(value = "unit", key = "#id")
-    public ApiResponse<UnitDto> delete(UUID id) {
+    public ServiceResponse<UnitDto> delete(UUID id) {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(!isUnitExists){
@@ -110,7 +109,7 @@ public class UnitService implements IUnitService {
         unitRepository.deleteById(id);
         UnitDto deletedUnitDto = new UnitDto(id, null, null);
 
-        var response = new ApiResponse<>(deletedUnitDto, true);
+        var response = new ServiceResponse<>(deletedUnitDto, true);
 
         unitActionProducer.sendMessage(id);
         return response;

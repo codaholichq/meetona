@@ -1,7 +1,7 @@
 package meetona.unit;
 
 import jakarta.validation.Valid;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -23,17 +23,17 @@ public class UnitController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<UnitDto>>> getAll(@PageableDefault Pageable pageable) {
+    public ResponseEntity<ServiceResponse<List<UnitDto>>> getAll(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(unitService.getAll(pageable));
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UnitDto>> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<ServiceResponse<UnitDto>> getById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(unitService.getById(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UnitDto>> add(@Valid @RequestBody UnitRequest request) {
+    public ResponseEntity<ServiceResponse<UnitDto>> add(@Valid @RequestBody UnitRequest request) {
         return ResponseEntity.ok(unitService.add(request));
     }
 
@@ -41,7 +41,7 @@ public class UnitController {
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UnitDto>> update(
+    public ResponseEntity<ServiceResponse<UnitDto>> update(
             @PathVariable("id") UUID id,
             @RequestBody UnitRequest request
     ) {
@@ -49,7 +49,7 @@ public class UnitController {
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UnitDto>> delete(@PathVariable("id") UUID id){
+    public ResponseEntity<ServiceResponse<UnitDto>> delete(@PathVariable("id") UUID id){
         return ResponseEntity.ok(unitService.delete(id));
     }
 }

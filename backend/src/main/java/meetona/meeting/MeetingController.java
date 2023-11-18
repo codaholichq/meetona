@@ -1,7 +1,7 @@
 package meetona.meeting;
 
 import jakarta.validation.Valid;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -22,17 +22,17 @@ public class MeetingController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<MeetingDto>>> getAll(@PageableDefault Pageable pageable) {
+    public ResponseEntity<ServiceResponse<List<MeetingDto>>> getAll(@PageableDefault Pageable pageable) {
         return ResponseEntity.ok(meetingService.getAll(pageable));
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<MeetingDto>> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<ServiceResponse<MeetingDto>> getById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(meetingService.getById(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<MeetingDto>> add(@Valid @RequestBody MeetingRequest request) {
+    public ResponseEntity<ServiceResponse<MeetingDto>> add(@Valid @RequestBody MeetingRequest request) {
         return ResponseEntity.ok(meetingService.add(request));
     }
 
@@ -40,7 +40,7 @@ public class MeetingController {
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<MeetingDto>> update(
+    public ResponseEntity<ServiceResponse<MeetingDto>> update(
             @PathVariable("id") UUID id,
             @RequestBody MeetingRequest request
     ) {
@@ -48,7 +48,7 @@ public class MeetingController {
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<MeetingDto>> delete(@PathVariable("id") UUID id){
+    public ResponseEntity<ServiceResponse<MeetingDto>> delete(@PathVariable("id") UUID id){
         return ResponseEntity.ok(meetingService.delete(id));
     }
 }

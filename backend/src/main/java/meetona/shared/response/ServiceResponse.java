@@ -3,15 +3,15 @@ package meetona.shared.response;
 import lombok.Data;
 
 @Data
-public class ApiResponse<T> {
+public class ServiceResponse<T> {
 
     private T data;
     private Boolean success;
 
-    public ApiResponse() {
+    public ServiceResponse() {
     }
 
-    public ApiResponse(T data, Boolean success) {
+    public ServiceResponse(T data, Boolean success) {
         this.data = data;
         this.success = success;
     }

@@ -36,8 +36,8 @@ public class ControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ResponseEntity<ApiResponse<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
-        var response = new ApiResponse<String>();
+    public ResponseEntity<ServiceResponse<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        var response = new ServiceResponse<String>();
         response.setData(ex.getMessage());
         response.setSuccess(false);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -45,8 +45,8 @@ public class ControllerAdvice {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ApiResponse<String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-        var response = new ApiResponse<String>();
+    public ResponseEntity<ServiceResponse<String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        var response = new ServiceResponse<String>();
         response.setData(ex.getMessage());
         response.setSuccess(false);
         return ResponseEntity.badRequest().body(response);
@@ -55,10 +55,10 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiResponse<String> processValidationError(MethodArgumentNotValidException ex) {
+    public ServiceResponse<String> processValidationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         List<ObjectError> allErrors = result.getAllErrors();
-        var response = new ApiResponse<String>();
+        var response = new ServiceResponse<String>();
         response.setSuccess(false);
         response.setData(String.join("\n", processAllErrors(allErrors)));
         return response;
@@ -100,8 +100,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = AppException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ApiResponse<String> handleAppException(AppException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleAppException(AppException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -110,8 +110,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = ResourceAlreadyInUseException.class)
     @ResponseStatus(HttpStatus.IM_USED)
     @ResponseBody
-    public ApiResponse<String> handleResourceAlreadyInUseException(ResourceAlreadyInUseException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleResourceAlreadyInUseException(ResourceAlreadyInUseException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -120,8 +120,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ApiResponse<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -130,8 +130,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ApiResponse<String> handleBadRequestException(BadRequestException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleBadRequestException(BadRequestException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -140,8 +140,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ApiResponse<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -150,8 +150,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = LoginException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleUserLoginException(LoginException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleUserLoginException(LoginException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -160,8 +160,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = BadCredentialsException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleBadCredentialsException(BadCredentialsException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleBadCredentialsException(BadCredentialsException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -170,8 +170,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = InsertionFailedException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleUserRegistrationException(InsertionFailedException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleUserRegistrationException(InsertionFailedException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -180,8 +180,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = PasswordResetLinkException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handlePasswordResetLinkException(PasswordResetLinkException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handlePasswordResetLinkException(PasswordResetLinkException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -190,8 +190,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = PasswordResetException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handlePasswordResetException(PasswordResetException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handlePasswordResetException(PasswordResetException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -200,8 +200,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = MailSendException.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ResponseBody
-    public ApiResponse<String> handleMailSendException(MailSendException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleMailSendException(MailSendException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -210,8 +210,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = InvalidTokenRequestException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ResponseBody
-    public ApiResponse<String> handleInvalidTokenException(InvalidTokenRequestException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleInvalidTokenException(InvalidTokenRequestException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -220,8 +220,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = UpdatePasswordException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleUpdatePasswordException(UpdatePasswordException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleUpdatePasswordException(UpdatePasswordException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -231,8 +231,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = TokenRefreshException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleTokenRefreshException(TokenRefreshException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleTokenRefreshException(TokenRefreshException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;
@@ -241,8 +241,8 @@ public class ControllerAdvice {
     @ExceptionHandler(value = LogoutException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     @ResponseBody
-    public ApiResponse<String> handleUserLogoutException(LogoutException ex) {
-        var apiResponse = new ApiResponse<String>();
+    public ServiceResponse<String> handleUserLogoutException(LogoutException ex) {
+        var apiResponse = new ServiceResponse<String>();
         apiResponse.setSuccess(false);
         apiResponse.setData(ex.getMessage());
         return apiResponse;

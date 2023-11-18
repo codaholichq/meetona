@@ -8,7 +8,7 @@ import meetona.shared.exception.ResourceNotFoundException;
 import meetona.unit.UnitRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
-import meetona.shared.response.ApiResponse;
+import meetona.shared.response.ServiceResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -34,14 +34,14 @@ public class MemberService implements IMemberService {
 
     @Override
     @Cacheable("members")
-    public ApiResponse<List<MemberDto>> getAll(Pageable pageable) {
+    public ServiceResponse<List<MemberDto>> getAll(Pageable pageable) {
         Page<Member> members = memberRepository.findAll(pageable);
 
         List<MemberDto> memberDto = members.stream()
                 .map(mapper::toDto)
                 .toList();
 
-        ApiResponse<List<MemberDto>> response = new ApiResponse<>(memberDto, true);
+        ServiceResponse<List<MemberDto>> response = new ServiceResponse<>(memberDto, true);
 
         log.info("Fetched units => {}", memberDto);
         return response;
@@ -49,14 +49,14 @@ public class MemberService implements IMemberService {
 
     @Override
     @Cacheable("member")
-    public ApiResponse<MemberDto> getById(UUID id) {
+    public ServiceResponse<MemberDto> getById(UUID id) {
         Optional<Member> memberOptional = memberRepository.findById(id);
 
         Member member = memberOptional.orElse(null); // Unwrap the Optional to get a Unit or null
 
         MemberDto memberDto = mapper.toDto(member);
 
-        var response = new ApiResponse<>(memberDto, true);
+        var response = new ServiceResponse<>(memberDto, true);
 
         log.info("Fetched unit => {}", memberDto);
         return response;
@@ -64,14 +64,14 @@ public class MemberService implements IMemberService {
 
     @Override
     @Cacheable("member")
-    public ApiResponse<MemberDto> getByEmail(String email) {
+    public ServiceResponse<MemberDto> getByEmail(String email) {
         Optional<Member> memberOptional = memberRepository.findByEmail(email);
 
         Member member = memberOptional.orElse(null);
 
         MemberDto memberDto = mapper.toDto(member);
 
-        var response = new ApiResponse<>(memberDto, true);
+        var response = new ServiceResponse<>(memberDto, true);
 
         log.info("Fetched unit => {}", memberDto);
         return response;
@@ -79,7 +79,7 @@ public class MemberService implements IMemberService {
 
     @Override
     @Transactional
-    public ApiResponse<MemberDto> add(MemberRequest request) {
+    public ServiceResponse<MemberDto> add(MemberRequest request) {
         boolean isEmailExists = memberRepository.existsByEmail(request.email());
         boolean isPhoneNumberExists = memberRepository.existsByPhoneNumber(request.phoneNumber());
 
@@ -95,7 +95,7 @@ public class MemberService implements IMemberService {
         memberRepository.save(newMember);
 
         MemberDto unitDto = mapper.toDto(newMember);
-        var response = new ApiResponse<>(unitDto, true);
+        var response = new ServiceResponse<>(unitDto, true);
 
         memberActionProducer.sendMessage(unitDto);
         return response;
@@ -104,7 +104,7 @@ public class MemberService implements IMemberService {
     @Override
     @Transactional
     @CacheEvict(value = "unit", key = "#unit.id")
-    public ApiResponse<MemberDto> update(UUID id, MemberRequest request) {
+    public ServiceResponse<MemberDto> update(UUID id, MemberRequest request) {
         boolean isUnitExists = memberRepository.existsById(id);
 
         if(!isUnitExists) {
@@ -116,7 +116,7 @@ public class MemberService implements IMemberService {
         memberRepository.save(newMember);
         MemberDto updatedMember = mapper.toDto(newMember);
 
-        var response = new ApiResponse<>(updatedMember, true);
+        var response = new ServiceResponse<>(updatedMember, true);
 
         memberActionProducer.sendMessage(id, updatedMember);
         return response;
@@ -125,7 +125,7 @@ public class MemberService implements IMemberService {
     @Override
     @Transactional
     @CacheEvict(value = "unit", key = "#id")
-    public ApiResponse<MemberDto> delete(UUID id) {
+    public ServiceResponse<MemberDto> delete(UUID id) {
         boolean isUnitExists = memberRepository.existsById(id);
 
         if(!isUnitExists){
@@ -135,7 +135,7 @@ public class MemberService implements IMemberService {
         memberRepository.deleteById(id);
         MemberDto deletedMemberDto = new MemberDto(id, null, null, null, null, null, null, null, null, null, null);
 
-        var response = new ApiResponse<>(deletedMemberDto, true);
+        var response = new ServiceResponse<>(deletedMemberDto, true);
 
         memberActionProducer.sendMessage(id);
         return response;
