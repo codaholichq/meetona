@@ -6,7 +6,6 @@ import lombok.Data;
 public class ServiceResponse<T> {
 
     private T data;
-    private String error;
     private Boolean success = false;
 
     public ServiceResponse() {
@@ -23,7 +22,6 @@ public class ServiceResponse<T> {
     }
 
     public void setError(String error) {
-        this.error = error;
         this.success = false;
     }
 }
