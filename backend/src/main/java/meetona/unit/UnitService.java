@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -29,13 +28,14 @@ public class UnitService implements IUnitService {
     @Override
     @Cacheable("units")
     public ServiceResponse<List<UnitDto>> getAll(Pageable pageable) {
+        var response = new ServiceResponse<List<UnitDto>>();
         Page<Unit> units = unitRepository.findAll(pageable);
 
         List<UnitDto> unitDto = units.stream()
                 .map(mapper::toDto)
                 .toList();
 
-        ServiceResponse<List<UnitDto>> response = new ServiceResponse<>(unitDto, true);
+        response.setData(unitDto, true);
 
         log.info("Fetched units => {}", unitDto);
         return response;
@@ -44,13 +44,12 @@ public class UnitService implements IUnitService {
     @Override
     @Cacheable("unit")
     public ServiceResponse<UnitDto> getById(UUID id) {
-        Optional<Unit> unitOptional = unitRepository.findById(id);
-
-        Unit unit = unitOptional.orElse(null); // Unwrap the Optional to get a Unit or null
+        var response = new ServiceResponse<UnitDto>();
+        var unit = unitRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Unit", "id", id));
 
         UnitDto unitDto = mapper.toDto(unit);
-
-        var response = new ServiceResponse<>(unitDto, true);
+        response.setData(unitDto, true);
 
         log.info("Fetched unit => {}", unitDto);
         return response;
@@ -82,7 +81,7 @@ public class UnitService implements IUnitService {
         boolean isUnitExists = unitRepository.existsById(id);
 
         if(!isUnitExists) {
-            throw new ResourceNotFoundException("User", "id", id);
+            throw new ResourceNotFoundException("Unit", "id", id);
         }
 
         Unit newUnit = buildUnit(request);
