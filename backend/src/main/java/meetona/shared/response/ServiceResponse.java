@@ -6,19 +6,19 @@ import lombok.Data;
 public class ServiceResponse<T> {
 
     private T data;
-    private Boolean success = false;
+    private boolean success = false;
 
     public ServiceResponse() {
     }
 
-    public ServiceResponse(T data, Boolean success) {
+    public ServiceResponse(T data, boolean success) {
         this.data = data;
         this.success = success;
     }
 
-    public void setData(T data, Boolean success) {
+    public void setData(T data, boolean success) {
         this.data = data;
         this.success = success;
     }
-    
+
 }
