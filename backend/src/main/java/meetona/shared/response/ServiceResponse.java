@@ -20,8 +20,5 @@ public class ServiceResponse<T> {
         this.data = data;
         this.success = success;
     }
-
-    public void setError(String error) {
-        this.success = false;
-    }
+    
 }
