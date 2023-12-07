@@ -22,7 +22,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <lombok.version>1.18.30</lombok.version>
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven.test.fork>true</maven.test.fork>
         <surefire.forkMode>once</surefire.forkMode>
