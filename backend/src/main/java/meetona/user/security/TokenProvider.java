@@ -43,12 +43,11 @@ public class TokenProvider {
     }
 
     public Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(key)
+        return Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public String extractUsername(String token) {
@@ -58,35 +57,38 @@ public class TokenProvider {
     public String createToken(Authentication authentication) {
         String username = authentication.getName();
         Instant expiryDate = Instant.now().plusMillis(jwtProperty.getExpiration());
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Claims claims = Jwts.claims().setSubject(username);
+
+        JwtBuilder builder = Jwts.builder()
+                .subject(username)
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(expiryDate));
+
         if (!authorities.isEmpty()) {
-            claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
+            builder.claim("roles",
+                    authorities.stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .collect(joining(",")));
         }
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(expiryDate))
-                .signWith(key)
-                .compact();
+
+        return builder.signWith(key).compact();
     }
 
     public UUID getUserIdFromJWT(String token) {
-        Jws<Claims> jwsClaims = Jwts.parserBuilder()
-                .setSigningKey(key)
+        Jws<Claims> jwsClaims = Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token);
+                .parseSignedClaims(token);
 
-        return UUID.fromString(jwsClaims.getBody().getSubject());
+        return UUID.fromString(jwsClaims.getPayload().getSubject());
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
 
         Object authoritiesClaim = claims.get("roles");
 
@@ -104,10 +106,10 @@ public class TokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
+            Jwts.parser()
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (SecurityException ex) {
             log.error("Invalid JWT signature");
