@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import meetona.department.Department;
 import meetona.department.DepartmentRepository;
 import meetona.shared.exception.ResourceNotFoundException;
-import meetona.unit.UnitRepository;
+import meetona.cell.CellRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.exception.InsertionFailedException;
 import meetona.shared.response.ServiceResponse;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class MemberService implements IMemberService {
 
     private final MemberMapper mapper;
-    private final UnitRepository unitRepository;
+    private final CellRepository cellRepository;
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;
     private final MemberActionProducer memberActionProducer;
@@ -43,7 +43,7 @@ public class MemberService implements IMemberService {
 
         ServiceResponse<List<MemberDto>> response = new ServiceResponse<>(memberDto, true);
 
-        log.info("Fetched units => {}", memberDto);
+        log.info("Fetched cells => {}", memberDto);
         return response;
     }
 
@@ -58,7 +58,7 @@ public class MemberService implements IMemberService {
 
         var response = new ServiceResponse<>(memberDto, true);
 
-        log.info("Fetched unit => {}", memberDto);
+        log.info("Fetched cell => {}", memberDto);
         return response;
     }
 
@@ -73,7 +73,7 @@ public class MemberService implements IMemberService {
 
         var response = new ServiceResponse<>(memberDto, true);
 
-        log.info("Fetched unit => {}", memberDto);
+        log.info("Fetched cell => {}", memberDto);
         return response;
     }
 
@@ -94,20 +94,20 @@ public class MemberService implements IMemberService {
         Member newMember = buildMember(request);
         memberRepository.save(newMember);
 
-        MemberDto unitDto = mapper.toDto(newMember);
-        var response = new ServiceResponse<>(unitDto, true);
+        MemberDto cellDto = mapper.toDto(newMember);
+        var response = new ServiceResponse<>(cellDto, true);
 
-        memberActionProducer.sendMessage(unitDto);
+        memberActionProducer.sendMessage(cellDto);
         return response;
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "unit", key = "#unit.id")
+    @CacheEvict(value = "cell", key = "#cell.id")
     public ServiceResponse<MemberDto> update(UUID id, MemberRequest request) {
-        boolean isUnitExists = memberRepository.existsById(id);
+        boolean isCellExists = memberRepository.existsById(id);
 
-        if(!isUnitExists) {
+        if(!isCellExists) {
             throw new AppException("Id does not exists");
         }
 
@@ -124,7 +124,7 @@ public class MemberService implements IMemberService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "unit", key = "#id")
+    @CacheEvict(value = "cell", key = "#id")
     public ServiceResponse<MemberDto> delete(UUID id) {
         boolean isUnitExists = memberRepository.existsById(id);
 
@@ -142,9 +142,9 @@ public class MemberService implements IMemberService {
     }
 
     private Member buildMember(MemberRequest request) {
-        var unit = unitRepository
-                .findById(request.unitId())
-                .orElseThrow(() -> new IllegalArgumentException(request.unitId() + " does not exist"));
+        var cell = cellRepository
+                .findById(request.cellId())
+                .orElseThrow(() -> new IllegalArgumentException(request.cellId() + " does not exist"));
 
         Department department = null;
         UUID departmentId = request.departmentId();
@@ -165,7 +165,7 @@ public class MemberService implements IMemberService {
                 .birthDate(request.birthDate())
                 .maritalStatus(request.maritalStatus())
                 .marriageDate(request.MarriageDate())
-                .unit(unit)
+                .cell(cell)
                 .department(department)
                 .build();
     }

@@ -37,7 +37,7 @@ public record MemberRequest(
     LocalDate MarriageDate,
 
     @NotNull(message = "Unit must note be blank")
-    UUID unitId,
+    UUID cellId,
 
     UUID departmentId
 

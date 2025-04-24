@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import meetona.shared.entity.BaseEntity;
 import meetona.department.Department;
-import meetona.unit.Unit;
+import meetona.cell.Cell;
 import meetona.user.User;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -56,8 +56,8 @@ public class Member extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "unit_id", referencedColumnName = "id")
-    private Unit unit;
+    @JoinColumn(name = "cell_id", referencedColumnName = "id")
+    private Cell cell;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id")

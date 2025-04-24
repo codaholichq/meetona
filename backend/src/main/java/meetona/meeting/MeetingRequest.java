@@ -14,5 +14,5 @@ public record MeetingRequest(
         String prayerPoint,
 
         @NotNull(message = "Unit must note be blank")
-        UUID unitId
+        UUID cellId
 ) implements Serializable { }

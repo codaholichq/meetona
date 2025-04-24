@@ -3,7 +3,7 @@ package meetona.meeting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.exception.ResourceNotFoundException;
-import meetona.unit.UnitRepository;
+import meetona.cell.CellRepository;
 import meetona.shared.exception.AppException;
 import meetona.shared.response.ServiceResponse;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class MeetingService implements IMeetingService {
 
     private final MeetingMapper mapper;
-    private final UnitRepository unitRepository;
+    private final CellRepository cellRepository;
     private final MeetingRepository meetingRepository;
 //    private final MeetingActionProducer meetingActionProducer;
 
@@ -51,7 +51,7 @@ public class MeetingService implements IMeetingService {
 
         var response = new ServiceResponse<>(meetingDto, true);
 
-        log.info("Fetched unit => {}", meetingDto);
+        log.info("Fetched cell => {}", meetingDto);
         return response;
     }
 
@@ -110,14 +110,14 @@ public class MeetingService implements IMeetingService {
     }
 
     private Meeting buildMeeting(MeetingRequest request) {
-        var unit = unitRepository
-                .findById(request.unitId())
-                .orElseThrow(() -> new IllegalArgumentException(request.unitId() + " does not exist"));
+        var cell = cellRepository
+                .findById(request.cellId())
+                .orElseThrow(() -> new IllegalArgumentException(request.cellId() + " does not exist"));
 
         return Meeting.builder()
                 .memberCount(request.memberCount())
                 .prayerPoint(request.prayerPoint())
-                .unit(unit)
+                .cell(cell)
                 .build();
     }
 }

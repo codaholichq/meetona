@@ -1,4 +1,4 @@
-package meetona.unit;
+package meetona.cell;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,18 +11,18 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UnitActionProducer {
+public class CellActionProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(UnitDto unitDto) {
-        log.info("Message sent => {}", unitDto.toString());
-        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.UNIT_ROUTING_KEY, unitDto);
+    public void sendMessage(CellDto cellDto) {
+        log.info("Message sent => {}", cellDto.toString());
+        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.UNIT_ROUTING_KEY, cellDto);
     }
 
-    public void sendMessage(UUID id, UnitDto unitDto) {
-        log.info("Message sent => {} {}", id, unitDto.toString());
-        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.UNIT_ROUTING_KEY, unitDto);
+    public void sendMessage(UUID id, CellDto cellDto) {
+        log.info("Message sent => {} {}", id, cellDto.toString());
+        rabbitTemplate.convertAndSend(RabbitConstants.EXCHANGE, RabbitConstants.UNIT_ROUTING_KEY, cellDto);
     }
 
     public void sendMessage(UUID id) {

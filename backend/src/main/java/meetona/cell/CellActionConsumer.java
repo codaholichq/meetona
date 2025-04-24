@@ -1,4 +1,4 @@
-package meetona.unit;
+package meetona.cell;
 
 import lombok.extern.slf4j.Slf4j;
 import meetona.shared.constants.RabbitConstants;
@@ -10,14 +10,14 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RabbitListener(queues = RabbitConstants.UNIT_QUEUE)
-public class UnitActionConsumer {
+public class CellActionConsumer {
 
-    public void fetchMessage(UnitDto unitDto) {
-        log.info("Received message => {}", unitDto);
+    public void fetchMessage(CellDto cellDto) {
+        log.info("Received message => {}", cellDto);
     }
 
-    public void fetchMessage(UUID id, UnitDto unitDto) {
-        log.info("Received message => {} {}", id, unitDto);
+    public void fetchMessage(UUID id, CellDto cellDto) {
+        log.info("Received message => {} {}", id, cellDto);
     }
 
     public void fetchMessage(UUID id) {

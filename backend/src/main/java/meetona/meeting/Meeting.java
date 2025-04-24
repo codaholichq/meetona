@@ -3,7 +3,7 @@ package meetona.meeting;
 import jakarta.persistence.*;
 import lombok.*;
 import meetona.shared.entity.BaseEntity;
-import meetona.unit.Unit;
+import meetona.cell.Cell;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
@@ -23,6 +23,6 @@ public class Meeting extends BaseEntity {
     private String prayerPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unit_id", referencedColumnName = "id")
-    private Unit unit;
+    @JoinColumn(name = "cell_id", referencedColumnName = "id")
+    private Cell cell;
 }

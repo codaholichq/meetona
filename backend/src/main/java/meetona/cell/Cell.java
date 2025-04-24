@@ -1,4 +1,4 @@
-package meetona.unit;
+package meetona.cell;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,10 +14,10 @@ import java.util.Set;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "unit")
-@Table(name = "units")
+@Entity(name = "cell")
+@Table(name = "cells")
 @EqualsAndHashCode(callSuper = false)
-public class Unit extends BaseEntity {
+public class Cell extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -25,7 +25,7 @@ public class Unit extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cell", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Member> members;
 }
 

@@ -1,6 +1,6 @@
 package meetona.member;
 
-import meetona.unit.Unit;
+import meetona.cell.Cell;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -15,7 +15,7 @@ public interface MemberMapper {
 
     MemberDto toDto(Member member);
 
-    default String mapUnit(Unit unit) {
+    default String mapUnit(Cell unit) {
         return unit.getName();
     }
 }

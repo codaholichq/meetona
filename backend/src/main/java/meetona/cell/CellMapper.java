@@ -1,4 +1,4 @@
-package meetona.unit;
+package meetona.cell;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -8,14 +8,14 @@ import org.mapstruct.factory.Mappers;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UnitMapper {
+public interface CellMapper {
 
-    UnitMapper INSTANCE = Mappers.getMapper(UnitMapper.class);
+    CellMapper INSTANCE = Mappers.getMapper(CellMapper.class);
 
-    UnitDto toDto(Unit unit);
+    CellDto toDto(Cell cell);
 
-    default String mapUnit(Unit unit) {
-        return unit.getName();
+    default String mapUnit(Cell cell) {
+        return cell.getName();
     }
 
 }

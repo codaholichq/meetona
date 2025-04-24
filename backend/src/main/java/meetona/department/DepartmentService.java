@@ -50,7 +50,7 @@ public class DepartmentService implements IDepartmentService {
 
         var response = new ServiceResponse<>(memberDto, true);
 
-        log.info("Fetched unit => {}", memberDto);
+        log.info("Fetched cell => {}", memberDto);
         return response;
     }
 

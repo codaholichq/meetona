@@ -1,4 +1,4 @@
-package meetona.unit;
+package meetona.cell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,24 +12,24 @@ import java.util.Arrays;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UnitRunner implements CommandLineRunner {
+public class CellRunner implements CommandLineRunner {
 
     private final RestTemplate restTemplate;
-    private final UnitRepository unitRepository;
+    private final CellRepository cellRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        boolean existsUnits = unitRepository.findAll().isEmpty();
+        boolean existsCells = cellRepository.findAll().isEmpty();
 
-        if (existsUnits) {
-            String githubRepoUrl = "https://raw.githubusercontent.com/codaholichq/data/main/units.json";
+        if (existsCells) {
+            String githubRepoUrl = "https://raw.githubusercontent.com/codaholichq/data/main/cells.json";
             String jsonData = restTemplate.getForObject(githubRepoUrl, String.class);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            Unit[] units = objectMapper.readValue(jsonData, Unit[].class);
+            Cell[] cells = objectMapper.readValue(jsonData, Cell[].class);
 
-            unitRepository.saveAll(Arrays.asList(units));
-            log.info("Seeded units from GitHub repository.");
+            cellRepository.saveAll(Arrays.asList(cells));
+            log.info("Seeded cells from GitHub repository.");
         }
     }
 }
