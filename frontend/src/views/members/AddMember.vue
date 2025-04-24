@@ -123,16 +123,16 @@
           <div class="form-group col-md-12 mt-3">
             <Field
               as="select"
-              name="unitId"
+              name="cellId"
               class="form-control"
-              :class="{ 'is-invalid': errors.unitId }"
+              :class="{ 'is-invalid': errors.cellId }"
             >
-              <option value="">Choose Unit</option>
-              <option v-for="unit in units" :key="unit.id" :value="unit.id">
-                {{ unit.name }}
+              <option value="">Choose Cell</option>
+              <option v-for="cell in cells" :key="cell.id" :value="cell.id">
+                {{ cell.name }}
               </option>
             </Field>
-            <div class="invalid-feedback">{{ errors.unitId }}</div>
+            <div class="invalid-feedback">{{ errors.cellId }}</div>
           </div>
 
           <div class="form-group">
@@ -152,11 +152,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import * as yup from 'yup';
-import { unitService, memberService } from '@/services';
+import { cellService, memberService } from '@/services';
 
 const loading = ref(false);
 const message = ref('');
-const units = ref(null);
+const cells = ref(null);
 
 const schema = yup.object().shape({
   firstName: yup.string().required('First Name is required!'),
@@ -166,10 +166,10 @@ const schema = yup.object().shape({
   email: yup.string().required('Email is required!'),
   birthDate: yup.string().required('Birth Day is required!'),
   maritalStatus: yup.string().required('Marital Status is required!'),
-  unitId: yup.string().required('Unit Id is required!')
+  cellId: yup.string().required('Cell Id is required!')
 });
 
-onMounted(() => { getUnits() });
+onMounted(() => { getCells() });
 
 const create = (data, { resetForm }) => {
   loading.value = true;
@@ -190,12 +190,12 @@ const create = (data, { resetForm }) => {
   );
 }
 
-const getUnits = () => {
-  units.value = null;
+const getCells = () => {
+  cells.value = null;
 
-  unitService.getAll().then(
+  cellService.getAll().then(
     (data) => {
-      units.value = data
+      cells.value = data
     },
     (error) => {
       message.value =

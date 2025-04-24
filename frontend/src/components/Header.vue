@@ -25,10 +25,10 @@
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-            >Unit</a>
+            >Cell</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><router-link class="dropdown-item" to="/dashboard/units/add">Add Unit</router-link></li>
-              <li><router-link class="dropdown-item" to="/dashboard/units">View Units</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/cells/add">Add Cell</router-link></li>
+              <li><router-link class="dropdown-item" to="/dashboard/cells">View Cell</router-link></li>
             </ul>
           </li>
 

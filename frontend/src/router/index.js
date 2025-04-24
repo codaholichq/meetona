@@ -40,17 +40,17 @@ const router = createRouter({
     },
 
     {
-      path: '/dashboard/units',
-      name: 'GetUnits',
+      path: '/dashboard/cells',
+      name: 'GetCells',
       meta: { requiresAuth: true },
-      component: () => import('@/views/Units/GetUnits.vue')
+      component: () => import('@/views/Cells/GetCells.vue')
     },
 
     {
-      path: '/dashboard/units/add',
-      name: 'AddUnit',
+      path: '/dashboard/cells/add',
+      name: 'AddCells',
       meta: { requiresAuth: true },
-      component: () => import('@/views/Units/AddUnit.vue')
+      component: () => import('@/views/Cells/AddCell.vue')
     },
 
     {

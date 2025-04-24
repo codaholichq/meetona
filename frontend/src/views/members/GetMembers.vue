@@ -6,7 +6,7 @@
         <th class="text-nowrap">Gender</th>
         <th class="text-nowrap">Phone Number</th>
         <th class="text-nowrap">Marital Status</th>
-        <th class="text-nowrap">Unit</th>
+        <th class="text-nowrap">Cell</th>
       </tr>
     </thead>
     <tbody>
@@ -15,7 +15,7 @@
         <td class="text-nowrap">{{ convertToSentenceCase(member.gender) }}</td>
         <td class="text-nowrap">{{ member.phoneNumber }}</td>
         <td class="text-nowrap">{{ convertToSentenceCase(member.maritalStatus) }}</td>
-        <td class="text-nowrap">{{ member.unit }}</td>
+        <td class="text-nowrap">{{ member.cell }}</td>
       </tr>
     </tbody>
   </table>
