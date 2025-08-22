@@ -20,7 +20,7 @@ public class CacheConfig {
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(cacheConfiguration(Duration.ofMinutes(10)).disableCachingNullValues())
                 .withCacheConfiguration("units", cacheConfiguration(Duration.ofMinutes(5)))
-                .withCacheConfiguration("unit", cacheConfiguration(Duration.ofMinutes(1)))
+                .withCacheConfiguration("cell", cacheConfiguration(Duration.ofMinutes(1)))
                 .build();
     }
 
