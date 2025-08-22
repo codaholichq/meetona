@@ -32,7 +32,7 @@ import java.util.List;
 public class SecurityConfig {
 
     protected static final String[] ADMIN = {
-            "/api/unit/**",
+            "/api/cell/**",
             "/api/user/**",
             "/api/member/**",
             "/actuator/**"
