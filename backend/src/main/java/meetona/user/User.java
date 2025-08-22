@@ -2,6 +2,7 @@ package meetona.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import meetona.shared.entity.BaseEntity;
 import meetona.member.Member;
 import meetona.role.Role;
@@ -13,15 +14,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "user")
-@Table(name = "users")
+@Table(name = "users", schema = "public")
 @ToString(exclude = "roles")
-@EqualsAndHashCode(callSuper = false, exclude = {"member", "roles"})
 public class User extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, unique = true, length = 50)
