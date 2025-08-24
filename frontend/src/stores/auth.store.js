@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { http } from '@/http';
 import router from '@/router'
 
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore({
     isLoggedIn() {
       const user = this.user;
       if (user !== null) {
-        const decoded = jwt_decode(user.data.accessToken);
+        const decoded = jwtDecode(user.data.accessToken);
         const currentTime = Math.floor(Date.now() / 1000);
 
         if (decoded.exp && decoded.exp > currentTime) return true;
