@@ -9,22 +9,24 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "6.7.2",
-    "@fortawesome/free-solid-svg-icons": "6.7.2",
-    "@fortawesome/vue-fontawesome": "3.0.8",
-    "axios": "1.8.4",
-    "bootstrap": "5.3.5",
-    "jwt-decode": "^3.1.2",
+    "@fortawesome/fontawesome-svg-core": "7.0.0",
+    "@fortawesome/free-solid-svg-icons": "7.0.0",
+    "@fortawesome/vue-fontawesome": "3.1.1",
+    "axios": "1.11.0",
+    "bootstrap": "5.3.7",
+    "jwt-decode": "4.0.0",
     "pinia": "2.3.1",
-    "vee-validate": "4.15.0",
-    "vue": "3.5.13",
-    "vue-router": "4.5.0",
-    "yup": "1.6.1"
+    "vee-validate": "4.15.1",
+    "vue": "3.5.19",
+    "vue-router": "4.5.1",
+    "yup": "1.7.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "5.2.3",
-    "eslint": "9.25.1",
-    "eslint-plugin-vue": "10.0.0",
-    "vite": "6.3.3"
+    "@vitejs/plugin-vue": "6.0.1",
+    "eslint": "9.34.0",
+    "eslint-plugin-vue": "10.4.0",
+    "vite": "7.1.3"
   }
 }
+
+
