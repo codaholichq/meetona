@@ -12,7 +12,7 @@
     "@fortawesome/fontawesome-svg-core": "7.0.0",
     "@fortawesome/free-solid-svg-icons": "7.0.0",
     "@fortawesome/vue-fontawesome": "3.1.1",
-    "axios": "1.11.0",
+    "axios": "1.15.2",
     "bootstrap": "5.3.7",
     "jwt-decode": "4.0.0",
     "pinia": "2.3.1",
